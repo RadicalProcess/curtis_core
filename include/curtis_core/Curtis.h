@@ -31,7 +31,7 @@ namespace rp::curtis
         void setEndMinSpeed(float speed) override;
         void setEndMaxSpeed(float speed) override;
 
-        void process(Buffer& buffer) override;
+        void process(IBuffer& buffer) override;
 
     private:
         SegmentBankPtr segmentBank_;

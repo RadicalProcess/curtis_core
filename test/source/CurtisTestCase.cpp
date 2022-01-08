@@ -11,15 +11,6 @@ namespace rp::curtis
     class UnitTest_Curtis : public Test
     {
     protected:
-        void SetUp() override
-        {
-            Test::SetUp();
-        }
-
-        void TearDown() override
-        {
-            Test::TearDown();
-        }
 
         NiceMock<FactoryMock> factoryMock_;
     };

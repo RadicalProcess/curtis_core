@@ -9,7 +9,7 @@ namespace rp::curtis
     public:
         virtual ~IProcessor() = default;
 
-        virtual void process(Buffer& buffer) = 0;
+        virtual void process(IBuffer& buffer) = 0;
     };
 
     using ProcessorPtr = std::unique_ptr<IProcessor>;

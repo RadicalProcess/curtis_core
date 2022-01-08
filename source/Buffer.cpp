@@ -56,5 +56,22 @@ namespace rp::curtis
         size_ += buffer.size();
     }
 
+    void Buffer::push(float value)
+    {
+        if(size_ >= capacity_)
+            throw std::out_of_range("cannot push more value");
+
+        buffer_[size_] = value;
+        size_++;
+    }
+
+    float Buffer::getLast() const
+    {
+        if( size_ == 0)
+            return 0.0f;
+
+        return buffer_[size_-1];
+    }
+
 
 }

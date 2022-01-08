@@ -4,6 +4,7 @@ add_executable(CurtisCoreTestHost
         source/CurtisTestCase.cpp
         source/FactoryTestCase.cpp
         source/GranulatorTestCase.cpp
+        source/PolarityTestCase.cpp
         source/SegmentBankTestCase.cpp
         source/SegmentDetectorTestCase.cpp
         )

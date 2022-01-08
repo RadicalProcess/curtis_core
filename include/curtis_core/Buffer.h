@@ -23,8 +23,11 @@ namespace rp::curtis
 
         void append(const IBuffer& buffer) override;
 
+        void push(float value) override;
+
         const float* get() const override;
 
+        float getLast() const override;
     private:
         float* buffer_;
         size_t size_;

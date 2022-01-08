@@ -3,13 +3,14 @@
 #include <set>
 
 #include "ISegmentDetector.h"
+#include "Factory.h"
 
 namespace rp::curtis
 {
     class SegmentDetector : public ISegmentDetector
     {
     public:
-        SegmentDetector(float sampleRate);
+        SegmentDetector(float sampleRate, const IFactory& factory = Factory());
 
         ~SegmentDetector() override = default;
 
@@ -21,14 +22,21 @@ namespace rp::curtis
 
         void removeListener(Listener* listener) override;
 
-        void process(Buffer& buffer) override;
+        void process(IBuffer& buffer) override;
+
 
     private:
+        void clear();
+
+
+
         const float sampleRate_;
-        Buffer tempBuffer_;
+        BufferPtr tempBuffer_;
         size_t minLength_ ;
         size_t maxLength_;
 
         std::set<Listener*> listeners_;
+
+
     };
 }

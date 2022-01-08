@@ -10,9 +10,9 @@ namespace rp::curtis
         }
     }
 
-    SegmentDetector::SegmentDetector(float sampleRate)
+    SegmentDetector::SegmentDetector(float sampleRate, const IFactory& factory)
     : sampleRate_(sampleRate)
-    , tempBuffer_(static_cast<size_t>(sampleRate_))
+    , tempBuffer_(factory.createBuffer(static_cast<size_t>(sampleRate * 0.1))) // max 100 msec
     {
     }
 
@@ -36,11 +36,32 @@ namespace rp::curtis
         listeners_.erase(listener);
     }
 
-    void SegmentDetector::process(Buffer& buffer)
+    void SegmentDetector::process(IBuffer& buffer)
     {
-        if(tempBuffer_.size() + buffer.size() <= minLength_)
-            tempBuffer_.append(buffer);
+        if(tempBuffer_->size() + buffer.size() < minLength_)
+        {
+            tempBuffer_->append(buffer);
+            const auto lastValue = tempBuffer_->getLast();
 
+        }
+        else
+        {
+            auto* ptr =  buffer.get();
+            for(auto i = 0; i < buffer.size(); ++i)
+            {
+                const auto value = *ptr++;
+                if(tempBuffer_->size() + i >= maxLength_)
+                    clear();
+
+                tempBuffer_->push(value);
+            }
+        }
 
     }
+
+    void SegmentDetector::clear()
+    {
+        tempBuffer_->clean();
+    }
+
 }

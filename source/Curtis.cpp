@@ -59,7 +59,7 @@ namespace rp::curtis
 
     }
 
-    void Curtis::process(Buffer& buffer)
+    void Curtis::process(IBuffer& buffer)
     {
 
     }
