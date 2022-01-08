@@ -7,6 +7,7 @@ namespace rp::curtis
     , segmentDetector_(factory.createSegmentDetector(sampleRate))
     , granulator_(factory.createGranulator(*segmentBank_))
     {
+        segmentDetector_->addListener(dynamic_cast<ISegmentDetector::Listener*>(segmentBank_.get()));
     }
 
     void Curtis::setSegmentMinLength(float ms)

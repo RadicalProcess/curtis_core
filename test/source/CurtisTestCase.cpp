@@ -57,6 +57,7 @@ namespace rp::curtis
         EXPECT_CALL(factoryMock_, createSegmentBank(_));
         EXPECT_CALL(factoryMock_, createSegmentDetector(48000.0f));
         EXPECT_CALL(factoryMock_, createGranulator(_));
+        EXPECT_CALL(*segmentDetectorMockPtr_, addListener(_));
 
         Curtis(48000.0f, factoryMock_);
     }
