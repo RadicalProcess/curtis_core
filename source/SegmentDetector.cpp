@@ -13,6 +13,7 @@ namespace rp::curtis
     SegmentDetector::SegmentDetector(float sampleRate, const IFactory& factory)
     : sampleRate_(sampleRate)
     , tempBuffer_(factory.createBuffer(static_cast<size_t>(sampleRate * 0.1))) // max 100 msec
+    , polarity_(factory.createPolarity())
     {
     }
 
@@ -41,8 +42,7 @@ namespace rp::curtis
         if(tempBuffer_->size() + buffer.size() < minLength_)
         {
             tempBuffer_->append(buffer);
-            const auto lastValue = tempBuffer_->getLast();
-
+            polarity_->set(tempBuffer_->getLast(), false);
         }
         else
         {

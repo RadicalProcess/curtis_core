@@ -26,4 +26,6 @@ namespace rp::curtis
 
         virtual void removeListener(Listener* listener) = 0;
     };
+
+    using PolarityPtr = std::unique_ptr<IPolarity>;
 }

@@ -28,12 +28,11 @@ namespace rp::curtis
     private:
         void clear();
 
-
-
         const float sampleRate_;
         BufferPtr tempBuffer_;
         size_t minLength_ ;
         size_t maxLength_;
+        PolarityPtr polarity_;
 
         std::set<Listener*> listeners_;
 

@@ -9,6 +9,7 @@ namespace rp::curtis
     class PolarityMock : public IPolarity {
     public:
         MOCK_METHOD(void, set, (float value, bool notification), (override));
+        MOCK_METHOD(void, reset, (), (override));
         MOCK_METHOD(void, addListener, (Listener* listener), (override));
         MOCK_METHOD(void, removeListener, (Listener* listener), (override));
     };

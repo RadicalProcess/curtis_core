@@ -3,6 +3,7 @@
 #include "SegmentDetector.h"
 #include "Granulator.h"
 #include "Buffer.h"
+#include "Polarity.h"
 
 namespace rp::curtis
 {
@@ -30,4 +31,11 @@ namespace rp::curtis
     {
         return std::make_unique<Buffer>(capacity);
     }
+
+    PolarityPtr Factory::createPolarity() const
+    {
+        return std::make_unique<Polarity>();
+    }
+
+
 }

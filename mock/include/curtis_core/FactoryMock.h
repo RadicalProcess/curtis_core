@@ -12,6 +12,7 @@ namespace rp::curtis {
         MOCK_METHOD(GranulatorPtr, createGranulator, (), (const, override));
         MOCK_METHOD(BufferPtr, createBuffer, (size_t capacity), (const, override));
         MOCK_METHOD(BufferPtr, createBuffer, (float* buffer, size_t size), (const, override));
+        MOCK_METHOD(PolarityPtr, createPolarity, (), (const, override));
     };
 
 }  // namespace rp::curtis
