@@ -17,9 +17,9 @@ namespace rp::curtis
         return std::make_unique<SegmentDetector>(sampleRate);
     }
 
-    GranulatorPtr Factory::createGranulator() const
+    GranulatorPtr Factory::createGranulator(const ISegmentBank& segmentBank) const
     {
-        return std::make_unique<Granulator>();
+        return std::make_unique<Granulator>(segmentBank);
     }
 
     BufferPtr Factory::createBuffer() const

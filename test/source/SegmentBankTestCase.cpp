@@ -14,7 +14,6 @@ namespace rp::curtis
         void SetUp() override
         {
             bufferMock_ = std::make_unique<NiceMock<BufferMock>>();
-            bufferMockPtr_ = bufferMock_.get();
 
             ON_CALL(factoryMock_, createBuffer())
                 .WillByDefault(Return(ByMove(std::move(bufferMock_))));
@@ -30,7 +29,6 @@ namespace rp::curtis
 
         std::unique_ptr<BufferMock> bufferMock_;
         NiceMock<BufferMock> detectedSegmentMock_;
-        BufferMock* bufferMockPtr_;
     };
 
     TEST_F(UnitTest_SegmentBank, construction)

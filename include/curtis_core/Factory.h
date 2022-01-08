@@ -13,7 +13,7 @@ namespace rp::curtis
 
         SegmentDetectorPtr createSegmentDetector(float sampleRate) const override;
 
-        GranulatorPtr createGranulator() const override;
+        GranulatorPtr createGranulator(const ISegmentBank& segmentBank) const override;
 
         BufferPtr createBuffer() const override;
 

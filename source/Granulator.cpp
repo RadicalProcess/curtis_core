@@ -2,8 +2,9 @@
 
 namespace rp::curtis
 {
-    Granulator::Granulator()
-    : repeatMix_(1)
+    Granulator::Granulator(const ISegmentBank& segmentBank)
+    : segmentBank_(segmentBank)
+    , repeatMix_(1)
     , repeatMax_(1)
     , randomRange_(1)
     , glissonEnabled_(true)

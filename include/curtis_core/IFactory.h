@@ -18,7 +18,7 @@ namespace rp::curtis
 
         virtual SegmentDetectorPtr createSegmentDetector(float sampleRate) const = 0;
 
-        virtual GranulatorPtr createGranulator() const = 0;
+        virtual GranulatorPtr createGranulator(const ISegmentBank& segmentBank) const = 0;
 
         virtual BufferPtr createBuffer() const = 0;
 

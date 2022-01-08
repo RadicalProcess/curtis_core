@@ -1,5 +1,7 @@
 #include <gmock/gmock.h>
 
+#include <curtis_core/SegmentBankMock.h>
+
 #include <curtis_core/Factory.h>
 #include <curtis_core/SegmentBank.h>
 #include <curtis_core/SegmentDetector.h>
@@ -27,7 +29,8 @@ namespace rp::curtis
 
     TEST(UnitTest_Factory, createGranulator)
     {
-        auto&& granulator = Factory().createGranulator();
+        auto&& segmentBank = SegmentBankMock();
+        auto&& granulator = Factory().createGranulator(segmentBank);
 
         ASSERT_THAT(granulator, NotNull());
         EXPECT_THAT(granulator.get(), WhenDynamicCastTo<Granulator*>(NotNull()));

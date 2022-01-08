@@ -3,6 +3,7 @@
 #include <cstddef>
 #include "IGranulator.h"
 #include "IProcessor.h"
+#include "ISegmentBank.h"
 
 namespace rp::curtis
 {
@@ -10,7 +11,7 @@ namespace rp::curtis
                      , public IProcessor
     {
     public:
-        Granulator();
+        Granulator(const ISegmentBank& segmentBank);
 
         ~Granulator() override = default;
 
@@ -33,6 +34,7 @@ namespace rp::curtis
         void process(IBuffer& buffer) override;
 
     private:
+        const ISegmentBank& segmentBank_;
 
         size_t repeatMix_;
         size_t repeatMax_;
