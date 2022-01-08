@@ -2,6 +2,8 @@
 
 #include <memory>
 
+#include "IBuffer.h"
+
 namespace rp::curtis
 {
     class ISegmentBank
@@ -9,7 +11,7 @@ namespace rp::curtis
     public:
         virtual ~ISegmentBank() = default;
 
-        virtual std::vector<float> getCache(size_t fromNewest) = 0;
+        virtual const IBuffer* getCache(size_t fromNewest) = 0;
     };
 
     using SegmentBankPtr = std::unique_ptr<ISegmentBank>;

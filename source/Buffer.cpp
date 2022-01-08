@@ -5,6 +5,14 @@
 
 namespace rp::curtis
 {
+    Buffer::Buffer()
+    : buffer_(nullptr)
+    , size_(0)
+    , capacity_(0)
+    , owned_(false)
+    {
+    }
+
     Buffer::Buffer(size_t capacity)
     : size_(0)
     , capacity_(capacity)
@@ -25,6 +33,15 @@ namespace rp::curtis
     {
         if(owned_)
             free(buffer_);
+    }
+
+    void Buffer::copyFrom(const IBuffer& buffer)
+    {
+        if(owned_)
+            free(buffer_);
+
+        buffer_ = static_cast<float*>(malloc(buffer.size() * sizeof(float)));
+        size_ = buffer.size();
     }
 
     size_t Buffer::size() const

@@ -24,7 +24,7 @@ namespace rp::curtis
         class Listener
         {
         public:
-            virtual ~Listener() = 0;
+            virtual ~Listener() = default;
 
             virtual void onSegmentDetected(const IBuffer& buffer) = 0;
         };

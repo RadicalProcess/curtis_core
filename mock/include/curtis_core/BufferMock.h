@@ -8,6 +8,7 @@ namespace rp::curtis {
     class BufferMock : public IBuffer {
     public:
         MOCK_METHOD(size_t, size, (), (const, override));
+        MOCK_METHOD(void, copyFrom, (const IBuffer& buffer), (override));
         MOCK_METHOD(const float*, get, (), (const, override));
         MOCK_METHOD(bool, owned, (), (const, override));
         MOCK_METHOD(void, clean, (), (override));

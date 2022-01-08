@@ -9,11 +9,15 @@ namespace rp::curtis
     class Buffer : public IBuffer
     {
     public:
+        Buffer();
+
         Buffer(size_t capacity);
 
         Buffer(float* buffer, size_t size);
 
         ~Buffer();
+
+        void copyFrom(const IBuffer& buffer) override;
 
         size_t size() const override;
 
@@ -28,6 +32,7 @@ namespace rp::curtis
         const float* get() const override;
 
         float getLast() const override;
+
     private:
         float* buffer_;
         size_t size_;

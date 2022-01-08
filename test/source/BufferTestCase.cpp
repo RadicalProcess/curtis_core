@@ -4,6 +4,13 @@
 
 namespace rp::curtis
 {
+    TEST(UnitTest_Buffer, construction)
+    {
+        auto&& buffer = Buffer();
+        EXPECT_EQ(0, buffer.size());
+        EXPECT_FALSE(buffer.owned());
+    }
+
     TEST(UnitTest_Buffer, construction_unowned)
     {
         auto&& buffer = Buffer(nullptr, 10);
