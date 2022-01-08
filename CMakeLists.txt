@@ -3,6 +3,7 @@ project(CurtisCore)
 
 add_subdirectory(dependencies)
 add_subdirectory(test)
+add_subdirectory(mock)
 
 add_library(CurtisCore
         source/Buffer.cpp

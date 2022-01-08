@@ -5,17 +5,17 @@
 
 namespace rp::curtis
 {
-    SegmentBankPtr Factory::createSegmentBank(size_t numCaches)
+    SegmentBankPtr Factory::createSegmentBank(size_t numCaches) const
     {
         return std::make_unique<SegmentBank>(numCaches);
     }
 
-    SegmentDetectorPtr Factory::createSegmentDetector(float sampleRate)
+    SegmentDetectorPtr Factory::createSegmentDetector(float sampleRate) const
     {
         return std::make_unique<SegmentDetector>(sampleRate);
     }
 
-    GranulatorPtr Factory::createGranulator()
+    GranulatorPtr Factory::createGranulator() const
     {
         return std::make_unique<Granulator>();
     }

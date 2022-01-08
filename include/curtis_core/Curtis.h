@@ -6,6 +6,7 @@
 #include "ISegmentDetector.h"
 #include "IProcessor.h"
 #include "IGranulator.h"
+#include "Factory.h"
 
 namespace rp::curtis
 {
@@ -15,7 +16,7 @@ namespace rp::curtis
 
     {
     public:
-        Curtis(float sampleRate);
+        Curtis(float sampleRate, const IFactory& factory = Factory());
 
         void setSegmentMinLength(float ms) override;
         void setSegmentMaxLength(float ms) override;

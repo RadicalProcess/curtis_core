@@ -1,5 +1,6 @@
 
 add_executable(CurtisCoreTestHost
+        source/CurtisTestCase.cpp
         source/FactoryTestCase.cpp
         source/GranulatorTestCase.cpp
         source/SegmentBankTestCase.cpp
@@ -9,6 +10,7 @@ add_executable(CurtisCoreTestHost
 target_link_libraries(CurtisCoreTestHost
         PRIVATE
         rp::CurtisCore
+        rp::CurtisCore_mock
         gmock
         gmock_main)
 

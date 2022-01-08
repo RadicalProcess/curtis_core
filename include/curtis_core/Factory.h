@@ -7,12 +7,10 @@ namespace rp::curtis
     class Factory : public IFactory
     {
     public:
-        SegmentBankPtr createSegmentBank(size_t numCaches) override;
+        SegmentBankPtr createSegmentBank(size_t numCaches) const override;
 
-        SegmentDetectorPtr createSegmentDetector(float sampleRate) override;
+        SegmentDetectorPtr createSegmentDetector(float sampleRate) const override;
 
-        GranulatorPtr createGranulator() override;
-
-
+        GranulatorPtr createGranulator() const override;
     };
 }

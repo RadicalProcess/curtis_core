@@ -13,11 +13,11 @@ namespace rp::curtis
     public:
         virtual ~IFactory() = default;
 
-        virtual SegmentBankPtr createSegmentBank(size_t numCaches) = 0;
+        virtual SegmentBankPtr createSegmentBank(size_t numCaches) const = 0;
 
-        virtual SegmentDetectorPtr createSegmentDetector(float sampleRate) = 0;
+        virtual SegmentDetectorPtr createSegmentDetector(float sampleRate) const = 0;
 
-        virtual GranulatorPtr createGranulator() = 0;
+        virtual GranulatorPtr createGranulator() const = 0;
     };
 
     using FactoryPtr = std::unique_ptr<IFactory>;

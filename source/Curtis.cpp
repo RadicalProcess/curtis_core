@@ -2,7 +2,10 @@
 
 namespace rp::curtis
 {
-    Curtis::Curtis(float sampleRate)
+    Curtis::Curtis(float sampleRate, const IFactory& factory)
+    : segmentBank_(factory.createSegmentBank(32))
+    , segmentDetector_(factory.createSegmentDetector(sampleRate))
+    , granulator_(factory.createGranulator())
     {
     }
 
