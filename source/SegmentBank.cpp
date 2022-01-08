@@ -1,4 +1,4 @@
-#include "SegmentDetector.h"
+#include "SegmentBank.h"
 
 namespace rp::curtis
 {

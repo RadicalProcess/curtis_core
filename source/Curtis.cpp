@@ -55,4 +55,9 @@ namespace rp::curtis
     {
 
     }
+
+    void Curtis::process(Buffer& buffer)
+    {
+
+    }
 }
