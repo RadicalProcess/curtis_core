@@ -1,10 +1,10 @@
 #pragma once
 
-#include "IGranulator.h"
+#include <curtis_core/IGranulator.h>
 
 namespace rp::curtis {
 
-    class GranularMock : public IGranulator {
+    class GranulatorMock : public IGranulator {
     public:
         MOCK_METHOD(void, setRepeatMin, (size_t count), (override));
         MOCK_METHOD(void, setRepeatMax, (size_t count), (override));
@@ -14,6 +14,7 @@ namespace rp::curtis {
         MOCK_METHOD(void, setStartMaxSpeed, (float speed), (override));
         MOCK_METHOD(void, setEndMinSpeed, (float speed), (override));
         MOCK_METHOD(void, setEndMaxSpeed, (float speed), (override));
+        MOCK_METHOD(void, process, (IBuffer& buffer), (override));
     };
 
 }  // namespace rp::curtis

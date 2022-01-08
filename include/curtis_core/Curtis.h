@@ -11,9 +11,8 @@
 namespace rp::curtis
 {
     class Curtis : public ISegmentDetectorParameter,
-                   public IGranulator,
+                   public IGranulatorParameter,
                    public IProcessor
-
     {
     public:
         Curtis(float sampleRate, const IFactory& factory = Factory());

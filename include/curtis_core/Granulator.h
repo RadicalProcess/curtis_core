@@ -8,7 +8,6 @@
 namespace rp::curtis
 {
     class Granulator : public IGranulator
-                     , public IProcessor
     {
     public:
         Granulator(const ISegmentBank& segmentBank);
