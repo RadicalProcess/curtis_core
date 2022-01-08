@@ -37,5 +37,5 @@ namespace rp::curtis
 
     };
 
-    using SegmenterDetectorPtr = std::unique_ptr<ISegmentDetector>;
+    using SegmentDetectorPtr = std::unique_ptr<ISegmentDetector>;
 }

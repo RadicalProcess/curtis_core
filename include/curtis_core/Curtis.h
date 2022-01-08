@@ -2,6 +2,7 @@
 #include <cstdlib>
 
 #include "Buffer.h"
+#include "ISegmentBank.h"
 #include "ISegmentDetector.h"
 #include "IProcessor.h"
 #include "IGranulator.h"
@@ -30,5 +31,11 @@ namespace rp::curtis
         void setEndMaxSpeed(float speed) override;
 
         void process(Buffer& buffer) override;
+
+    private:
+        SegmentBankPtr segmentBank_;
+        SegmentDetectorPtr segmentDetector_;
+        GranulatorPtr granulator_;
+
     };
 }
