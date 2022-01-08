@@ -18,6 +18,10 @@ namespace rp::curtis
         virtual SegmentDetectorPtr createSegmentDetector(float sampleRate) const = 0;
 
         virtual GranulatorPtr createGranulator() const = 0;
+
+        virtual BufferPtr createBuffer(size_t capacity) const = 0;
+
+        virtual BufferPtr createBuffer(float* buffer, size_t size) const = 0;
     };
 
     using FactoryPtr = std::unique_ptr<IFactory>;

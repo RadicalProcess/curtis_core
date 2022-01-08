@@ -32,4 +32,21 @@ namespace rp::curtis
         ASSERT_THAT(granulator, NotNull());
         EXPECT_THAT(granulator.get(), WhenDynamicCastTo<Granulator*>(NotNull()));
     }
+
+    TEST(UnitTest_Factory, createBuffer)
+    {
+        auto&& buffer = Factory().createBuffer(10);
+
+        ASSERT_THAT(buffer, NotNull());
+        EXPECT_THAT(buffer.get(), WhenDynamicCastTo<Buffer*>(NotNull()));
+    }
+
+    TEST(UnitTest_Factory, createBuffer_unowned)
+    {
+        auto&& vector = std::vector<float>(10);
+        auto&& buffer = Factory().createBuffer(vector.data(), vector.size());
+
+        ASSERT_THAT(buffer, NotNull());
+        EXPECT_THAT(buffer.get(), WhenDynamicCastTo<Buffer*>(NotNull()));
+    }
 }

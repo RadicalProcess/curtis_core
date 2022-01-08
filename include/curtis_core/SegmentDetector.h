@@ -21,9 +21,12 @@ namespace rp::curtis
 
         void removeListener(Listener* listener) override;
 
+        void process(Buffer& buffer) override;
+
     private:
         const float sampleRate_;
-        size_t minLength_;
+        Buffer tempBuffer_;
+        size_t minLength_ ;
         size_t maxLength_;
 
         std::set<Listener*> listeners_;

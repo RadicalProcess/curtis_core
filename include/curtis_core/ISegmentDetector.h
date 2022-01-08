@@ -3,6 +3,8 @@
 #include <memory>
 #include <vector>
 
+#include "IProcessor.h"
+
 namespace rp::curtis
 {
     class ISegmentDetectorParameter
@@ -15,7 +17,8 @@ namespace rp::curtis
         virtual void setSegmentMaxLength(float ms) = 0;
     };
 
-    class ISegmentDetector : public ISegmentDetectorParameter
+    class ISegmentDetector : public ISegmentDetectorParameter,
+                             public IProcessor
     {
     public:
         class Listener
@@ -29,12 +32,9 @@ namespace rp::curtis
     public:
         virtual ~ISegmentDetector() = default;
 
-
         virtual void addListener(Listener* listener) = 0;
 
         virtual void removeListener(Listener* listener) = 0;
-
-
     };
 
     using SegmentDetectorPtr = std::unique_ptr<ISegmentDetector>;

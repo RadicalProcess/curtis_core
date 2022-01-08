@@ -12,10 +12,9 @@ namespace rp::curtis
 
     SegmentDetector::SegmentDetector(float sampleRate)
     : sampleRate_(sampleRate)
+    , tempBuffer_(static_cast<size_t>(sampleRate_))
     {
-
     }
-
 
     void SegmentDetector::setSegmentMinLength(float ms)
     {
@@ -35,5 +34,13 @@ namespace rp::curtis
     void SegmentDetector::removeListener(ISegmentDetector::Listener* listener)
     {
         listeners_.erase(listener);
+    }
+
+    void SegmentDetector::process(Buffer& buffer)
+    {
+        if(tempBuffer_.size() + buffer.size() <= minLength_)
+            tempBuffer_.append(buffer);
+
+
     }
 }

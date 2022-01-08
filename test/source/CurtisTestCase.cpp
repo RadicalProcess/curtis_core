@@ -4,7 +4,6 @@
 
 #include <curtis_core/Curtis.h>
 
-
 namespace rp::curtis
 {
     using namespace testing;
