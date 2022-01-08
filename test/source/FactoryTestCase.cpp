@@ -33,7 +33,15 @@ namespace rp::curtis
         EXPECT_THAT(granulator.get(), WhenDynamicCastTo<Granulator*>(NotNull()));
     }
 
-    TEST(UnitTest_Factory, createBuffer)
+    TEST(UnitTest_Factory, createBuffer_empty)
+    {
+        auto&& buffer = Factory().createBuffer();
+
+        ASSERT_THAT(buffer, NotNull());
+        EXPECT_THAT(buffer.get(), WhenDynamicCastTo<Buffer*>(NotNull()));
+    }
+
+    TEST(UnitTest_Factory, createBuffer_capacity)
     {
         auto&& buffer = Factory().createBuffer(10);
 

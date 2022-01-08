@@ -15,6 +15,8 @@ namespace rp::curtis
 
         GranulatorPtr createGranulator() const override;
 
+        BufferPtr createBuffer() const override;
+
         BufferPtr createBuffer(size_t capacity) const override;
 
         BufferPtr createBuffer(float* buffer, size_t size) const override;

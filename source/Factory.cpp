@@ -22,6 +22,11 @@ namespace rp::curtis
         return std::make_unique<Granulator>();
     }
 
+    BufferPtr Factory::createBuffer() const
+    {
+        return std::make_unique<Buffer>();
+    }
+
     BufferPtr Factory::createBuffer(float* buffer, size_t size) const
     {
         return std::make_unique<Buffer>(buffer, size);

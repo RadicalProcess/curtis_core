@@ -2,10 +2,11 @@
 
 namespace rp::curtis
 {
-    SegmentBank::SegmentBank(size_t numCaches)
+    SegmentBank::SegmentBank(size_t numCaches, const IFactory& factory)
     : latestCache_(std::nullopt)
     {
-        cache_.resize(numCaches);
+        for(auto i = static_cast<size_t>(0); i < numCaches; ++i)
+            cache_.emplace_back(factory.createBuffer());
     }
 
     const IBuffer* SegmentBank::getCache(size_t fromNewest)
@@ -13,7 +14,7 @@ namespace rp::curtis
         if(latestCache_ == std::nullopt)
             return nullptr;
 
-        return &cache_[latestCache_.value()];
+        return cache_[latestCache_.value()].get();
     }
 
     void SegmentBank::onSegmentDetected(const IBuffer& buffer)
@@ -23,6 +24,6 @@ namespace rp::curtis
         else
             latestCache_.value() = (latestCache_.value() + 1) % cache_.size();
 
-        cache_[latestCache_.value()].copyFrom(buffer);
+        cache_[latestCache_.value()]->copyFrom(buffer);
     }
 }

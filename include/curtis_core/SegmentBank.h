@@ -6,6 +6,7 @@
 #include "ISegmentBank.h"
 #include "ISegmentDetector.h"
 #include "IBuffer.h"
+#include "Factory.h"
 
 namespace rp::curtis
 {
@@ -13,7 +14,7 @@ namespace rp::curtis
                       , public ISegmentDetector::Listener
     {
     public:
-        SegmentBank(size_t numCaches);
+        SegmentBank(size_t numCaches, const IFactory& factory = Factory());
 
         ~SegmentBank() override = default;
 
@@ -22,7 +23,7 @@ namespace rp::curtis
     private:
         void onSegmentDetected(const IBuffer& buffer) override;
 
-        std::vector<Buffer> cache_;
+        std::vector<BufferPtr> cache_;
         std::optional<size_t> latestCache_;
     };
 }

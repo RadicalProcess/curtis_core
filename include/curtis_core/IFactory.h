@@ -20,6 +20,8 @@ namespace rp::curtis
 
         virtual GranulatorPtr createGranulator() const = 0;
 
+        virtual BufferPtr createBuffer() const = 0;
+
         virtual BufferPtr createBuffer(size_t capacity) const = 0;
 
         virtual BufferPtr createBuffer(float* buffer, size_t size) const = 0;
