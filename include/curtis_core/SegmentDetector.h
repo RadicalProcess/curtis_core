@@ -2,12 +2,14 @@
 
 #include <set>
 
+#include "IPolarity.h"
 #include "ISegmentDetector.h"
 #include "Factory.h"
 
 namespace rp::curtis
 {
     class SegmentDetector : public ISegmentDetector
+                          , public IPolarity::Listener
     {
     public:
         SegmentDetector(float sampleRate, const IFactory& factory = Factory());
@@ -18,15 +20,14 @@ namespace rp::curtis
 
         void setSegmentMaxLength(float ms) override;
 
-        void addListener(Listener* listener) override;
+        void addListener(ISegmentDetector::Listener* listener) override;
 
-        void removeListener(Listener* listener) override;
+        void removeListener(ISegmentDetector::Listener* listener) override;
 
         void process(IBuffer& buffer) override;
 
-
     private:
-        void clear();
+        void onPolarityChanged() override;
 
         const float sampleRate_;
         BufferPtr tempBuffer_;
@@ -34,7 +35,7 @@ namespace rp::curtis
         size_t maxLength_;
         PolarityPtr polarity_;
 
-        std::set<Listener*> listeners_;
+        std::set<ISegmentDetector::Listener*> listeners_;
 
 
     };

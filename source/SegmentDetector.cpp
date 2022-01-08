@@ -46,22 +46,25 @@ namespace rp::curtis
         }
         else
         {
-            auto* ptr =  buffer.get();
+            auto* ptr = buffer.get();
             for(auto i = 0; i < buffer.size(); ++i)
             {
                 const auto value = *ptr++;
-                if(tempBuffer_->size() + i >= maxLength_)
-                    clear();
+                polarity_->set(value, true);
+
+                if(tempBuffer_->size() >= maxLength_)
+                    tempBuffer_->clean();
 
                 tempBuffer_->push(value);
             }
         }
-
     }
 
-    void SegmentDetector::clear()
+    void SegmentDetector::onPolarityChanged()
     {
+        for(auto* listener: listeners_)
+            listener->onSegmentDetected(*tempBuffer_);
+
         tempBuffer_->clean();
     }
-
 }

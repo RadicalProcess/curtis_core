@@ -2,10 +2,12 @@
 
 #include <cstddef>
 #include "IGranulator.h"
+#include "IProcessor.h"
 
 namespace rp::curtis
 {
     class Granulator : public IGranulator
+                     , public IProcessor
     {
     public:
         Granulator();
@@ -28,5 +30,18 @@ namespace rp::curtis
 
         void setEndMaxSpeed(float speed) override;
 
+        void process(IBuffer& buffer) override;
+
+    private:
+
+        size_t repeatMix_;
+        size_t repeatMax_;
+        size_t randomRange_;
+
+        bool glissonEnabled_;
+        float startMinSpeed_;
+        float startMaxSpeed_;
+        float endMinSpeed_;
+        float endMaxSpeed_;
     };
 }

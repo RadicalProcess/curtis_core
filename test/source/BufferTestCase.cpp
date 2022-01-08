@@ -66,4 +66,28 @@ namespace rp::curtis
 
         EXPECT_THROW(buffer1.append(buffer2), std::out_of_range);
     }
+
+    TEST(UnitTest_Buffer, push)
+    {
+        auto&& buffer = Buffer(3);
+        buffer.push(1.0f);
+        buffer.push(2.0f);
+        buffer.push(3.0f);
+
+        EXPECT_EQ(1.0f, buffer.get()[0]);
+        EXPECT_EQ(2.0f, buffer.get()[1]);
+        EXPECT_EQ(3.0f, buffer.get()[2]);
+
+        EXPECT_EQ(3, buffer.size());
+    }
+
+    TEST(UnitTest_Buffer, push_throw)
+    {
+        auto&& buffer = Buffer(2);
+        buffer.push(1.0f);
+        buffer.push(2.0f);
+
+        EXPECT_EQ(2, buffer.size());
+        EXPECT_THROW(buffer.push(3.0f), std::out_of_range);
+    }
 }

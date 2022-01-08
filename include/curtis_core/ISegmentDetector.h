@@ -26,7 +26,7 @@ namespace rp::curtis
         public:
             virtual ~Listener() = 0;
 
-            virtual void onSegmentDetected(const std::vector<float>& segment) = 0;
+            virtual void onSegmentDetected(const IBuffer& buffer) = 0;
         };
 
     public:

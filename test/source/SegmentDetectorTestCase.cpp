@@ -57,6 +57,41 @@ namespace rp::curtis
         ON_CALL(processBufferMock_, size()).WillByDefault(Return(23));
 
         EXPECT_CALL(*bufferMockPtr_, append(_));
+        EXPECT_CALL(*bufferMockPtr_, getLast()).WillOnce(Return(0.5f));
+        EXPECT_CALL(*polarityMockPtr_, set(0.5f, false));
+        segmentDetector.process(processBufferMock_);
+    }
+
+    TEST_F(UnitTest_SegmentDetector, process_sample_pushed)
+    {
+        auto&& segmentDetector = SegmentDetector(48000.0f, factoryMock_);
+        segmentDetector.setSegmentMinLength(1);
+        segmentDetector.setSegmentMaxLength(2); // 96 samples
+        auto fakeBuffer = std::vector<float>(50);
+
+        ON_CALL(*bufferMockPtr_, size()).WillByDefault(Return(95));
+        ON_CALL(processBufferMock_, size()).WillByDefault(Return(1));
+        ON_CALL(processBufferMock_, get()).WillByDefault(Return(fakeBuffer.data()));
+
+        EXPECT_CALL(*bufferMockPtr_, clean()).Times(0);
+        EXPECT_CALL(*bufferMockPtr_, push(_)).Times(1);
+        segmentDetector.process(processBufferMock_);
+    }
+
+
+    TEST_F(UnitTest_SegmentDetector, process_no_zero_cross_detected)
+    {
+        auto&& segmentDetector = SegmentDetector(48000.0f, factoryMock_);
+        segmentDetector.setSegmentMinLength(1);
+        segmentDetector.setSegmentMaxLength(2); // 96 samples
+        auto fakeBuffer = std::vector<float>(50);
+
+        ON_CALL(*bufferMockPtr_, size()).WillByDefault(Return(96));
+        ON_CALL(processBufferMock_, size()).WillByDefault(Return(1));
+        ON_CALL(processBufferMock_, get()).WillByDefault(Return(fakeBuffer.data()));
+
+        EXPECT_CALL(*bufferMockPtr_, clean());
+        EXPECT_CALL(*bufferMockPtr_, push(_)).Times(1);
         segmentDetector.process(processBufferMock_);
     }
 }
