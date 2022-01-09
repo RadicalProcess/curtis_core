@@ -1,7 +1,6 @@
 #pragma once
 
 #include <vector>
-#include <optional>
 
 #include "ISegmentBank.h"
 #include "ISegmentDetector.h"
@@ -18,7 +17,11 @@ namespace rp::curtis
 
         ~SegmentBank() override = default;
 
-        const IBuffer* getCache(size_t fromLatest) const override;
+        std::optional<size_t> getLatestCacheIndex() const override;
+
+        const IBuffer& getCache(size_t index) const override;
+
+        size_t size() const override;
 
     private:
         void onSegmentDetected(const IBuffer& buffer) override;

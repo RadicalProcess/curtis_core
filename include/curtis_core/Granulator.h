@@ -52,5 +52,6 @@ namespace rp::curtis
         float startSpeed_;
         float endSpeed_;
         size_t repeatCount_;
+        size_t latestIndex_;
     };
 }

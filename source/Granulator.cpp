@@ -69,19 +69,29 @@ namespace rp::curtis
     {
         if(playBuffer_->size() == 0)
         {
-            auto* cache = segmentBank_.getCache(0);
-            if (cache == nullptr)
+            auto latestCacheIndex = segmentBank_.getLatestCacheIndex();
+            if (latestCacheIndex == std::nullopt)
             {
                 buffer.clear();
                 return;
             }
-            playBuffer_->copyFrom(*cache);
+            playBuffer_->copyFrom(segmentBank_.getCache(latestCacheIndex.value()));
             updateSpeed();
         }
         auto* destPtr = buffer.getWritePtr();
         auto destSizeRequirement = buffer.size();
 
-        auto* sourceSamplePtr = playBuffer_->getReadPtr();;
+        auto* sourceSamplePtr = playBuffer_->getReadPtr();
+
+        auto updatePlayBuffer = [&](){
+            const auto gapFromLatest = randomRange_ == 0 ? 0 : rand() % static_cast<int>(randomRange_);
+            auto target = static_cast<int>(latestIndex_) - gapFromLatest;
+            if(target < 0)
+                target += static_cast<int>(segmentBank_.size());
+            playBuffer_->copyFrom(segmentBank_.getCache(static_cast<size_t>(target)));
+            sourceSamplePtr = playBuffer_->getReadPtr();
+        };
+
         while(destSizeRequirement--)
         {
             const auto decimal = playIndex_ - std::floorf(playIndex_);
@@ -97,7 +107,6 @@ namespace rp::curtis
 
             if(static_cast<size_t>(playIndex_) >= playBuffer_->size())
             {
-                updateSpeed();
                 playIndex_ = 0;
                 if(repeatCount_ > 0)
                 {
@@ -106,10 +115,10 @@ namespace rp::curtis
                 else
                 {
                     repeatCount_ = repeatRange_->getValue();
-                    auto fromLatest = randomRange_ == 0 ? 0 : rand() % randomRange_;
-                    playBuffer_->copyFrom(*segmentBank_.getCache(fromLatest)); // get new one
-                    sourceSamplePtr = playBuffer_->getReadPtr();
+                    latestIndex_ = segmentBank_.getLatestCacheIndex().value();
                 }
+                updateSpeed();
+                updatePlayBuffer();
             }
         }
     }
