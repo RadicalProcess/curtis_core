@@ -2,11 +2,11 @@
 
 namespace rp::curtis
 {
-    SegmentBank::SegmentBank(size_t numCaches, const IFactory& factory)
+    SegmentBank::SegmentBank(size_t numCaches, size_t size, const IFactory& factory)
     : latestCache_(std::nullopt)
     {
         for(auto i = static_cast<size_t>(0); i < numCaches; ++i)
-            cache_.emplace_back(factory.createBuffer());
+            cache_.emplace_back(factory.createBuffer(size));
     }
 
     const IBuffer* SegmentBank::getCache(size_t fromNewest) const

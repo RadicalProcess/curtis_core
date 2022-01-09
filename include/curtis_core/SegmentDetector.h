@@ -12,9 +12,9 @@ namespace rp::curtis
                           , public IPolarity::Listener
     {
     public:
-        SegmentDetector(float sampleRate, const IFactory& factory = Factory());
+        SegmentDetector(float sampleRate, size_t maxBufferSize, const IFactory& factory = Factory());
 
-        ~SegmentDetector() override = default;
+        ~SegmentDetector() override;
 
         void setSegmentMinLength(float ms) override;
 

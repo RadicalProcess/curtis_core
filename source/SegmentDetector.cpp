@@ -10,11 +10,19 @@ namespace rp::curtis
         }
     }
 
-    SegmentDetector::SegmentDetector(float sampleRate, const IFactory& factory)
+    SegmentDetector::SegmentDetector(float sampleRate, size_t maxBufferSize, const IFactory& factory)
     : sampleRate_(sampleRate)
-    , tempBuffer_(factory.createBuffer(static_cast<size_t>(sampleRate * 0.1))) // max 100 msec
+    , minLength_(maxBufferSize / 2)
+    , maxLength_(maxBufferSize)
+    , tempBuffer_(factory.createBuffer(static_cast<size_t>(maxBufferSize)))
     , polarity_(factory.createPolarity())
     {
+        polarity_->addListener(this);
+    }
+
+    SegmentDetector::~SegmentDetector()
+    {
+        polarity_->removeListener(this);
     }
 
     void SegmentDetector::setSegmentMinLength(float ms)
@@ -39,24 +47,21 @@ namespace rp::curtis
 
     void SegmentDetector::process(IBuffer& buffer)
     {
-        if(tempBuffer_->size() + buffer.size() < minLength_)
+        auto* ptr = buffer.getReadPtr();
+        for(auto i = 0; i < buffer.size(); ++i)
         {
-            tempBuffer_->append(buffer);
-            polarity_->set(tempBuffer_->getLast(), false);
-        }
-        else
-        {
-            auto* ptr = buffer.getReadPtr();
-            for(auto i = 0; i < buffer.size(); ++i)
+            const auto value = *ptr++;
+            const auto bufSize = tempBuffer_->size();
+
+            if(minLength_ <= bufSize && bufSize < maxLength_)
             {
-                const auto value = *ptr++;
                 polarity_->set(value, true);
-
-                if(tempBuffer_->size() >= maxLength_)
-                    tempBuffer_->clear();
-
-                tempBuffer_->push(value);
             }
+            else if(maxLength_ <= bufSize)
+            {
+                tempBuffer_->clear();
+            }
+            tempBuffer_->push(value);
         }
     }
 

@@ -9,8 +9,6 @@ namespace rp::curtis
     class Buffer : public IBuffer
     {
     public:
-        Buffer();
-
         Buffer(size_t capacity);
 
         Buffer(float* buffer, size_t size);
@@ -24,8 +22,6 @@ namespace rp::curtis
         bool owned() const override;
 
         void clear() override;
-
-        void append(const IBuffer& buffer) override;
 
         void push(float value) override;
 

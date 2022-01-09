@@ -5,20 +5,13 @@
 
 namespace rp::curtis
 {
-    Buffer::Buffer()
-    : data_(nullptr)
-    , size_(0)
-    , capacity_(0)
-    , owned_(false)
-    {
-    }
 
     Buffer::Buffer(size_t capacity)
     : size_(0)
     , capacity_(capacity)
     , owned_(true)
     {
-        data_ = static_cast<float*>(malloc(sizeof(float) * size_));
+        data_ = static_cast<float*>(malloc(sizeof(float) * capacity_));
     }
 
     Buffer::Buffer(float* buffer, size_t size)
@@ -37,10 +30,10 @@ namespace rp::curtis
 
     void Buffer::copyFrom(const IBuffer& buffer)
     {
-        if(owned_)
-            free(data_);
+        if(capacity_ < buffer.size())
+            throw std::out_of_range("not enough capacity");
 
-        data_ = static_cast<float*>(malloc(buffer.size() * sizeof(float)));
+        memcpy(data_, buffer.getReadPtr(), buffer.size() * sizeof(float));
         size_ = buffer.size();
     }
 
@@ -67,15 +60,6 @@ namespace rp::curtis
     void Buffer::clear()
     {
         size_ = 0;
-    }
-
-    void Buffer::append(const IBuffer& buffer)
-    {
-        if(size_ + buffer.size() > capacity_)
-            throw std::out_of_range("appended buffer is to big");
-
-        memcpy(data_ + size_, buffer.getReadPtr(), buffer.size() * sizeof(float));
-        size_ += buffer.size();
     }
 
     void Buffer::push(float value)

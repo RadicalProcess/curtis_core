@@ -24,13 +24,13 @@ namespace rp::curtis
             segmentDetectorMockPtr_ = segmentDetectorMock_.get();
             granulatorMockPtr_ = granulatorMock_.get();
 
-            ON_CALL(factoryMock_, createSegmentBank(_))
+            ON_CALL(factoryMock_, createSegmentBank(_, _))
                 .WillByDefault(Return(ByMove(std::move(segmentBankMock_))));
 
-            ON_CALL(factoryMock_, createSegmentDetector(_))
+            ON_CALL(factoryMock_, createSegmentDetector(_,_))
                     .WillByDefault(Return(ByMove(std::move(segmentDetectorMock_))));
 
-            ON_CALL(factoryMock_, createGranulator(_))
+            ON_CALL(factoryMock_, createGranulator(_,_))
                     .WillByDefault(Return(ByMove(std::move(granulatorMock_))));
         }
 
@@ -54,9 +54,9 @@ namespace rp::curtis
 
     TEST_F(UnitTest_Curtis, construction)
     {
-        EXPECT_CALL(factoryMock_, createSegmentBank(_));
-        EXPECT_CALL(factoryMock_, createSegmentDetector(48000.0f));
-        EXPECT_CALL(factoryMock_, createGranulator(_));
+        EXPECT_CALL(factoryMock_, createSegmentBank(_, _));
+        EXPECT_CALL(factoryMock_, createSegmentDetector(48000.0f, _));
+        EXPECT_CALL(factoryMock_, createGranulator(_, _));
         EXPECT_CALL(*segmentDetectorMockPtr_, addListener(_));
 
         Curtis(48000.0f, factoryMock_);

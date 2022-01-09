@@ -28,7 +28,7 @@ namespace rp::curtis
             endSpeedRandomRangeMock_ = std::make_unique<NiceMock<RandomRangeMock<float>>>();
             endSpeedRandomRangePtr_ = endSpeedRandomRangeMock_.get();
 
-            ON_CALL(factoryMock_, createBuffer())
+            ON_CALL(factoryMock_, createBuffer(_))
                 .WillByDefault(Return(ByMove(std::move(playBufferMock_))));
 
             ON_CALL(factoryMock_, createRandomRangeSizeT(_, _))
@@ -71,16 +71,16 @@ namespace rp::curtis
 
     TEST_F(UnitTest_Granulator, construction)
     {
-        EXPECT_CALL(factoryMock_, createBuffer());
+        EXPECT_CALL(factoryMock_, createBuffer(_));
         EXPECT_CALL(factoryMock_, createRandomRangeSizeT(_, _));
         EXPECT_CALL(factoryMock_, createRandomRangeFloat(_, _)).Times(2);
 
-        Granulator(segmentBankMock_, factoryMock_);
+        Granulator(segmentBankMock_, 0, factoryMock_);
     }
 
     TEST_F(UnitTest_Granulator, setRepeatMin_Max)
     {
-        auto&& granulator = Granulator(segmentBankMock_, factoryMock_);
+        auto&& granulator = Granulator(segmentBankMock_, 0, factoryMock_);
         EXPECT_CALL(*repeatRandomRangeMockPtr_, setMin(1));
         EXPECT_CALL(*repeatRandomRangeMockPtr_, setMax(5));
 
@@ -90,7 +90,7 @@ namespace rp::curtis
 
     TEST_F(UnitTest_Granulator, setStartMin_Max)
     {
-        auto&& granulator = Granulator(segmentBankMock_, factoryMock_);
+        auto&& granulator = Granulator(segmentBankMock_, 0, factoryMock_);
         EXPECT_CALL(*startSpeedRandomRangePtr_, setMin(0.5f));
         EXPECT_CALL(*startSpeedRandomRangePtr_, setMax(1.5f));
 
@@ -100,7 +100,7 @@ namespace rp::curtis
 
     TEST_F(UnitTest_Granulator, setEndMin_Max)
     {
-        auto&& granulator = Granulator(segmentBankMock_, factoryMock_);
+        auto&& granulator = Granulator(segmentBankMock_, 0, factoryMock_);
         EXPECT_CALL(*endSpeedRandomRangePtr_, setMin(0.5f));
         EXPECT_CALL(*endSpeedRandomRangePtr_, setMax(1.5f));
 
@@ -110,7 +110,7 @@ namespace rp::curtis
 
     TEST_F(UnitTest_Granulator, process)
     {
-        auto&& granulator = Granulator(segmentBankMock_, factoryMock_);
+        auto&& granulator = Granulator(segmentBankMock_, 0, factoryMock_);
 
         EXPECT_CALL(segmentBankMock_, getCache(_));
         granulator.process(bufferMock_);
@@ -120,7 +120,7 @@ namespace rp::curtis
     {
         ON_CALL(segmentBankMock_, getCache(_)).WillByDefault(Return(nullptr));
 
-        auto&& granulator = Granulator(segmentBankMock_, factoryMock_);
+        auto&& granulator = Granulator(segmentBankMock_, 0, factoryMock_);
 
         EXPECT_CALL(segmentBankMock_, getCache(_));
         granulator.process(bufferMock_);

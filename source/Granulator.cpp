@@ -3,9 +3,9 @@
 
 namespace rp::curtis
 {
-    Granulator::Granulator(const ISegmentBank& segmentBank, const IFactory& factory)
+    Granulator::Granulator(const ISegmentBank& segmentBank, size_t maxBufferSize, const IFactory& factory)
     : segmentBank_(segmentBank)
-    , playBuffer_(factory.createBuffer())
+    , playBuffer_(factory.createBuffer(maxBufferSize))
     , playIndex_(0)
     , repeatRange_(factory.createRandomRangeSizeT(1, 1))
     , randomRange_(1)

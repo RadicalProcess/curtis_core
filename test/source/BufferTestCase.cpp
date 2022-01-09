@@ -4,13 +4,6 @@
 
 namespace rp::curtis
 {
-    TEST(UnitTest_Buffer, construction)
-    {
-        auto&& buffer = Buffer();
-        EXPECT_EQ(0, buffer.size());
-        EXPECT_FALSE(buffer.owned());
-    }
-
     TEST(UnitTest_Buffer, construction_unowned)
     {
         auto&& buffer = Buffer(nullptr, 10);
@@ -23,55 +16,6 @@ namespace rp::curtis
         auto&& buffer = Buffer(10);
         EXPECT_EQ(0, buffer.size());
         EXPECT_TRUE(buffer.owned());
-    }
-
-    TEST(UnitTest_Buffer, append)
-    {
-        auto&& buffer1 = Buffer(3);
-        auto&& vector = std::vector<float>{1.0, 2.0, 3.0};
-        auto&& buffer2 = Buffer(vector.data(), vector.size());
-
-        buffer1.append(buffer2);
-
-        EXPECT_EQ(3, buffer1.size());
-    }
-
-    TEST(UnitTest_Buffer, append_twice)
-    {
-        auto&& buffer1 = Buffer(3);
-        auto&& vector = std::vector<float>{1.0};
-        auto&& buffer2 = Buffer(vector.data(), vector.size());
-
-        buffer1.append(buffer2);
-        EXPECT_EQ(1, buffer1.size());
-
-        buffer1.append(buffer2);
-        EXPECT_EQ(2, buffer1.size());
-    }
-
-    TEST(UnitTest_Buffer, clear)
-    {
-        auto&& buffer1 = Buffer(3);
-        auto&& vector = std::vector<float>{1.0, 2.0, 3.0};
-        auto&& buffer2 = Buffer(vector.data(), vector.size());
-
-        buffer1.append(buffer2);
-
-        EXPECT_EQ(3, buffer1.size());
-
-        buffer1.clear();
-
-        EXPECT_EQ(0, buffer1.size());
-    }
-
-
-    TEST(UnitTest_Buffer, append_throw)
-    {
-        auto&& buffer1 = Buffer(3);
-        auto&& vector = std::vector<float>{1.0, 2.0, 3.0, 4.0};
-        auto&& buffer2 = Buffer(vector.data(), vector.size());
-
-        EXPECT_THROW(buffer1.append(buffer2), std::out_of_range);
     }
 
     TEST(UnitTest_Buffer, push)
@@ -96,5 +40,28 @@ namespace rp::curtis
 
         EXPECT_EQ(2, buffer.size());
         EXPECT_THROW(buffer.push(3.0f), std::out_of_range);
+    }
+
+    TEST(UnitTest_Buffer, copyFrom)
+    {
+        auto&& buffer1 = Buffer(2);
+        buffer1.push(11.f);
+        buffer1.push(15.f);
+
+        auto&& buffer2 = Buffer(2);
+        buffer2.copyFrom(buffer1);
+
+        EXPECT_EQ(11.f, buffer2.getReadPtr()[0]);
+        EXPECT_EQ(15.f, buffer2.getReadPtr()[1]);
+    }
+
+    TEST(UnitTest_Buffer, copyFrom_throw)
+    {
+        auto&& buffer1 = Buffer(2);
+        buffer1.push(11.f);
+        buffer1.push(15.f);
+
+        auto&& buffer2 = Buffer(1);
+        EXPECT_THROW(buffer2.copyFrom(buffer1), std::out_of_range);
     }
 }

@@ -14,7 +14,7 @@ namespace rp::curtis
 
     TEST(UnitTest_Factory, createSegmentBank)
     {
-        auto&& segmentBank = Factory().createSegmentBank(3);
+        auto&& segmentBank = Factory().createSegmentBank(3, 0);
 
         ASSERT_THAT(segmentBank, NotNull());
         EXPECT_THAT(segmentBank.get(), WhenDynamicCastTo<SegmentBank*>(NotNull()));
@@ -22,7 +22,7 @@ namespace rp::curtis
 
     TEST(UnitTest_Factory, createSegmentDetector)
     {
-        auto&& segmentDetector = Factory().createSegmentDetector(48000.f);
+        auto&& segmentDetector = Factory().createSegmentDetector(48000.f, 0);
 
         ASSERT_THAT(segmentDetector, NotNull());
         EXPECT_THAT(segmentDetector.get(), WhenDynamicCastTo<SegmentDetector*>(NotNull()));
@@ -31,18 +31,10 @@ namespace rp::curtis
     TEST(UnitTest_Factory, createGranulator)
     {
         auto&& segmentBank = SegmentBankMock();
-        auto&& granulator = Factory().createGranulator(segmentBank);
+        auto&& granulator = Factory().createGranulator(segmentBank, 0);
 
         ASSERT_THAT(granulator, NotNull());
         EXPECT_THAT(granulator.get(), WhenDynamicCastTo<Granulator*>(NotNull()));
-    }
-
-    TEST(UnitTest_Factory, createBuffer_empty)
-    {
-        auto&& buffer = Factory().createBuffer();
-
-        ASSERT_THAT(buffer, NotNull());
-        EXPECT_THAT(buffer.get(), WhenDynamicCastTo<Buffer*>(NotNull()));
     }
 
     TEST(UnitTest_Factory, createBuffer_capacity)

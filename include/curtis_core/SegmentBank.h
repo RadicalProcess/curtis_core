@@ -14,7 +14,7 @@ namespace rp::curtis
                       , public ISegmentDetector::Listener
     {
     public:
-        SegmentBank(size_t numCaches, const IFactory& factory = Factory());
+        SegmentBank(size_t numCaches, size_t size, const IFactory& factory = Factory());
 
         ~SegmentBank() override = default;
 

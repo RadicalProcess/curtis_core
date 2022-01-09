@@ -15,13 +15,11 @@ namespace rp::curtis
     public:
         virtual ~IFactory() = default;
 
-        virtual SegmentBankPtr createSegmentBank(size_t numCaches) const = 0;
+        virtual SegmentBankPtr createSegmentBank(size_t numCaches, size_t size) const = 0;
 
-        virtual SegmentDetectorPtr createSegmentDetector(float sampleRate) const = 0;
+        virtual SegmentDetectorPtr createSegmentDetector(float sampleRate, size_t maxBufferSize) const = 0;
 
-        virtual GranulatorPtr createGranulator(const ISegmentBank& segmentBank) const = 0;
-
-        virtual BufferPtr createBuffer() const = 0;
+        virtual GranulatorPtr createGranulator(const ISegmentBank& segmentBank, size_t maxBufferSize) const = 0;
 
         virtual BufferPtr createBuffer(size_t capacity) const = 0;
 

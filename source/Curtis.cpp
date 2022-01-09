@@ -2,10 +2,18 @@
 
 namespace rp::curtis
 {
+    namespace
+    {
+        size_t calcMaxBufferSize(float sampleRate)
+        {
+            return static_cast<size_t>(sampleRate) / 10; // 100ms
+        }
+    }
+
     Curtis::Curtis(float sampleRate, const IFactory& factory)
-    : segmentBank_(factory.createSegmentBank(32))
-    , segmentDetector_(factory.createSegmentDetector(sampleRate))
-    , granulator_(factory.createGranulator(*segmentBank_))
+    : segmentBank_(factory.createSegmentBank(32, calcMaxBufferSize(sampleRate)))
+    , segmentDetector_(factory.createSegmentDetector(sampleRate, calcMaxBufferSize(sampleRate)))
+    , granulator_(factory.createGranulator(*segmentBank_, calcMaxBufferSize(sampleRate)))
     {
         segmentDetector_->addListener(dynamic_cast<ISegmentDetector::Listener*>(segmentBank_.get()));
     }

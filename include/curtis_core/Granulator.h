@@ -13,7 +13,7 @@ namespace rp::curtis
     class Granulator : public IGranulator
     {
     public:
-        Granulator(const ISegmentBank& segmentBank, const IFactory& factory = Factory());
+        Granulator(const ISegmentBank& segmentBank, size_t maxBufferSize, const IFactory& factory = Factory());
 
         ~Granulator() override = default;
 

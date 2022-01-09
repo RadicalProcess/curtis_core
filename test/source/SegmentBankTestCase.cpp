@@ -15,7 +15,7 @@ namespace rp::curtis
         {
             bufferMock_ = std::make_unique<NiceMock<BufferMock>>();
 
-            ON_CALL(factoryMock_, createBuffer())
+            ON_CALL(factoryMock_, createBuffer(_))
                 .WillByDefault(Return(ByMove(std::move(bufferMock_))));
         }
 
@@ -33,19 +33,19 @@ namespace rp::curtis
 
     TEST_F(UnitTest_SegmentBank, construction)
     {
-        EXPECT_CALL(factoryMock_, createBuffer()).Times(1);
-        SegmentBank(1, factoryMock_);
+        EXPECT_CALL(factoryMock_, createBuffer(10)).Times(1);
+        SegmentBank(1, 10, factoryMock_);
     }
 
     TEST_F(UnitTest_SegmentBank, getCache)
     {
-        auto&& segmentBank = SegmentBank(1, factoryMock_);
+        auto&& segmentBank = SegmentBank(1, 10, factoryMock_);
         EXPECT_EQ(nullptr, segmentBank.getCache(0));
     }
 
     TEST_F(UnitTest_SegmentBank, getCache_segment_detected)
     {
-        auto&& segmentBank = SegmentBank(1, factoryMock_);
+        auto&& segmentBank = SegmentBank(1, 10, factoryMock_);
         static_cast<ISegmentDetector::Listener*>(&segmentBank)->onSegmentDetected(detectedSegmentMock_);
 
         EXPECT_NE(nullptr, segmentBank.getCache(0));

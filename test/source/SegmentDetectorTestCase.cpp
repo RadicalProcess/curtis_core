@@ -37,7 +37,6 @@ namespace rp::curtis
         std::unique_ptr<PolarityMock> polarityMock_;
         PolarityMock* polarityMockPtr_;
 
-        NiceMock<BufferMock> processBufferMock_;
         NiceMock<FactoryMock> factoryMock_;
     };
 
@@ -46,53 +45,28 @@ namespace rp::curtis
         EXPECT_CALL(factoryMock_, createBuffer(4800));
         EXPECT_CALL(factoryMock_, createPolarity());
 
-        SegmentDetector(48000.0f, factoryMock_);
+        SegmentDetector(48000.0f, 4800, factoryMock_);
     }
 
-    TEST_F(UnitTest_SegmentDetector, process_less_than_min)
+    TEST_F(UnitTest_SegmentDetector, subscription)
     {
-        auto&& segmentDetector = SegmentDetector(48000.0f, factoryMock_);
-        segmentDetector.setSegmentMinLength(1); // 48 samples
-        ON_CALL(*bufferMockPtr_, size()).WillByDefault(Return(24));
-        ON_CALL(processBufferMock_, size()).WillByDefault(Return(23));
+        EXPECT_CALL(*polarityMockPtr_, addListener(_));
+        EXPECT_CALL(*polarityMockPtr_, removeListener(_));
 
-        EXPECT_CALL(*bufferMockPtr_, append(_));
-        EXPECT_CALL(*bufferMockPtr_, getLast()).WillOnce(Return(0.5f));
-        EXPECT_CALL(*polarityMockPtr_, set(0.5f, false));
-        segmentDetector.process(processBufferMock_);
+        SegmentDetector(48000.0f, 4800, factoryMock_);
     }
 
-    TEST_F(UnitTest_SegmentDetector, process_sample_pushed)
+    TEST_F(UnitTest_SegmentDetector, process_append_sample)
     {
-        auto&& segmentDetector = SegmentDetector(48000.0f, factoryMock_);
-        segmentDetector.setSegmentMinLength(1);
-        segmentDetector.setSegmentMaxLength(2); // 96 samples
-        auto fakeBuffer = std::vector<float>(50);
+        auto&& segmentDetector = SegmentDetector(48000.0f, 4800, factoryMock_);
+        auto&& buffer = Buffer(1);
+        buffer.push(1);
 
-        ON_CALL(*bufferMockPtr_, size()).WillByDefault(Return(95));
-        ON_CALL(processBufferMock_, size()).WillByDefault(Return(1));
-        ON_CALL(processBufferMock_, getReadPtr()).WillByDefault(Return(fakeBuffer.data()));
-
+        EXPECT_CALL(*polarityMockPtr_, set(_, true)).Times(0);
         EXPECT_CALL(*bufferMockPtr_, clear()).Times(0);
         EXPECT_CALL(*bufferMockPtr_, push(_)).Times(1);
-        segmentDetector.process(processBufferMock_);
-    }
 
-
-    TEST_F(UnitTest_SegmentDetector, process_no_zero_cross_detected)
-    {
-        auto&& segmentDetector = SegmentDetector(48000.0f, factoryMock_);
-        segmentDetector.setSegmentMinLength(1);
-        segmentDetector.setSegmentMaxLength(2); // 96 samples
-        auto fakeBuffer = std::vector<float>(50);
-
-        ON_CALL(*bufferMockPtr_, size()).WillByDefault(Return(96));
-        ON_CALL(processBufferMock_, size()).WillByDefault(Return(1));
-        ON_CALL(processBufferMock_, getReadPtr()).WillByDefault(Return(fakeBuffer.data()));
-
-        EXPECT_CALL(*bufferMockPtr_, clear());
-        EXPECT_CALL(*bufferMockPtr_, push(_)).Times(1);
-        segmentDetector.process(processBufferMock_);
+        segmentDetector.process(buffer);
     }
 }
 
