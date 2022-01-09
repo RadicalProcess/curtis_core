@@ -36,9 +36,12 @@ namespace rp::curtis
         void process(IBuffer& buffer) override;
 
     private:
+
+        void updateSpeed();
+
         const ISegmentBank& segmentBank_;
         BufferPtr playBuffer_;
-        size_t playIndex_;
+        float playIndex_;
 
         RandomRangeSizeTPtr repeatRange_;
         size_t randomRange_;
@@ -46,5 +49,8 @@ namespace rp::curtis
         bool glissonEnabled_;
         RandomRangeFloatPtr startSpeedRange_;
         RandomRangeFloatPtr endSpeedRange_;
+        float startSpeed_;
+        float endSpeed_;
+        size_t repeatCount_;
     };
 }

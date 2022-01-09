@@ -6,7 +6,7 @@ namespace rp::curtis
     {
         size_t calcMaxBufferSize(float sampleRate)
         {
-            return static_cast<size_t>(sampleRate) / 10; // 100ms
+            return static_cast<size_t>(sampleRate);// 1000ms
         }
     }
 

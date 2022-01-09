@@ -14,7 +14,10 @@ namespace rp::curtis
         if(latestCache_ == std::nullopt)
             return nullptr;
 
-        return cache_[latestCache_.value()].get();
+        auto index = static_cast<int>(latestCache_.value())-static_cast<int>(fromNewest);
+        if (index < 0)
+            index += static_cast<int>(cache_.size());
+        return cache_[index].get();
     }
 
     void SegmentBank::onSegmentDetected(const IBuffer& buffer)

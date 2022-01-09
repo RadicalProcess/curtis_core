@@ -13,12 +13,16 @@ namespace rp::curtis
 
     void RandomRangeFloat::setMin(float value)
     {
+        if(value > max_)
+            value = min_;
         min_ = value;
         difference_ = max_ - min_;
     }
 
     void RandomRangeFloat::setMax(float value)
     {
+        if(value < min_)
+            value = max_;
         max_ = value;
         difference_ = max_ - min_;
     }
@@ -36,12 +40,16 @@ namespace rp::curtis
 
     void RandomRangeSizeT::setMin(size_t value)
     {
+        if(value > max_)
+            value = max_;
         min_ = value;
         difference_ = max_ - min_;
     }
 
     void RandomRangeSizeT::setMax(size_t value)
     {
+        if(value < min_)
+            value = min_;
         max_ = value;
         difference_ = max_ - min_;
     }

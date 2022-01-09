@@ -22,12 +22,11 @@ namespace rp::curtis
     private:
 
         enum State{
-            Zero,
             Positive,
             Negative,
         };
 
         std::set<Listener*> listeners_;
-        State state_ { Zero };
+        State state_ { Negative };
     };
 }

@@ -13,14 +13,7 @@ namespace rp::curtis
 
     void Polarity::set(float value, bool notification)
     {
-        if(state_ == Zero)
-        {
-            if (value > 1.00000001E-10f)
-                state_ = Positive;
-            else if (value < -1.00000001E-10f)
-                state_ = Negative;
-        }
-        else if(state_ == Negative && value > 1.00000001E-10f)
+        if(state_ == Negative && value > 1.00000001E-10f)
         {
             state_ = Positive;
             if(notification)
@@ -29,14 +22,13 @@ namespace rp::curtis
         else if(state_ == Positive && value < -1.00000001E-10f)
         {
             state_ = Negative;
-            if(notification)
-                notify(listeners_);
+
         }
     }
 
     void Polarity::reset()
     {
-        state_ = Zero;
+        state_ = Negative;
     }
 
     void Polarity::addListener(Listener* listener)
