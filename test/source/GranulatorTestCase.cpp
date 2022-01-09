@@ -118,11 +118,11 @@ namespace rp::curtis
 
     TEST_F(UnitTest_Granulator, process_no_segment_ready)
     {
-        ON_CALL(segmentBankMock_, getCache(_)).WillByDefault(Return(nullptr));
+        ON_CALL(segmentBankMock_, getLatestCacheIndex()).WillByDefault(Return(std::nullopt));
 
         auto&& granulator = Granulator(segmentBankMock_, 0, factoryMock_);
 
-        EXPECT_CALL(segmentBankMock_, getCache(_));
+        EXPECT_CALL(segmentBankMock_, getCache(_)).Times(0);
         granulator.process(bufferMock_);
     }
 }
