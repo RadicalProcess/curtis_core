@@ -67,8 +67,21 @@ namespace rp::curtis
             }
             playBuffer_->copyFrom(*cache);
         }
+        auto* destPtr = buffer.getWritePtr();
+        auto destSizeRequirement = buffer.size();
 
-        buffer.getReadPtr();
-
+        auto* srcPtr = playBuffer_->getReadPtr();
+        while(destSizeRequirement--)
+        {
+            *destPtr++ = *srcPtr++;
+            playIndex_++;
+            if(playIndex_ == playBuffer_->size())
+            {
+                // in case source play buffer is exhausted
+                playIndex_ = 0;
+                playBuffer_->copyFrom(*segmentBank_.getCache(0)); // get new one
+                srcPtr = playBuffer_->getReadPtr();
+            }
+        }
     }
 }
