@@ -23,7 +23,7 @@ namespace rp::curtis
 
         bool owned() const override;
 
-        void clean() override;
+        void clear() override;
 
         void append(const IBuffer& buffer) override;
 

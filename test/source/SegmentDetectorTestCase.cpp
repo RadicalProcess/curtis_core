@@ -73,7 +73,7 @@ namespace rp::curtis
         ON_CALL(processBufferMock_, size()).WillByDefault(Return(1));
         ON_CALL(processBufferMock_, get()).WillByDefault(Return(fakeBuffer.data()));
 
-        EXPECT_CALL(*bufferMockPtr_, clean()).Times(0);
+        EXPECT_CALL(*bufferMockPtr_, clear()).Times(0);
         EXPECT_CALL(*bufferMockPtr_, push(_)).Times(1);
         segmentDetector.process(processBufferMock_);
     }
@@ -90,7 +90,7 @@ namespace rp::curtis
         ON_CALL(processBufferMock_, size()).WillByDefault(Return(1));
         ON_CALL(processBufferMock_, get()).WillByDefault(Return(fakeBuffer.data()));
 
-        EXPECT_CALL(*bufferMockPtr_, clean());
+        EXPECT_CALL(*bufferMockPtr_, clear());
         EXPECT_CALL(*bufferMockPtr_, push(_)).Times(1);
         segmentDetector.process(processBufferMock_);
     }

@@ -9,7 +9,7 @@ namespace rp::curtis
             cache_.emplace_back(factory.createBuffer());
     }
 
-    const IBuffer* SegmentBank::getCache(size_t fromNewest)
+    const IBuffer* SegmentBank::getCache(size_t fromNewest) const
     {
         if(latestCache_ == std::nullopt)
             return nullptr;

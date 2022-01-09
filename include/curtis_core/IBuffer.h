@@ -17,7 +17,7 @@ namespace rp::curtis
 
         virtual bool owned() const = 0;
 
-        virtual void clean() = 0;
+        virtual void clear() = 0;
 
         virtual void append(const IBuffer& buffer) = 0;
 

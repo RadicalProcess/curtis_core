@@ -59,7 +59,7 @@ namespace rp::curtis
         return owned_;
     }
 
-    void Buffer::clean()
+    void Buffer::clear()
     {
         size_ = 0;
     }

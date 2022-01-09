@@ -12,6 +12,7 @@ add_library(CurtisCore
         source/SegmentBank.cpp
         source/SegmentDetector.cpp
         source/Granulator.cpp
+        source/RandomRange.cpp
         source/Curtis.cpp)
 
 add_library(rp::CurtisCore ALIAS CurtisCore)

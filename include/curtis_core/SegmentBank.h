@@ -18,7 +18,7 @@ namespace rp::curtis
 
         ~SegmentBank() override = default;
 
-        const IBuffer* getCache(size_t fromLatest) override;
+        const IBuffer* getCache(size_t fromLatest) const override;
 
     private:
         void onSegmentDetected(const IBuffer& buffer) override;

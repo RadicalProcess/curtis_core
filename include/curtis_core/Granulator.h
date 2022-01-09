@@ -5,12 +5,14 @@
 #include "IProcessor.h"
 #include "ISegmentBank.h"
 
+#include "Factory.h"
+
 namespace rp::curtis
 {
     class Granulator : public IGranulator
     {
     public:
-        Granulator(const ISegmentBank& segmentBank);
+        Granulator(const ISegmentBank& segmentBank, const IFactory& factory = Factory());
 
         ~Granulator() override = default;
 
@@ -34,6 +36,8 @@ namespace rp::curtis
 
     private:
         const ISegmentBank& segmentBank_;
+        BufferPtr playBuffer_;
+        bool requestNextBuffer_;
 
         size_t repeatMix_;
         size_t repeatMax_;

@@ -1,9 +1,12 @@
+#include <IFactory.h>
 #include "Granulator.h"
 
 namespace rp::curtis
 {
-    Granulator::Granulator(const ISegmentBank& segmentBank)
+    Granulator::Granulator(const ISegmentBank& segmentBank, const IFactory& factory)
     : segmentBank_(segmentBank)
+    , playBuffer_(factory.createBuffer())
+    , requestNextBuffer_(true)
     , repeatMix_(1)
     , repeatMax_(1)
     , randomRange_(1)
@@ -57,6 +60,17 @@ namespace rp::curtis
 
     void Granulator::process(IBuffer& buffer)
     {
+        if(requestNextBuffer_)
+        {
+            auto* cache = segmentBank_.getCache(0);
+            if (cache == nullptr)
+            {
+                buffer.clear();
+                return;
+            }
+        }
+
+
 
     }
 }

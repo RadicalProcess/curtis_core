@@ -49,7 +49,7 @@ namespace rp::curtis
         EXPECT_EQ(2, buffer1.size());
     }
 
-    TEST(UnitTest_Buffer, clean)
+    TEST(UnitTest_Buffer, clear)
     {
         auto&& buffer1 = Buffer(3);
         auto&& vector = std::vector<float>{1.0, 2.0, 3.0};
@@ -59,7 +59,7 @@ namespace rp::curtis
 
         EXPECT_EQ(3, buffer1.size());
 
-        buffer1.clean();
+        buffer1.clear();
 
         EXPECT_EQ(0, buffer1.size());
     }

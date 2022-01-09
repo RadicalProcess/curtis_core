@@ -53,7 +53,7 @@ namespace rp::curtis
                 polarity_->set(value, true);
 
                 if(tempBuffer_->size() >= maxLength_)
-                    tempBuffer_->clean();
+                    tempBuffer_->clear();
 
                 tempBuffer_->push(value);
             }
@@ -65,6 +65,6 @@ namespace rp::curtis
         for(auto* listener: listeners_)
             listener->onSegmentDetected(*tempBuffer_);
 
-        tempBuffer_->clean();
+        tempBuffer_->clear();
     }
 }
