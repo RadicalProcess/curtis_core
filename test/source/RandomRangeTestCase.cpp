@@ -15,6 +15,16 @@ namespace rp::curtis
         }
     }
 
+    TEST(RandomRangeFloat, getValue_same_value)
+    {
+        auto randomRange = RandomRangeFloat(5.0f, 5.0f);
+        for(auto i = 0; i < 100; ++i)
+        {
+            const auto value = randomRange.getValue();
+            EXPECT_EQ(value, 5.0f);
+        }
+    }
+
     TEST(RandomRangeFloat, setMin)
     {
         auto randomRange = RandomRangeFloat(5.0f, 10.0f);
@@ -49,6 +59,16 @@ namespace rp::curtis
             const auto value = randomRange.getValue();
             EXPECT_GE(value, 5);
             EXPECT_LT(value, 10);
+        }
+    }
+
+    TEST(RandomRangeSizeT, getValue_same_value)
+    {
+        auto randomRange = RandomRangeSizeT(5, 5);
+        for(auto i = 0; i < 100; ++i)
+        {
+            const auto value = randomRange.getValue();
+            EXPECT_EQ(value, 5);
         }
     }
 

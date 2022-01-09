@@ -7,25 +7,22 @@ namespace rp::curtis
     : segmentBank_(segmentBank)
     , playBuffer_(factory.createBuffer())
     , requestNextBuffer_(true)
-    , repeatMix_(1)
-    , repeatMax_(1)
+    , repeatRange_(factory.createRandomRangeSizeT(1, 1))
     , randomRange_(1)
     , glissonEnabled_(true)
-    , startMinSpeed_(1.0f)
-    , startMaxSpeed_(1.0f)
-    , endMinSpeed_(1.0f)
-    , endMaxSpeed_(1.0f)
+    , startSpeedRange_(factory.createRandomRangeFloat(1.0f, 1.0f))
+    , endSpeedRange_(factory.createRandomRangeFloat(1.0f, 1.0f))
     {
     }
 
     void Granulator::setRepeatMin(size_t count)
     {
-        repeatMix_ = count;
+        repeatRange_->setMin(count);
     }
 
     void Granulator::setRepeatMax(size_t count)
     {
-        repeatMax_ = count;
+        repeatRange_->setMax(count);
     }
 
     void Granulator::setRandomRange(size_t range)
@@ -40,22 +37,22 @@ namespace rp::curtis
 
     void Granulator::setStartMinSpeed(float speed)
     {
-        startMinSpeed_ = speed;
+        startSpeedRange_->setMin(speed);
     }
 
     void Granulator::setStartMaxSpeed(float speed)
     {
-        startMaxSpeed_ = speed;
+        startSpeedRange_->setMax(speed);
     }
 
     void Granulator::setEndMinSpeed(float speed)
     {
-        endMinSpeed_ = speed;
+        endSpeedRange_->setMin(speed);
     }
 
     void Granulator::setEndMaxSpeed(float speed)
     {
-        endMaxSpeed_ = speed;
+        endSpeedRange_->setMax(speed);
     }
 
     void Granulator::process(IBuffer& buffer)

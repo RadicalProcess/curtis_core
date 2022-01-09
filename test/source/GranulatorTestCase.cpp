@@ -22,6 +22,8 @@ namespace rp::curtis
     TEST_F(UnitTest_Granulator, construction)
     {
         EXPECT_CALL(factoryMock_, createBuffer());
+        EXPECT_CALL(factoryMock_, createRandomRangeSizeT(_, _));
+        EXPECT_CALL(factoryMock_, createRandomRangeFloat(_, _)).Times(2);
 
         Granulator(segmentBankMock_, factoryMock_);
     }

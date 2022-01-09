@@ -48,6 +48,8 @@ namespace rp::curtis
 
     size_t RandomRangeSizeT::getValue() const
     {
+        if(difference_ == 0)
+            return min_;
         return min_ + static_cast<size_t>(rand()) % difference_;
     }
 }
