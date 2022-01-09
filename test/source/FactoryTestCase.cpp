@@ -6,6 +6,7 @@
 #include <curtis_core/SegmentBank.h>
 #include <curtis_core/SegmentDetector.h>
 #include <curtis_core/Granulator.h>
+#include <curtis_core/RandomRange.h>
 
 namespace rp::curtis
 {
@@ -59,5 +60,23 @@ namespace rp::curtis
 
         ASSERT_THAT(buffer, NotNull());
         EXPECT_THAT(buffer.get(), WhenDynamicCastTo<Buffer*>(NotNull()));
+    }
+
+    TEST(UnitTest_Factory, createRandomRangeFloat)
+    {
+        auto&& factory = Factory();
+        auto randomRange = factory.createRandomRangeFloat(5.0f, 10.0f);
+
+        ASSERT_THAT(randomRange, NotNull());
+        EXPECT_THAT(randomRange.get(), WhenDynamicCastTo<RandomRangeFloat*>(NotNull()));
+    }
+
+    TEST(UnitTest_Factory, createRandomRangeSizeT)
+    {
+        auto&& factory = Factory();
+        auto randomRange = factory.createRandomRangeSizeT(5.0f, 10.0f);
+
+        ASSERT_THAT(randomRange, NotNull());
+        EXPECT_THAT(randomRange.get(), WhenDynamicCastTo<RandomRangeSizeT*>(NotNull()));
     }
 }

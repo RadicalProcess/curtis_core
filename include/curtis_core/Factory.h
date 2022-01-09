@@ -22,5 +22,9 @@ namespace rp::curtis
         BufferPtr createBuffer(float* buffer, size_t size) const override;
 
         PolarityPtr createPolarity() const override;
+
+        RandomRangeFloatPtr createRandomRangeFloat(float min, float max) const override;
+
+        RandomRangeSizeTPtr createRandomRangeSizeT(size_t min, size_t max) const override;
     };
 }

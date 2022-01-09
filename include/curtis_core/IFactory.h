@@ -6,6 +6,7 @@
 #include "ISegmentDetector.h"
 #include "IGranulator.h"
 #include "IPolarity.h"
+#include "IRandomRange.h"
 
 namespace rp::curtis
 {
@@ -27,6 +28,10 @@ namespace rp::curtis
         virtual BufferPtr createBuffer(float* buffer, size_t size) const = 0;
 
         virtual PolarityPtr createPolarity() const = 0;
+
+        virtual RandomRangeFloatPtr createRandomRangeFloat(float min, float max) const = 0;
+
+        virtual RandomRangeSizeTPtr createRandomRangeSizeT(size_t min, size_t max) const = 0;
     };
 
     using FactoryPtr = std::unique_ptr<IFactory>;

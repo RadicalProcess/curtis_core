@@ -4,6 +4,7 @@
 #include "Granulator.h"
 #include "Buffer.h"
 #include "Polarity.h"
+#include "RandomRange.h"
 
 namespace rp::curtis
 {
@@ -42,5 +43,13 @@ namespace rp::curtis
         return std::make_unique<Polarity>();
     }
 
+    RandomRangeFloatPtr Factory::createRandomRangeFloat(float min, float max) const
+    {
+        return std::make_unique<RandomRangeFloat>(min, max);
+    }
 
+    RandomRangeSizeTPtr Factory::createRandomRangeSizeT(size_t min, size_t max) const
+    {
+        return std::make_unique<RandomRangeSizeT>(min, max);
+    }
 }
