@@ -1,6 +1,7 @@
 #pragma once
 
 #include <cstddef>
+
 #include "IGranulator.h"
 #include "IProcessor.h"
 #include "ISegmentBank.h"
@@ -37,7 +38,7 @@ namespace rp::curtis
     private:
         const ISegmentBank& segmentBank_;
         BufferPtr playBuffer_;
-        bool requestNextBuffer_;
+        size_t playIndex_;
 
         RandomRangeSizeTPtr repeatRange_;
         size_t randomRange_;

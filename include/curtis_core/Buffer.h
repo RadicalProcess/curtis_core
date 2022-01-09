@@ -29,12 +29,14 @@ namespace rp::curtis
 
         void push(float value) override;
 
-        const float* get() const override;
+        const float* getReadPtr() const override;
+
+        float* getWritePtr() override;
 
         float getLast() const override;
 
     private:
-        float* buffer_;
+        float* data_;
         size_t size_;
         const size_t capacity_;
         const bool owned_;

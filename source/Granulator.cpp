@@ -6,7 +6,7 @@ namespace rp::curtis
     Granulator::Granulator(const ISegmentBank& segmentBank, const IFactory& factory)
     : segmentBank_(segmentBank)
     , playBuffer_(factory.createBuffer())
-    , requestNextBuffer_(true)
+    , playIndex_(0)
     , repeatRange_(factory.createRandomRangeSizeT(1, 1))
     , randomRange_(1)
     , glissonEnabled_(true)
@@ -57,7 +57,7 @@ namespace rp::curtis
 
     void Granulator::process(IBuffer& buffer)
     {
-        if(requestNextBuffer_)
+        if(playBuffer_->size() == 0)
         {
             auto* cache = segmentBank_.getCache(0);
             if (cache == nullptr)
@@ -65,9 +65,10 @@ namespace rp::curtis
                 buffer.clear();
                 return;
             }
+            playBuffer_->copyFrom(*cache);
         }
 
-
+        buffer.getReadPtr();
 
     }
 }

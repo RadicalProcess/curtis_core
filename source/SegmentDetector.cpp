@@ -46,7 +46,7 @@ namespace rp::curtis
         }
         else
         {
-            auto* ptr = buffer.get();
+            auto* ptr = buffer.getReadPtr();
             for(auto i = 0; i < buffer.size(); ++i)
             {
                 const auto value = *ptr++;

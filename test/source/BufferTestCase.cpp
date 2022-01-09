@@ -81,9 +81,9 @@ namespace rp::curtis
         buffer.push(2.0f);
         buffer.push(3.0f);
 
-        EXPECT_EQ(1.0f, buffer.get()[0]);
-        EXPECT_EQ(2.0f, buffer.get()[1]);
-        EXPECT_EQ(3.0f, buffer.get()[2]);
+        EXPECT_EQ(1.0f, buffer.getReadPtr()[0]);
+        EXPECT_EQ(2.0f, buffer.getReadPtr()[1]);
+        EXPECT_EQ(3.0f, buffer.getReadPtr()[2]);
 
         EXPECT_EQ(3, buffer.size());
     }

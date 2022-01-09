@@ -6,7 +6,7 @@
 namespace rp::curtis
 {
     Buffer::Buffer()
-    : buffer_(nullptr)
+    : data_(nullptr)
     , size_(0)
     , capacity_(0)
     , owned_(false)
@@ -18,11 +18,11 @@ namespace rp::curtis
     , capacity_(capacity)
     , owned_(true)
     {
-        buffer_ = static_cast<float*>(malloc(sizeof(float) * size_));
+        data_ = static_cast<float*>(malloc(sizeof(float) * size_));
     }
 
     Buffer::Buffer(float* buffer, size_t size)
-    : buffer_(buffer)
+    : data_(buffer)
     , size_(size)
     , capacity_(size_)
     , owned_(false)
@@ -32,15 +32,15 @@ namespace rp::curtis
     Buffer::~Buffer()
     {
         if(owned_)
-            free(buffer_);
+            free(data_);
     }
 
     void Buffer::copyFrom(const IBuffer& buffer)
     {
         if(owned_)
-            free(buffer_);
+            free(data_);
 
-        buffer_ = static_cast<float*>(malloc(buffer.size() * sizeof(float)));
+        data_ = static_cast<float*>(malloc(buffer.size() * sizeof(float)));
         size_ = buffer.size();
     }
 
@@ -49,9 +49,14 @@ namespace rp::curtis
         return size_;
     }
 
-    const float* Buffer::get() const
+    const float* Buffer::getReadPtr() const
     {
-        return buffer_;
+        return data_;
+    }
+
+    float* Buffer::getWritePtr()
+    {
+        return data_;
     }
 
     bool Buffer::owned() const
@@ -69,7 +74,7 @@ namespace rp::curtis
         if(size_ + buffer.size() > capacity_)
             throw std::out_of_range("appended buffer is to big");
 
-        memcpy(buffer_ + size_, buffer.get(), buffer.size() * sizeof(float));
+        memcpy(data_ + size_, buffer.getReadPtr(), buffer.size() * sizeof(float));
         size_ += buffer.size();
     }
 
@@ -78,7 +83,7 @@ namespace rp::curtis
         if(size_ >= capacity_)
             throw std::out_of_range("cannot push more value");
 
-        buffer_[size_] = value;
+        data_[size_] = value;
         size_++;
     }
 
@@ -87,8 +92,10 @@ namespace rp::curtis
         if( size_ == 0)
             return 0.0f;
 
-        return buffer_[size_-1];
+        return data_[size_ - 1];
     }
+
+
 
 
 }

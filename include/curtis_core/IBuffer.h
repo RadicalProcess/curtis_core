@@ -13,7 +13,9 @@ namespace rp::curtis
 
         virtual size_t size() const = 0;
 
-        virtual const float* get() const = 0;
+        virtual const float* getReadPtr() const = 0;
+
+        virtual float* getWritePtr() = 0;
 
         virtual bool owned() const = 0;
 
