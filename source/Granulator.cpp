@@ -11,10 +11,8 @@ namespace rp::curtis
     , playBuffer_(factory.createBuffer(maxBufferSize))
     , playIndex_(0)
     , repeatRange_(factory.createRandomRangeSizeT(0, 0))
-    , randomRange_(0)
-    , glissonEnabled_(true)
-    , startSpeedRange_(factory.createRandomRangeFloat(1.0f, 1.0f))
-    , endSpeedRange_(factory.createRandomRangeFloat(1.0f, 1.0f))
+    , randomizer_(factory.createRandomizer())
+    , glisson_(factory.createGlisson())
     , repeatCount_(0)
     {
     }
@@ -31,38 +29,32 @@ namespace rp::curtis
 
     void Granulator::setRandomRange(size_t range)
     {
-        randomRange_ = range;
+        randomizer_->setRange(range);
     }
 
     void Granulator::setGlissonEnabled(bool enabled)
     {
-        glissonEnabled_ = enabled;
+        glisson_->setGlissonEnabled(enabled);
     }
 
     void Granulator::setStartMinSpeed(float speed)
     {
-        startSpeedRange_->setMin(speed);
+        glisson_->getStartRandomRange().setMin(speed);
     }
 
     void Granulator::setStartMaxSpeed(float speed)
     {
-        startSpeedRange_->setMax(speed);
+        glisson_->getStartRandomRange().setMax(speed);
     }
 
     void Granulator::setEndMinSpeed(float speed)
     {
-        endSpeedRange_->setMin(speed);
+        glisson_->getEndRandomRange().setMin(speed);
     }
 
     void Granulator::setEndMaxSpeed(float speed)
     {
-        endSpeedRange_->setMax(speed);
-    }
-
-    void Granulator::updateSpeed()
-    {
-        startSpeed_ = startSpeedRange_->getValue();
-        endSpeed_ = endSpeedRange_->getValue();
+        glisson_->getEndRandomRange().setMax(speed);
     }
 
     void Granulator::process(IBuffer& buffer)
@@ -76,7 +68,7 @@ namespace rp::curtis
                 return;
             }
             playBuffer_->copyFrom(segmentBank_.getCache(latestCacheIndex.value()));
-            updateSpeed();
+            glisson_->update();
         }
         auto* destPtr = buffer.getWritePtr();
         auto destSizeRequirement = buffer.size();
@@ -84,8 +76,7 @@ namespace rp::curtis
         auto* sourceSamplePtr = playBuffer_->getReadPtr();
 
         auto updatePlayBuffer = [&](){
-            const auto gapFromLatest = randomRange_ == 0 ? 0 : rand() % static_cast<int>(randomRange_);
-            auto target = static_cast<int>(latestIndex_) - gapFromLatest;
+            auto target = static_cast<int>(latestIndex_) - randomizer_->getValue();
             if(target < 0)
                 target += static_cast<int>(segmentBank_.size());
             playBuffer_->copyFrom(segmentBank_.getCache(static_cast<size_t>(target)));
@@ -101,9 +92,7 @@ namespace rp::curtis
             const auto interpolated = (right-left) * decimal + left;
 
             *destPtr++ = interpolated;
-            const float positionInBuffer = playIndex_ / static_cast<float>(playBuffer_->size());
-            const float speedAtThePosition = ( endSpeed_ - startSpeed_ ) * positionInBuffer + startSpeed_;
-            playIndex_ += speedAtThePosition;
+            playIndex_ += glisson_->getSpeedAt(playIndex_ / static_cast<float>(playBuffer_->size()));
 
             if(static_cast<size_t>(playIndex_) >= playBuffer_->size())
             {
@@ -117,7 +106,7 @@ namespace rp::curtis
                     repeatCount_ = repeatRange_->getValue();
                     latestIndex_ = segmentBank_.getLatestCacheIndex().value();
                 }
-                updateSpeed();
+                glisson_->update();
                 updatePlayBuffer();
             }
         }

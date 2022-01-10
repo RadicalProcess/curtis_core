@@ -7,6 +7,8 @@
 #include <curtis_core/SegmentDetector.h>
 #include <curtis_core/Granulator.h>
 #include <curtis_core/RandomRange.h>
+#include <curtis_core/Glisson.h>
+#include <curtis_core/Randomizer.h>
 
 namespace rp::curtis
 {
@@ -70,5 +72,23 @@ namespace rp::curtis
 
         ASSERT_THAT(randomRange, NotNull());
         EXPECT_THAT(randomRange.get(), WhenDynamicCastTo<RandomRangeSizeT*>(NotNull()));
+    }
+
+    TEST(UnitTest_Factory, createGlisson)
+    {
+        auto&& factory = Factory();
+        auto glisson = factory.createGlisson();
+
+        ASSERT_THAT(glisson, NotNull());
+        EXPECT_THAT(glisson.get(), WhenDynamicCastTo<Glisson*>(NotNull()));
+    }
+
+    TEST(UnitTest_Factory, createRandomizer)
+    {
+        auto&& factory = Factory();
+        auto randomizer = factory.createRandomizer();
+
+        ASSERT_THAT(randomizer, NotNull());
+        EXPECT_THAT(randomizer.get(), WhenDynamicCastTo<Randomizer*>(NotNull()));
     }
 }

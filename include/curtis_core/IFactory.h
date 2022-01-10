@@ -7,6 +7,8 @@
 #include "IGranulator.h"
 #include "IPolarity.h"
 #include "IRandomRange.h"
+#include "IGlisson.h"
+#include "IRandomizer.h"
 
 namespace rp::curtis
 {
@@ -30,6 +32,10 @@ namespace rp::curtis
         virtual RandomRangeFloatPtr createRandomRangeFloat(float min, float max) const = 0;
 
         virtual RandomRangeSizeTPtr createRandomRangeSizeT(size_t min, size_t max) const = 0;
+
+        virtual GlissonPtr createGlisson() const = 0;
+
+        virtual RandomizerPtr createRandomizer() const = 0;
     };
 
     using FactoryPtr = std::unique_ptr<IFactory>;

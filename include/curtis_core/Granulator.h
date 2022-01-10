@@ -6,6 +6,7 @@
 #include "IProcessor.h"
 #include "ISegmentBank.h"
 #include "IRandomRange.h"
+#include "IRandomizer.h"
 #include "Factory.h"
 
 namespace rp::curtis
@@ -44,14 +45,10 @@ namespace rp::curtis
         float playIndex_;
 
         RandomRangeSizeTPtr repeatRange_;
-        size_t randomRange_;
-
-        bool glissonEnabled_;
-        RandomRangeFloatPtr startSpeedRange_;
-        RandomRangeFloatPtr endSpeedRange_;
-        float startSpeed_;
-        float endSpeed_;
         size_t repeatCount_;
+
+        RandomizerPtr randomizer_;
+        GlissonPtr glisson_;
         size_t latestIndex_;
     };
 }

@@ -22,7 +22,6 @@ namespace rp::curtis
         else if(state_ == Positive && value < -1.00000001E-10f)
         {
             state_ = Negative;
-
         }
     }
 

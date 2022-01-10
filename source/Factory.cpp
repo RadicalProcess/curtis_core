@@ -5,6 +5,8 @@
 #include "Buffer.h"
 #include "Polarity.h"
 #include "RandomRange.h"
+#include "Glisson.h"
+#include "Randomizer.h"
 
 namespace rp::curtis
 {
@@ -46,5 +48,15 @@ namespace rp::curtis
     RandomRangeSizeTPtr Factory::createRandomRangeSizeT(size_t min, size_t max) const
     {
         return std::make_unique<RandomRangeSizeT>(min, max);
+    }
+
+    GlissonPtr Factory::createGlisson() const
+    {
+        return std::make_unique<Glisson>();
+    }
+
+    RandomizerPtr Factory::createRandomizer() const
+    {
+        return std::make_unique<Randomizer>();
     }
 }

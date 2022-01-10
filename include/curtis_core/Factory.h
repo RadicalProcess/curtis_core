@@ -24,5 +24,9 @@ namespace rp::curtis
         RandomRangeFloatPtr createRandomRangeFloat(float min, float max) const override;
 
         RandomRangeSizeTPtr createRandomRangeSizeT(size_t min, size_t max) const override;
+
+        GlissonPtr createGlisson() const override;
+
+        RandomizerPtr createRandomizer() const override;
     };
 }
