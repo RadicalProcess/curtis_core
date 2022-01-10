@@ -9,6 +9,7 @@
 #include <curtis_core/RandomRange.h>
 #include <curtis_core/Glisson.h>
 #include <curtis_core/Randomizer.h>
+#include <curtis_core/Counter.h>
 
 namespace rp::curtis
 {
@@ -90,5 +91,14 @@ namespace rp::curtis
 
         ASSERT_THAT(randomizer, NotNull());
         EXPECT_THAT(randomizer.get(), WhenDynamicCastTo<Randomizer*>(NotNull()));
+    }
+
+    TEST(UnitTest_Factory, createCounter)
+    {
+        auto&& factory = Factory();
+        auto counter = factory.createCounter();
+
+        ASSERT_THAT(counter, NotNull());
+        EXPECT_THAT(counter.get(), WhenDynamicCastTo<Counter*>(NotNull()));
     }
 }

@@ -7,6 +7,7 @@
 #include "RandomRange.h"
 #include "Glisson.h"
 #include "Randomizer.h"
+#include "Counter.h"
 
 namespace rp::curtis
 {
@@ -58,5 +59,10 @@ namespace rp::curtis
     RandomizerPtr Factory::createRandomizer() const
     {
         return std::make_unique<Randomizer>();
+    }
+
+    CounterPtr Factory::createCounter() const
+    {
+        return std::make_unique<Counter>();
     }
 }

@@ -17,7 +17,7 @@ namespace rp::curtis {
         MOCK_METHOD(RandomRangeSizeTPtr, createRandomRangeSizeT, (size_t min, size_t max), (const, override));
         MOCK_METHOD(GlissonPtr, createGlisson, (), (const, override));
         MOCK_METHOD(RandomizerPtr, createRandomizer, (), (const, override));
-
+        MOCK_METHOD(CounterPtr, createCounter, (), (const, override));
     };
 
 }  // namespace rp::curtis

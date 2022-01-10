@@ -28,5 +28,7 @@ namespace rp::curtis
         GlissonPtr createGlisson() const override;
 
         RandomizerPtr createRandomizer() const override;
+
+        CounterPtr createCounter() const override;
     };
 }

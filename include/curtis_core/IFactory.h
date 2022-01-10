@@ -9,6 +9,7 @@
 #include "IRandomRange.h"
 #include "IGlisson.h"
 #include "IRandomizer.h"
+#include "ICounter.h"
 
 namespace rp::curtis
 {
@@ -36,6 +37,8 @@ namespace rp::curtis
         virtual GlissonPtr createGlisson() const = 0;
 
         virtual RandomizerPtr createRandomizer() const = 0;
+
+        virtual CounterPtr createCounter() const = 0;
     };
 
     using FactoryPtr = std::unique_ptr<IFactory>;

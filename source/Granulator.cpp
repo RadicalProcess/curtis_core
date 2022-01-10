@@ -10,21 +10,20 @@ namespace rp::curtis
     : segmentBank_(segmentBank)
     , playBuffer_(factory.createBuffer(maxBufferSize))
     , playIndex_(0)
-    , repeatRange_(factory.createRandomRangeSizeT(0, 0))
+    , counter_(factory.createCounter())
     , randomizer_(factory.createRandomizer())
     , glisson_(factory.createGlisson())
-    , repeatCount_(0)
     {
     }
 
     void Granulator::setRepeatMin(size_t count)
     {
-        repeatRange_->setMin(count);
+        counter_->getRandomRange().setMin(count);
     }
 
     void Granulator::setRepeatMax(size_t count)
     {
-        repeatRange_->setMax(count);
+        counter_->getRandomRange().setMax(count);
     }
 
     void Granulator::setRandomRange(size_t range)
@@ -97,15 +96,9 @@ namespace rp::curtis
             if(static_cast<size_t>(playIndex_) >= playBuffer_->size())
             {
                 playIndex_ = 0;
-                if(repeatCount_ > 0)
-                {
-                    repeatCount_--;
-                }
-                else
-                {
-                    repeatCount_ = repeatRange_->getValue();
+                counter_->count([this](){
                     latestIndex_ = segmentBank_.getLatestCacheIndex().value();
-                }
+                });
                 glisson_->update();
                 updatePlayBuffer();
             }

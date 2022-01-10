@@ -5,6 +5,7 @@
 #include <curtis_core/BufferMock.h>
 #include <curtis_core/RandomRangeMock.h>
 #include <curtis_core/GlissonMock.h>
+#include <curtis_core/CounterMock.h>
 
 #include <curtis_core/Granulator.h>
 
@@ -20,8 +21,8 @@ namespace rp::curtis
             playBufferMock_ = std::make_unique<BufferMock>();
             playBufferMockPtr_ = playBufferMock_.get();
 
-            repeatRandomRangeMock_ = std::make_unique<NiceMock<RandomRangeMock<size_t>>>();
-            repeatRandomRangeMockPtr_ = repeatRandomRangeMock_.get();
+            counterMock_ = std::make_unique<NiceMock<CounterMock>>();
+            counterMockPtr_ = counterMock_.get();
 
             glissonMock_ = std::make_unique<NiceMock<GlissonMock>>();
             glissonMockPtr_ = glissonMock_.get();
@@ -29,24 +30,27 @@ namespace rp::curtis
             ON_CALL(factoryMock_, createBuffer(_))
                 .WillByDefault(Return(ByMove(std::move(playBufferMock_))));
 
-            ON_CALL(factoryMock_, createRandomRangeSizeT(_, _))
-                .WillByDefault(Return(ByMove(std::move(repeatRandomRangeMock_))));
-
             ON_CALL(factoryMock_, createGlisson())
                 .WillByDefault(Return(ByMove(std::move(glissonMock_))));
+
+            ON_CALL(factoryMock_, createCounter())
+                    .WillByDefault(Return(ByMove(std::move(counterMock_))));
 
             ON_CALL(*glissonMockPtr_, getStartRandomRange())
                 .WillByDefault(ReturnRef(startRandomRangeMock_));
 
             ON_CALL(*glissonMockPtr_, getEndRandomRange())
                     .WillByDefault(ReturnRef(endRandomRangeMock_));
+
+            ON_CALL(*counterMockPtr_, getRandomRange())
+                    .WillByDefault(ReturnRef(counterRandomRangeMock_));
         }
 
         void TearDown() override
         {
             playBufferMock_ = nullptr;
-            repeatRandomRangeMock_ = nullptr;
             glissonMock_ = nullptr;
+            counterMock_ = nullptr;
         }
 
     protected:
@@ -55,22 +59,23 @@ namespace rp::curtis
         NiceMock<BufferMock> bufferMock_;
         NiceMock<RandomRangeMock<float>> startRandomRangeMock_;
         NiceMock<RandomRangeMock<float>> endRandomRangeMock_;
+        NiceMock<RandomRangeMock<size_t>> counterRandomRangeMock_;
 
         std::unique_ptr<BufferMock> playBufferMock_;
-        std::unique_ptr<RandomRangeMock<size_t>> repeatRandomRangeMock_;
         std::unique_ptr<GlissonMock> glissonMock_;
+        std::unique_ptr<CounterMock> counterMock_;
 
         BufferMock* playBufferMockPtr_;
-        RandomRangeMock<size_t>* repeatRandomRangeMockPtr_;
         GlissonMock* glissonMockPtr_;
+        CounterMock* counterMockPtr_;
     };
 
     TEST_F(UnitTest_Granulator, construction)
     {
         EXPECT_CALL(factoryMock_, createBuffer(_));
-        EXPECT_CALL(factoryMock_, createRandomRangeSizeT(_, _));
         EXPECT_CALL(factoryMock_, createGlisson());
         EXPECT_CALL(factoryMock_, createRandomizer());
+        EXPECT_CALL(factoryMock_, createCounter());
 
         Granulator(segmentBankMock_, 0, factoryMock_);
     }
@@ -78,8 +83,8 @@ namespace rp::curtis
     TEST_F(UnitTest_Granulator, setRepeatMin_Max)
     {
         auto&& granulator = Granulator(segmentBankMock_, 0, factoryMock_);
-        EXPECT_CALL(*repeatRandomRangeMockPtr_, setMin(1));
-        EXPECT_CALL(*repeatRandomRangeMockPtr_, setMax(5));
+        EXPECT_CALL(counterRandomRangeMock_, setMin(1));
+        EXPECT_CALL(counterRandomRangeMock_, setMax(5));
 
         granulator.setRepeatMin(1);
         granulator.setRepeatMax(5);

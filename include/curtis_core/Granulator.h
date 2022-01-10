@@ -7,6 +7,7 @@
 #include "ISegmentBank.h"
 #include "IRandomRange.h"
 #include "IRandomizer.h"
+#include "ICounter.h"
 #include "Factory.h"
 
 namespace rp::curtis
@@ -43,9 +44,7 @@ namespace rp::curtis
         const ISegmentBank& segmentBank_;
         BufferPtr playBuffer_;
         float playIndex_;
-
-        RandomRangeSizeTPtr repeatRange_;
-        size_t repeatCount_;
+        CounterPtr counter_;
 
         RandomizerPtr randomizer_;
         GlissonPtr glisson_;
