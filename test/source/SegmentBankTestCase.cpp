@@ -15,7 +15,7 @@ namespace rp::curtis
         {
             bufferMock_ = std::make_unique<NiceMock<BufferMock>>();
 
-            ON_CALL(factoryMock_, createBuffer(_))
+            ON_CALL(factoryMock_, createBuffer(10, true))
                 .WillByDefault(Return(ByMove(std::move(bufferMock_))));
         }
 
@@ -33,7 +33,7 @@ namespace rp::curtis
 
     TEST_F(UnitTest_SegmentBank, construction)
     {
-        EXPECT_CALL(factoryMock_, createBuffer(10)).Times(1);
+        EXPECT_CALL(factoryMock_, createBuffer(10, true)).Times(1);
         SegmentBank(1, 10, factoryMock_);
     }
 

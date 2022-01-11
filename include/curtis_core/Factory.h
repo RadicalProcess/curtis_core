@@ -15,7 +15,7 @@ namespace rp::curtis
 
         GranulatorPtr createGranulator(const ISegmentBank& segmentBank, size_t maxBufferSize) const override;
 
-        BufferPtr createBuffer(size_t capacity) const override;
+        BufferPtr createBuffer(size_t capacity, bool fill = false) const override;
 
         BufferPtr createBuffer(float* buffer, size_t size) const override;
 
@@ -30,5 +30,7 @@ namespace rp::curtis
         RandomizerPtr createRandomizer() const override;
 
         CounterPtr createCounter() const override;
+
+        ReadBufferPtr createReadBuffer(size_t maxBufferSize) const override;
     };
 }

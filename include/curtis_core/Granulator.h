@@ -42,10 +42,8 @@ namespace rp::curtis
         void updateSpeed();
 
         const ISegmentBank& segmentBank_;
-        BufferPtr playBuffer_;
-        float playIndex_;
+        ReadBufferPtr readBuffer_;
         CounterPtr counter_;
-
         RandomizerPtr randomizer_;
         GlissonPtr glisson_;
         size_t latestIndex_;

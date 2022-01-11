@@ -21,7 +21,7 @@ namespace rp::curtis
             polarityMock_ = std::make_unique<NiceMock<PolarityMock>>();
             polarityMockPtr_ = polarityMock_.get();
 
-            ON_CALL(factoryMock_, createBuffer(_)).WillByDefault(Return(ByMove(std::move(bufferMock_))));
+            ON_CALL(factoryMock_, createBuffer(4800, false)).WillByDefault(Return(ByMove(std::move(bufferMock_))));
             ON_CALL(factoryMock_, createPolarity()).WillByDefault(Return(ByMove(std::move(polarityMock_))));
         }
 
@@ -42,7 +42,7 @@ namespace rp::curtis
 
     TEST_F(UnitTest_SegmentDetector, construction)
     {
-        EXPECT_CALL(factoryMock_, createBuffer(4800));
+        EXPECT_CALL(factoryMock_, createBuffer(4800, false));
         EXPECT_CALL(factoryMock_, createPolarity());
 
         SegmentDetector(48000.0f, 4800, factoryMock_);

@@ -8,6 +8,7 @@
 #include "Glisson.h"
 #include "Randomizer.h"
 #include "Counter.h"
+#include "ReadBuffer.h"
 
 namespace rp::curtis
 {
@@ -31,9 +32,9 @@ namespace rp::curtis
         return std::make_unique<Buffer>(buffer, size);
     }
 
-    BufferPtr Factory::createBuffer(size_t capacity) const
+    BufferPtr Factory::createBuffer(size_t capacity, bool fill) const
     {
-        return std::make_unique<Buffer>(capacity);
+        return std::make_unique<Buffer>(capacity, fill);
     }
 
     PolarityPtr Factory::createPolarity() const
@@ -64,5 +65,10 @@ namespace rp::curtis
     CounterPtr Factory::createCounter() const
     {
         return std::make_unique<Counter>();
+    }
+
+    ReadBufferPtr Factory::createReadBuffer(size_t maxBufferSize) const
+    {
+        return std::make_unique<ReadBuffer>(maxBufferSize);
     }
 }

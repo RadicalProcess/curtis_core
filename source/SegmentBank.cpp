@@ -6,7 +6,7 @@ namespace rp::curtis
     : latestCache_(std::nullopt)
     {
         for(auto i = static_cast<size_t>(0); i < numCaches; ++i)
-            cache_.emplace_back(factory.createBuffer(size));
+            cache_.emplace_back(factory.createBuffer(size, true));
     }
 
     std::optional<size_t> SegmentBank::getLatestCacheIndex() const

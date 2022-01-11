@@ -44,19 +44,14 @@ namespace rp::curtis
         auto&& counter = Counter(factoryMock_);
 
         EXPECT_CALL(*randomRangeMockPtr_, getValue());
-        counter.count([](){});
+        counter.count();
     }
 
     TEST_F(UnitTest_Counter, invocation)
     {
         auto&& counter = Counter(factoryMock_);
 
-        auto invoked = false;
-        counter.count([&](){
-            invoked = true;
-        });
-
-        EXPECT_TRUE(invoked);
+        EXPECT_TRUE(counter.count());
     }
 
     TEST_F(UnitTest_Counter, count_update_remaining)
@@ -67,8 +62,8 @@ namespace rp::curtis
             . Times(1)
             . WillOnce(Return(1));
 
-        counter.count([](){});
-        counter.count([](){});
+        counter.count();
+        counter.count();
     }
 
 }

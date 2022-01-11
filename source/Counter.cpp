@@ -12,14 +12,14 @@ namespace rp::curtis
         return *repeatRandomRange_;
     }
 
-    void Counter::count(const std::function<void()>& onCountEnded)
+    bool Counter::count()
     {
         if(remaining_ == 0)
         {
-            onCountEnded();
             remaining_ = repeatRandomRange_->getValue();
+            return true;
         }
-        else
-            remaining_--;
+        remaining_--;
+        return false;
     }
 }

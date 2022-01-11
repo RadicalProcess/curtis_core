@@ -10,6 +10,7 @@
 #include "IGlisson.h"
 #include "IRandomizer.h"
 #include "ICounter.h"
+#include "IReadBuffer.h"
 
 namespace rp::curtis
 {
@@ -24,7 +25,7 @@ namespace rp::curtis
 
         virtual GranulatorPtr createGranulator(const ISegmentBank& segmentBank, size_t maxBufferSize) const = 0;
 
-        virtual BufferPtr createBuffer(size_t capacity) const = 0;
+        virtual BufferPtr createBuffer(size_t capacity, bool fill) const = 0;
 
         virtual BufferPtr createBuffer(float* buffer, size_t size) const = 0;
 
@@ -39,6 +40,8 @@ namespace rp::curtis
         virtual RandomizerPtr createRandomizer() const = 0;
 
         virtual CounterPtr createCounter() const = 0;
+
+        virtual ReadBufferPtr createReadBuffer(size_t maxBufferSize) const = 0;
     };
 
     using FactoryPtr = std::unique_ptr<IFactory>;

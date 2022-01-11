@@ -16,7 +16,7 @@ namespace rp::curtis
 
         IRandomRange<size_t>& getRandomRange() override;
 
-        void count(const std::function<void()>& onCountEnded) override;
+        bool count() override;
 
     private:
         RandomRangeSizeTPtr repeatRandomRange_;

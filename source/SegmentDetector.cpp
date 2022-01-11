@@ -14,7 +14,7 @@ namespace rp::curtis
     : sampleRate_(sampleRate)
     , minLength_(maxBufferSize / 2)
     , maxLength_(maxBufferSize)
-    , tempBuffer_(factory.createBuffer(static_cast<size_t>(maxBufferSize)))
+    , tempBuffer_(factory.createBuffer(static_cast<size_t>(maxBufferSize), false))
     , polarity_(factory.createPolarity())
     {
         polarity_->addListener(this);

@@ -10,7 +10,7 @@ namespace rp::curtis {
         MOCK_METHOD(SegmentBankPtr, createSegmentBank, (size_t numCaches, size_t size), (const, override));
         MOCK_METHOD(SegmentDetectorPtr, createSegmentDetector, (float sampleRate, size_t maxBufferSize), (const, override));
         MOCK_METHOD(GranulatorPtr, createGranulator, (const ISegmentBank& segmentBank, size_t maxBufferSize), (const, override));
-        MOCK_METHOD(BufferPtr, createBuffer, (size_t capacity), (const, override));
+        MOCK_METHOD(BufferPtr, createBuffer, (size_t capacity, bool fill), (const, override));
         MOCK_METHOD(BufferPtr, createBuffer, (float* buffer, size_t size), (const, override));
         MOCK_METHOD(PolarityPtr, createPolarity, (), (const, override));
         MOCK_METHOD(RandomRangeFloatPtr, createRandomRangeFloat, (float min, float max), (const, override));
@@ -18,6 +18,7 @@ namespace rp::curtis {
         MOCK_METHOD(GlissonPtr, createGlisson, (), (const, override));
         MOCK_METHOD(RandomizerPtr, createRandomizer, (), (const, override));
         MOCK_METHOD(CounterPtr, createCounter, (), (const, override));
+        MOCK_METHOD(ReadBufferPtr, createReadBuffer, (size_t maxBufferSize), (const, override));
     };
 
 }  // namespace rp::curtis

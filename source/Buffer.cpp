@@ -6,12 +6,17 @@
 namespace rp::curtis
 {
 
-    Buffer::Buffer(size_t capacity)
-    : size_(0)
+    Buffer::Buffer(size_t capacity, bool fill)
+    : size_(fill ? capacity : 0 )
     , capacity_(capacity)
     , owned_(true)
     {
         data_ = static_cast<float*>(malloc(sizeof(float) * capacity_));
+        if(fill)
+        {
+            for(auto i = 0; i < size_; ++i)
+                data_[i] = 0.0f;
+        }
     }
 
     Buffer::Buffer(float* buffer, size_t size)

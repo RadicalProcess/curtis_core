@@ -9,7 +9,7 @@ namespace rp::curtis
     class Buffer : public IBuffer
     {
     public:
-        Buffer(size_t capacity);
+        Buffer(size_t capacity, bool fill = false);
 
         Buffer(float* buffer, size_t size);
 

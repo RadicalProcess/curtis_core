@@ -15,6 +15,7 @@ add_library(CurtisCore
         source/SegmentDetector.cpp
         source/Granulator.cpp
         source/RandomRange.cpp
+        source/ReadBuffer.cpp
         source/Counter.cpp
         source/Curtis.cpp
         source/CurtisAPI.cpp

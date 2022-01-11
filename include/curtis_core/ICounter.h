@@ -14,7 +14,7 @@ namespace rp::curtis
 
         virtual IRandomRange<size_t>& getRandomRange() = 0;
 
-        virtual void count(const std::function<void()>& onCountEnded) = 0;
+        virtual bool count() = 0;
     };
 
     using CounterPtr = std::unique_ptr<ICounter>;

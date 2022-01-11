@@ -18,6 +18,18 @@ namespace rp::curtis
         EXPECT_TRUE(buffer.owned());
     }
 
+    TEST(UnitTest_Buffer, consrutcion_owned_fill)
+    {
+        auto&& buffer = Buffer(10, true);
+        EXPECT_EQ(10, buffer.size());
+        EXPECT_TRUE(buffer.owned());
+
+        auto* ptr = buffer.getReadPtr();
+        for(auto i = 0; i < 10; ++i)
+        {
+            EXPECT_EQ(0.0f, ptr[i]);
+        }
+    }
     TEST(UnitTest_Buffer, push)
     {
         auto&& buffer = Buffer(3);

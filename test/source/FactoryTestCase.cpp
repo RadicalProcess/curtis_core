@@ -42,7 +42,7 @@ namespace rp::curtis
 
     TEST(UnitTest_Factory, createBuffer_capacity)
     {
-        auto&& buffer = Factory().createBuffer(10);
+        auto&& buffer = Factory().createBuffer(10, false);
 
         ASSERT_THAT(buffer, NotNull());
         EXPECT_THAT(buffer.get(), WhenDynamicCastTo<Buffer*>(NotNull()));
