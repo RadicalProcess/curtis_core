@@ -28,7 +28,6 @@ namespace rp::curtis
         NiceMock<FactoryMock> factoryMock_;
 
         std::unique_ptr<BufferMock> bufferMock_;
-        NiceMock<BufferMock> detectedSegmentMock_;
     };
 
     TEST_F(UnitTest_SegmentBank, construction)
@@ -37,4 +36,36 @@ namespace rp::curtis
         SegmentBank(1, 10, factoryMock_);
     }
 
+    TEST_F(UnitTest_SegmentBank, getLatestCacheIndex)
+    {
+        auto&& segmentBank = SegmentBank(1, 10, factoryMock_);
+        EXPECT_EQ(0, segmentBank.getLatestCacheIndex());
+    }
+
+    TEST_F(UnitTest_SegmentBank, getCache)
+    {
+        auto&& segmentBank = SegmentBank(1, 10);
+        auto&& cache = segmentBank.getCache(0);
+        EXPECT_EQ(10, cache.size());
+        auto* ptr = cache.getReadPtr();
+        for(auto i = 0;i < 10; i++)
+            EXPECT_EQ(0.0f, ptr[i]);
+    }
+
+    TEST_F(UnitTest_SegmentBank, getSegmentDetected)
+    {
+        auto&& segmentBank = SegmentBank(2, 10);
+        auto buffer = Buffer(10, true);
+        buffer.getWritePtr()[0] = 3.0f;
+
+        static_cast<ISegmentDetector::Listener*>(&segmentBank)->onSegmentDetected(buffer);
+        EXPECT_EQ(3.0f, segmentBank.getCache(1).getReadPtr()[0]);
+        EXPECT_EQ(0.0f, segmentBank.getCache(0).getReadPtr()[0]);
+    }
+
+    TEST_F(UnitTest_SegmentBank, size)
+    {
+        auto&& segmentBank = SegmentBank(1, 10);
+        EXPECT_EQ(1, segmentBank.size());
+    }
 }

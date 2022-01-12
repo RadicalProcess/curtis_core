@@ -22,6 +22,7 @@ namespace rp::curtis
     , counter_(factory.createCounter())
     , randomizer_(factory.createRandomizer())
     , glisson_(factory.createGlisson())
+    , latestIndex_(0)
     {
     }
 
@@ -77,7 +78,7 @@ namespace rp::curtis
             if( readBuffer_->advancePlayHead(speed))
             {
                 if(counter_->count())
-                    latestIndex_ = segmentBank_.getLatestCacheIndex().value();
+                    latestIndex_ = segmentBank_.getLatestCacheIndex();
                 glisson_->update();
                 auto target = static_cast<int>(latestIndex_) - static_cast<int>(randomizer_->getValue());
                 readBuffer_->updateBuffer(segmentBank_.getCache(wrap(target, segmentBank_.size())));

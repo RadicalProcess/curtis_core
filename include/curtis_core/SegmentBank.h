@@ -17,7 +17,7 @@ namespace rp::curtis
 
         ~SegmentBank() override = default;
 
-        std::optional<size_t> getLatestCacheIndex() const override;
+        size_t getLatestCacheIndex() const override;
 
         const IBuffer& getCache(size_t index) const override;
 
@@ -27,6 +27,6 @@ namespace rp::curtis
         void onSegmentDetected(const IBuffer& buffer) override;
 
         std::vector<BufferPtr> cache_;
-        std::optional<size_t> latestCache_;
+        size_t latestCache_;
     };
 }

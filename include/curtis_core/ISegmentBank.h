@@ -1,7 +1,6 @@
 #pragma once
 
 #include <memory>
-#include <optional>
 
 #include "IBuffer.h"
 
@@ -12,7 +11,7 @@ namespace rp::curtis
     public:
         virtual ~ISegmentBank() = default;
 
-        virtual std::optional<size_t> getLatestCacheIndex() const = 0;
+        virtual size_t getLatestCacheIndex() const = 0;
 
         virtual const IBuffer& getCache(size_t index) const = 0;
 
