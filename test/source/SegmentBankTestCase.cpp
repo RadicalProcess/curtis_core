@@ -46,10 +46,9 @@ namespace rp::curtis
     {
         auto&& segmentBank = SegmentBank(1, 10);
         auto&& cache = segmentBank.getCache(0);
-        EXPECT_EQ(10, cache.size());
+        EXPECT_EQ(1, cache.size());
         auto* ptr = cache.getReadPtr();
-        for(auto i = 0;i < 10; i++)
-            EXPECT_EQ(0.0f, ptr[i]);
+        EXPECT_EQ(0.0f, ptr[0]);
     }
 
     TEST_F(UnitTest_SegmentBank, getSegmentDetected)

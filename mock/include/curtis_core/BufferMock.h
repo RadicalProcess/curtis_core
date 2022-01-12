@@ -15,6 +15,7 @@ namespace rp::curtis {
         MOCK_METHOD(void, clear, (), (override));
         MOCK_METHOD(void, push, (float value), (override));
         MOCK_METHOD(float, getLast, (), (const, override));
+        MOCK_METHOD(bool, full, (), (const, override));
     };
 
 }  // namespace rp::curtis

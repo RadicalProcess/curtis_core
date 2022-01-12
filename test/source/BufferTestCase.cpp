@@ -21,15 +21,13 @@ namespace rp::curtis
     TEST(UnitTest_Buffer, consrutcion_owned_fill)
     {
         auto&& buffer = Buffer(10, true);
-        EXPECT_EQ(10, buffer.size());
+        EXPECT_EQ(1, buffer.size());
         EXPECT_TRUE(buffer.owned());
 
         auto* ptr = buffer.getReadPtr();
-        for(auto i = 0; i < 10; ++i)
-        {
-            EXPECT_EQ(0.0f, ptr[i]);
-        }
+        EXPECT_EQ(0.0f, *ptr);
     }
+
     TEST(UnitTest_Buffer, push)
     {
         auto&& buffer = Buffer(3);
@@ -75,5 +73,14 @@ namespace rp::curtis
 
         auto&& buffer2 = Buffer(1);
         EXPECT_THROW(buffer2.copyFrom(buffer1), std::out_of_range);
+    }
+
+    TEST(UnitTest_Buffer, full)
+    {
+        auto&& buffer = Buffer(2);
+        buffer.push(11.f);
+        buffer.push(15.f);
+
+        EXPECT_TRUE(buffer.full());
     }
 }

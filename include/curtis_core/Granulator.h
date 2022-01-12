@@ -38,9 +38,6 @@ namespace rp::curtis
         void process(IBuffer& buffer) override;
 
     private:
-
-        void updateSpeed();
-
         const ISegmentBank& segmentBank_;
         ReadBufferPtr readBuffer_;
         CounterPtr counter_;

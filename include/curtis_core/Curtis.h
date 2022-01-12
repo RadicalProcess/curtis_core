@@ -18,7 +18,6 @@ namespace rp::curtis
         Curtis(float sampleRate, const IFactory& factory = Factory());
 
         void setSegmentMinLength(float ms) override;
-        void setSegmentMaxLength(float ms) override;
 
         void setRepeatMin(size_t count) override;
         void setRepeatMax(size_t count) override;

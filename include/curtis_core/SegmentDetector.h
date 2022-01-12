@@ -18,8 +18,6 @@ namespace rp::curtis
 
         void setSegmentMinLength(float ms) override;
 
-        void setSegmentMaxLength(float ms) override;
-
         void addListener(ISegmentDetector::Listener* listener) override;
 
         void removeListener(ISegmentDetector::Listener* listener) override;
@@ -32,11 +30,8 @@ namespace rp::curtis
         const float sampleRate_;
         BufferPtr tempBuffer_;
         size_t minLength_ ;
-        size_t maxLength_;
         PolarityPtr polarity_;
 
         std::set<ISegmentDetector::Listener*> listeners_;
-
-
     };
 }

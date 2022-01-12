@@ -70,14 +70,6 @@ namespace rp::curtis
         curtis.setSegmentMinLength(50);
     }
 
-    TEST_F(UnitTest_Curtis, setSegmentMaxLength)
-    {
-        EXPECT_CALL(*segmentDetectorMockPtr_, setSegmentMaxLength(50));
-
-        auto&& curtis = Curtis(48000.0f, factoryMock_);
-        curtis.setSegmentMaxLength(50);
-    }
-
     TEST_F(UnitTest_Curtis, setRepeatMin)
     {
         EXPECT_CALL(*granulatorMockPtr_, setRepeatMin(5));

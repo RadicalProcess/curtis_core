@@ -21,11 +21,6 @@ extern "C"
         reinterpret_cast<Curtis*>(curtis_core)->setSegmentMinLength(ms);
     }
 
-    void curtis_segment_max_length(CurtisCore* curtis_core, float ms)
-    {
-        reinterpret_cast<Curtis*>(curtis_core)->setSegmentMaxLength(ms);
-    }
-
     void curtis_repeat_min(CurtisCore* curtis_core, uintptr_t count)
     {
         reinterpret_cast<Curtis*>(curtis_core)->setRepeatMin(count);

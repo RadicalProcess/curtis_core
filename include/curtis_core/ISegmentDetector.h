@@ -13,8 +13,6 @@ namespace rp::curtis
         virtual ~ISegmentDetectorParameter() = default;
 
         virtual void setSegmentMinLength(float ms) = 0;
-
-        virtual void setSegmentMaxLength(float ms) = 0;
     };
 
     class ISegmentDetector : public ISegmentDetectorParameter,

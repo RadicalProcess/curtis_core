@@ -24,6 +24,8 @@ namespace rp::curtis
         virtual void push(float value) = 0;
 
         virtual float getLast() const = 0;
+
+        virtual bool full() const = 0;
     };
 
     using BufferPtr = std::unique_ptr<IBuffer>;

@@ -23,11 +23,6 @@ namespace rp::curtis
         segmentDetector_->setSegmentMinLength(ms);
     }
 
-    void Curtis::setSegmentMaxLength(float ms)
-    {
-        segmentDetector_->setSegmentMaxLength(ms);
-    }
-
     void Curtis::setRepeatMin(size_t count)
     {
         granulator_->setRepeatMin(count);

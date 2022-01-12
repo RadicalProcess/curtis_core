@@ -63,7 +63,37 @@ namespace rp::curtis
         buffer.push(1);
 
         EXPECT_CALL(*polarityMockPtr_, set(_, true)).Times(0);
+        EXPECT_CALL(*bufferMockPtr_, full()).Times(1).WillOnce(Return(false));
         EXPECT_CALL(*bufferMockPtr_, clear()).Times(0);
+        EXPECT_CALL(*bufferMockPtr_, push(_)).Times(1);
+
+        segmentDetector.process(buffer);
+    }
+
+    TEST_F(UnitTest_SegmentDetector, process_append_sample_porality_check)
+    {
+        auto&& segmentDetector = SegmentDetector(48000.0f, 4800, factoryMock_);
+        auto&& buffer = Buffer(1);
+        buffer.push(1);
+
+        segmentDetector.setSegmentMinLength(0);
+        EXPECT_CALL(*polarityMockPtr_, set(_, true)).Times(1);
+        EXPECT_CALL(*bufferMockPtr_, full()).Times(1).WillOnce(Return(false));
+        EXPECT_CALL(*bufferMockPtr_, clear()).Times(0);
+        EXPECT_CALL(*bufferMockPtr_, push(_)).Times(1);
+
+        segmentDetector.process(buffer);
+    }
+
+    TEST_F(UnitTest_SegmentDetector, process_append_sample_clear)
+    {
+        auto&& segmentDetector = SegmentDetector(48000.0f, 4800, factoryMock_);
+        auto&& buffer = Buffer(1);
+        buffer.push(1);
+
+        EXPECT_CALL(*polarityMockPtr_, set(_, true)).Times(0);
+        EXPECT_CALL(*bufferMockPtr_, full()).Times(1).WillOnce(Return(true));
+        EXPECT_CALL(*bufferMockPtr_, clear()).Times(1);
         EXPECT_CALL(*bufferMockPtr_, push(_)).Times(1);
 
         segmentDetector.process(buffer);

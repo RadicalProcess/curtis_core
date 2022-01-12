@@ -7,7 +7,7 @@ namespace rp::curtis
 {
 
     Buffer::Buffer(size_t capacity, bool fill)
-    : size_(fill ? capacity : 0 )
+    : size_(fill ? capacity / 10 : 0 ) // fill 1/10 of the buffer
     , capacity_(capacity)
     , owned_(true)
     {
@@ -84,7 +84,10 @@ namespace rp::curtis
         return data_[size_ - 1];
     }
 
-
+    bool Buffer::full() const
+    {
+        return capacity_ == size_;
+    }
 
 
 }
