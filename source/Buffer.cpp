@@ -89,5 +89,11 @@ namespace rp::curtis
         return capacity_ == size_;
     }
 
-
+    void Buffer::applyGain(float gain)
+    {
+        auto i = size_;
+        auto* ptr = data_;
+        while(i--)
+            *ptr++ *= gain;
+    }
 }

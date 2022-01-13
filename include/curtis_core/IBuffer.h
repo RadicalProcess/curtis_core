@@ -26,6 +26,8 @@ namespace rp::curtis
         virtual float getLast() const = 0;
 
         virtual bool full() const = 0;
+
+        virtual void applyGain(float gain) = 0;
     };
 
     using BufferPtr = std::unique_ptr<IBuffer>;

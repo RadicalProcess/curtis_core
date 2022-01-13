@@ -20,6 +20,7 @@ add_library(CurtisCore
         source/Counter.cpp
         source/Curtis.cpp
         source/CurtisAPI.cpp
+        source/Panner.cpp
         )
 
 add_library(rp::CurtisCore ALIAS CurtisCore)

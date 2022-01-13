@@ -83,4 +83,17 @@ namespace rp::curtis
 
         EXPECT_TRUE(buffer.full());
     }
+
+    TEST(UnitTest_Buffer, applyGain)
+    {
+        auto&& buffer = Buffer(2);
+        buffer.push(1.f);
+        buffer.push(1.f);
+
+        buffer.applyGain(0.5f);
+
+        EXPECT_EQ(1.0f * 0.5f, buffer.getReadPtr()[0]);
+        EXPECT_EQ(1.0f * 0.5f, buffer.getReadPtr()[1]);
+    }
+
 }

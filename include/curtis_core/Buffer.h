@@ -32,6 +32,9 @@ namespace rp::curtis
         float getLast() const override;
 
         bool full() const override;
+
+        void applyGain(float gain) override;
+
     private:
         float* data_;
         size_t size_;

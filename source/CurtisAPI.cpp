@@ -36,9 +36,9 @@ extern "C"
         reinterpret_cast<Curtis*>(curtis_core)->setRandomRange(range);
     }
 
-    void curtis_density(CurtisCore* curtis_core, float diffusion)
+    void curtis_density(CurtisCore* curtis_core, float density)
     {
-
+        reinterpret_cast<Curtis*>(curtis_core)->setDensity(density);
     }
 
     void curtis_glisson_enabled(CurtisCore* curtis_core, bool enabled)
