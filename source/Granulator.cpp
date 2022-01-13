@@ -22,8 +22,14 @@ namespace rp::curtis
     , counter_(factory.createCounter())
     , randomizer_(factory.createRandomizer())
     , glisson_(factory.createGlisson())
+    , density_(factory.createDensity())
     , latestIndex_(0)
     {
+    }
+
+    void Granulator::setDensity(int percentage)
+    {
+        density_->set(percentage);
     }
 
     void Granulator::setRepeatMin(size_t count)
@@ -72,13 +78,16 @@ namespace rp::curtis
         auto sampleCount = buffer.size();
         while(sampleCount--)
         {
-            *destPtr++ = readBuffer_->getSample();
+            *destPtr++ = density_->get() ? readBuffer_->getSample() : 0.0f;
             const auto phase = readBuffer_->getPhase();
             const auto speed = glisson_->getSpeedAt(phase);
             if( readBuffer_->advancePlayHead(speed))
             {
                 if(counter_->count())
+                {
                     latestIndex_ = segmentBank_.getLatestCacheIndex();
+                }
+                density_->roll();
                 glisson_->update();
                 auto target = static_cast<int>(latestIndex_) - static_cast<int>(randomizer_->getValue());
                 readBuffer_->updateBuffer(segmentBank_.getCache(wrap(target, segmentBank_.size())));

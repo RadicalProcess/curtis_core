@@ -36,6 +36,11 @@ extern "C"
         reinterpret_cast<Curtis*>(curtis_core)->setRandomRange(range);
     }
 
+    void curtis_density(CurtisCore* curtis_core, float diffusion)
+    {
+
+    }
+
     void curtis_glisson_enabled(CurtisCore* curtis_core, bool enabled)
     {
         reinterpret_cast<Curtis*>(curtis_core)->setGlissonEnabled(enabled);
@@ -59,6 +64,11 @@ extern "C"
     void curtis_end_max_speed(CurtisCore* curtis_core, float speed)
     {
         reinterpret_cast<Curtis*>(curtis_core)->setEndMaxSpeed(speed);
+    }
+
+    void curtis_diffusion(CurtisCore* curtis_core, float diffusion)
+    {
+
     }
 
     void curtis_process(CurtisCore* curtis_core, float* buffer, uintptr_t block_size)

@@ -9,6 +9,7 @@
 #include "Randomizer.h"
 #include "Counter.h"
 #include "ReadBuffer.h"
+#include "Density.h"
 
 namespace rp::curtis
 {
@@ -70,5 +71,10 @@ namespace rp::curtis
     ReadBufferPtr Factory::createReadBuffer(size_t maxBufferSize) const
     {
         return std::make_unique<ReadBuffer>(maxBufferSize);
+    }
+
+    DensityPtr Factory::createDensity() const
+    {
+        return std::make_unique<Density>();
     }
 }

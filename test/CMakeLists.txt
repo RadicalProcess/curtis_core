@@ -2,6 +2,7 @@
 add_executable(CurtisCoreTestHost
         source/BufferTestCase.cpp
         source/CurtisTestCase.cpp
+        source/DensityTestCase.cpp
         source/FactoryTestCase.cpp
         source/GranulatorTestCase.cpp
         source/GlissonTestCase.cpp

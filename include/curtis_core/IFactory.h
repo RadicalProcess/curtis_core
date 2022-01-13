@@ -11,6 +11,7 @@
 #include "IRandomizer.h"
 #include "ICounter.h"
 #include "IReadBuffer.h"
+#include "IDensity.h"
 
 namespace rp::curtis
 {
@@ -42,6 +43,8 @@ namespace rp::curtis
         virtual CounterPtr createCounter() const = 0;
 
         virtual ReadBufferPtr createReadBuffer(size_t maxBufferSize) const = 0;
+
+        virtual DensityPtr createDensity() const = 0;
     };
 
     using FactoryPtr = std::unique_ptr<IFactory>;

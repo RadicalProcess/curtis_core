@@ -19,6 +19,8 @@ namespace rp::curtis
 
         void setSegmentMinLength(float ms) override;
 
+        void setDensity(int percentage) override;
+
         void setRepeatMin(size_t count) override;
         void setRepeatMax(size_t count) override;
         void setRandomRange(size_t range) override;

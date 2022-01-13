@@ -8,6 +8,7 @@
 #include <curtis_core/CounterMock.h>
 #include <curtis_core/ReadBufferMock.h>
 #include <curtis_core/RandomizerMock.h>
+#include <curtis_core/DensityMock.h>
 
 #include <curtis_core/Granulator.h>
 
@@ -32,6 +33,9 @@ namespace rp::curtis
             randomizerMock_ = std::make_unique<NiceMock<RandomizerMock>>();
             randomizerMockPtr_ = randomizerMock_.get();
 
+            densityMock_ = std::make_unique<NiceMock<DensityMock>>();
+            densityMockPtr_ = densityMock_.get();
+
             ON_CALL(factoryMock_, createGlisson())
                 .WillByDefault(Return(ByMove(std::move(glissonMock_))));
 
@@ -43,6 +47,9 @@ namespace rp::curtis
 
             ON_CALL(factoryMock_, createRandomizer())
                     .WillByDefault((Return(ByMove(std::move(randomizerMock_)))));
+
+            ON_CALL(factoryMock_, createDensity())
+                    .WillByDefault((Return(ByMove(std::move(densityMock_)))));
 
             ON_CALL(*glissonMockPtr_, getStartRandomRange())
                 .WillByDefault(ReturnRef(startRandomRangeMock_));
@@ -66,6 +73,7 @@ namespace rp::curtis
             glissonMock_ = nullptr;
             counterMock_ = nullptr;
             readBufferMock_ = nullptr;
+            densityMock_ = nullptr;
         }
 
     protected:
@@ -80,11 +88,13 @@ namespace rp::curtis
         std::unique_ptr<CounterMock> counterMock_;
         std::unique_ptr<ReadBufferMock> readBufferMock_;
         std::unique_ptr<RandomizerMock> randomizerMock_;
+        std::unique_ptr<DensityMock> densityMock_;
 
         GlissonMock* glissonMockPtr_;
         CounterMock* counterMockPtr_;
         ReadBufferMock* readBufferMockPtr_;
         RandomizerMock* randomizerMockPtr_;
+        DensityMock* densityMockPtr_;
         std::vector<float> dummyBuffer_;
     };
 
@@ -134,9 +144,24 @@ namespace rp::curtis
     {
         auto&& granulator = Granulator(segmentBankMock_, 0, factoryMock_);
 
+        EXPECT_CALL(*densityMockPtr_, get()).WillOnce(Return(true));
         EXPECT_CALL(bufferMock_, getWritePtr());
         EXPECT_CALL(bufferMock_, size()).WillOnce(Return(1));
         EXPECT_CALL(*readBufferMockPtr_, getSample()).WillOnce(Return(0.5f));
+        EXPECT_CALL(*readBufferMockPtr_, getPhase()).WillOnce(Return(0.5f));
+        EXPECT_CALL(*glissonMockPtr_, getSpeedAt(0.5f)).WillOnce(Return(1.0f));
+        EXPECT_CALL(*readBufferMockPtr_, advancePlayHead(1.0f)).WillOnce(Return(false));
+        granulator.process(bufferMock_);
+    }
+
+    TEST_F(UnitTest_Granulator, process_grain_muted)
+    {
+        auto&& granulator = Granulator(segmentBankMock_, 0, factoryMock_);
+
+        EXPECT_CALL(*densityMockPtr_, get()).WillOnce(Return(false));
+        EXPECT_CALL(bufferMock_, getWritePtr());
+        EXPECT_CALL(bufferMock_, size()).WillOnce(Return(1));
+        EXPECT_CALL(*readBufferMockPtr_, getSample()).Times(0);
         EXPECT_CALL(*readBufferMockPtr_, getPhase()).WillOnce(Return(0.5f));
         EXPECT_CALL(*glissonMockPtr_, getSpeedAt(0.5f)).WillOnce(Return(1.0f));
         EXPECT_CALL(*readBufferMockPtr_, advancePlayHead(1.0f)).WillOnce(Return(false));
@@ -169,6 +194,7 @@ namespace rp::curtis
         ON_CALL(*counterMockPtr_, count()).WillByDefault(Return(true));
 
         EXPECT_CALL(segmentBankMock_, getLatestCacheIndex()).WillOnce(Return(2));
+        EXPECT_CALL(*densityMockPtr_, roll());
         EXPECT_CALL(*glissonMockPtr_, update());
         EXPECT_CALL(*randomizerMockPtr_, getValue()).WillOnce(Return(1));
         EXPECT_CALL(segmentBankMock_, size()).WillOnce(Return(1));

@@ -6,6 +6,7 @@ namespace rp::curtis {
 
     class GranulatorMock : public IGranulator {
     public:
+        MOCK_METHOD(void, setDensity, (int percentage), (override));
         MOCK_METHOD(void, setRepeatMin, (size_t count), (override));
         MOCK_METHOD(void, setRepeatMax, (size_t count), (override));
         MOCK_METHOD(void, setRandomRange, (size_t range), (override));

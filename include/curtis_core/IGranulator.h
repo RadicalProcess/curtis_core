@@ -10,6 +10,7 @@ namespace rp::curtis
     {
     public:
         virtual ~IGranulatorParameter() = default;
+        virtual  void setDensity(int percentage) = 0;
 
         virtual void setRepeatMin(size_t count) = 0;
         virtual void setRepeatMax(size_t count) = 0;

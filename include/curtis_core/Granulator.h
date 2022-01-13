@@ -19,6 +19,8 @@ namespace rp::curtis
 
         ~Granulator() override = default;
 
+        void setDensity(int percentage) override;
+
         void setRepeatMin(size_t count) override;
 
         void setRepeatMax(size_t count) override;
@@ -43,6 +45,7 @@ namespace rp::curtis
         CounterPtr counter_;
         RandomizerPtr randomizer_;
         GlissonPtr glisson_;
+        DensityPtr density_;
         size_t latestIndex_;
     };
 }

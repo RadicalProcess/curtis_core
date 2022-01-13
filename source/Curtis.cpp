@@ -23,6 +23,11 @@ namespace rp::curtis
         segmentDetector_->setSegmentMinLength(ms);
     }
 
+    void Curtis::setDensity(int percentage)
+    {
+        granulator_->setDensity(percentage);
+    }
+
     void Curtis::setRepeatMin(size_t count)
     {
         granulator_->setRepeatMin(count);
@@ -68,4 +73,6 @@ namespace rp::curtis
         segmentDetector_->process(buffer);
         granulator_->process(buffer);
     }
+
+
 }

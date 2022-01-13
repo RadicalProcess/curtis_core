@@ -8,6 +8,7 @@ add_subdirectory(mock)
 add_library(CurtisCore
         source/Buffer.cpp
         source/Factory.cpp
+        source/Density.cpp
         source/Glisson.cpp
         source/Polarity.cpp
         source/Randomizer.cpp
