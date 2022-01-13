@@ -13,7 +13,6 @@ CurtisCore *curtis_create(float sampleRate);
 void curtis_destroy(CurtisCore *curtis);
 
 void curtis_segment_min_length(CurtisCore* curtis_core, float ms);
-void curtis_segment_max_length(CurtisCore* curtis_core, float ms);
 void curtis_repeat_min(CurtisCore* curtis_core, uintptr_t count);
 void curtis_repeat_max(CurtisCore* curtis_core, uintptr_t count);
 void curtis_random_range(CurtisCore* curtis_core, uintptr_t range);
