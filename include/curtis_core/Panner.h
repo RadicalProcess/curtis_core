@@ -13,7 +13,7 @@ namespace rp::curtis
 
         void set(float position) override;
 
-        void process(const IBuffer& inlet, IBuffer& left, IBuffer& right) override;
+        void process(IBuffer& inputLeft, IBuffer& right) override;
 
     private:
         float position_;

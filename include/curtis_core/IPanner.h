@@ -12,7 +12,7 @@ namespace rp::curtis
 
         virtual void set(float position) = 0;
 
-        virtual void process(const IBuffer& inlet, IBuffer& left, IBuffer& right);
+        virtual void process(IBuffer& inletLeft, IBuffer& right) = 0;
     };
 
     using PannerPtr = std::unique_ptr<IPanner>;

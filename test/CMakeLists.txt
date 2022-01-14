@@ -6,6 +6,7 @@ add_executable(CurtisCoreTestHost
         source/FactoryTestCase.cpp
         source/GranulatorTestCase.cpp
         source/GlissonTestCase.cpp
+        source/PannerTestCase.cpp
         source/PolarityTestCase.cpp
         source/RandomRangeTestCase.cpp
         source/RandomizerTestCase.cpp

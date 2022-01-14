@@ -12,6 +12,8 @@
 #include "ICounter.h"
 #include "IReadBuffer.h"
 #include "IDensity.h"
+#include "IInputMix.h"
+#include "IPanner.h"
 
 namespace rp::curtis
 {
@@ -45,6 +47,10 @@ namespace rp::curtis
         virtual ReadBufferPtr createReadBuffer(size_t maxBufferSize) const = 0;
 
         virtual DensityPtr createDensity() const = 0;
+
+        virtual InputMixPtr createInputMix() const = 0;
+
+        virtual PannerPtr createPanner() const = 0;
     };
 
     using FactoryPtr = std::unique_ptr<IFactory>;

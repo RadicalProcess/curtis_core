@@ -10,6 +10,8 @@
 #include "Counter.h"
 #include "ReadBuffer.h"
 #include "Density.h"
+#include "InputMix.h"
+#include "Panner.h"
 
 namespace rp::curtis
 {
@@ -76,5 +78,15 @@ namespace rp::curtis
     DensityPtr Factory::createDensity() const
     {
         return std::make_unique<Density>();
+    }
+
+    InputMixPtr Factory::createInputMix() const
+    {
+        return std::make_unique<InputMix>();
+    }
+
+    PannerPtr Factory::createPanner() const
+    {
+        return std::make_unique<Panner>();
     }
 }

@@ -23,7 +23,7 @@ void curtis_start_max_speed(CurtisCore* curtis_core, float speed);
 void curtis_end_min_speed(CurtisCore* curtis_core, float speed);
 void curtis_end_max_speed(CurtisCore* curtis_core, float speed);
 void curtis_diffusion(CurtisCore* curtis_core, float diffusion);
-void curtis_process(CurtisCore *curtis, float *buffer, uintptr_t block_size);
+void curtis_process(CurtisCore *curtis, float **buffer, uintptr_t block_size);
 
 #ifdef __cplusplus
 } // extern "C"

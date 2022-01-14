@@ -4,7 +4,7 @@
 #include "Buffer.h"
 #include "ISegmentBank.h"
 #include "ISegmentDetector.h"
-#include "IProcessor.h"
+#include "IStereoProcessor.h"
 #include "IGranulator.h"
 #include "Factory.h"
 
@@ -12,7 +12,7 @@ namespace rp::curtis
 {
     class Curtis : public ISegmentDetectorParameter,
                    public IGranulatorParameter,
-                   public IProcessor
+                   public IStereoProcessor
     {
     public:
         Curtis(float sampleRate, const IFactory& factory = Factory());
@@ -31,9 +31,10 @@ namespace rp::curtis
         void setEndMinSpeed(float speed) override;
         void setEndMaxSpeed(float speed) override;
 
-        void process(IBuffer& buffer) override;
+        void process(IBuffer& left, IBuffer& right) override;
 
     private:
+        InputMixPtr inputMix_;
         SegmentBankPtr segmentBank_;
         SegmentDetectorPtr segmentDetector_;
         GranulatorPtr granulator_;

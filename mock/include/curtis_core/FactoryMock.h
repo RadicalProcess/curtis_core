@@ -20,6 +20,8 @@ namespace rp::curtis {
         MOCK_METHOD(CounterPtr, createCounter, (), (const, override));
         MOCK_METHOD(ReadBufferPtr, createReadBuffer, (size_t maxBufferSize), (const, override));
         MOCK_METHOD(DensityPtr, createDensity, (), (const, override));
+        MOCK_METHOD(InputMixPtr, createInputMix, (), (const, override));
+        MOCK_METHOD(PannerPtr, createPanner, (), (const, override));
     };
 
 }  // namespace rp::curtis

@@ -1,6 +1,7 @@
 #pragma once
 
 #include <memory>
+#include "IStereoProcessor.h"
 
 namespace rp::curtis
 {
@@ -12,12 +13,11 @@ namespace rp::curtis
         virtual void setMix(float mix) = 0;
     };
 
-    class IInputMix
+    class IInputMix : public IInputMixParameter,
+                      public IStereoProcessor
     {
     public:
         virtual ~IInputMix() = default;
-
-        virtual void process(const IBuffer& left, const IBuffer& right, IBuffer& output);
     };
 
     using InputMixPtr = std::unique_ptr<IInputMix>;

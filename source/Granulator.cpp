@@ -72,10 +72,10 @@ namespace rp::curtis
         glisson_->getEndRandomRange().setMax(speed);
     }
 
-    void Granulator::process(IBuffer& buffer)
+    void Granulator::process(IBuffer& leftBuffer, IBuffer& rightBuffer)
     {
-        auto* destPtr = buffer.getWritePtr();
-        auto sampleCount = buffer.size();
+        auto* destPtr = leftBuffer.getWritePtr();
+        auto sampleCount = leftBuffer.size();
         while(sampleCount--)
         {
             *destPtr++ = density_->get() ? readBuffer_->getSample() : 0.0f;

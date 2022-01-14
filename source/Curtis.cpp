@@ -11,7 +11,8 @@ namespace rp::curtis
     }
 
     Curtis::Curtis(float sampleRate, const IFactory& factory)
-    : segmentBank_(factory.createSegmentBank(32, calcMaxBufferSize(sampleRate)))
+    : inputMix_(factory.createInputMix())
+    , segmentBank_(factory.createSegmentBank(32, calcMaxBufferSize(sampleRate)))
     , segmentDetector_(factory.createSegmentDetector(sampleRate, calcMaxBufferSize(sampleRate)))
     , granulator_(factory.createGranulator(*segmentBank_, calcMaxBufferSize(sampleRate)))
     {
@@ -68,11 +69,10 @@ namespace rp::curtis
         granulator_->setEndMaxSpeed(speed);
     }
 
-    void Curtis::process(IBuffer& buffer)
+    void Curtis::process(IBuffer& left, IBuffer& right)
     {
-        segmentDetector_->process(buffer);
-        granulator_->process(buffer);
+        inputMix_->process(left, right);
+        segmentDetector_->process(left);
+        granulator_->process(left, right);
     }
-
-
 }

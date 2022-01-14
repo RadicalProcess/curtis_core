@@ -15,7 +15,7 @@ namespace rp::curtis {
         MOCK_METHOD(void, setStartMaxSpeed, (float speed), (override));
         MOCK_METHOD(void, setEndMinSpeed, (float speed), (override));
         MOCK_METHOD(void, setEndMaxSpeed, (float speed), (override));
-        MOCK_METHOD(void, process, (IBuffer& buffer), (override));
+        MOCK_METHOD(void, process, (IBuffer& left, IBuffer& right), (override));
     };
 
 }  // namespace rp::curtis

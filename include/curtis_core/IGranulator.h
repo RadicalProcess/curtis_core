@@ -2,7 +2,7 @@
 
 #include <memory>
 
-#include "IProcessor.h"
+#include "IStereoProcessor.h"
 
 namespace rp::curtis
 {
@@ -25,7 +25,7 @@ namespace rp::curtis
     };
 
     class IGranulator : public IGranulatorParameter
-                      , public IProcessor
+                      , public IStereoProcessor
     {
     public:
         virtual ~IGranulator() = default;

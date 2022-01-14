@@ -71,9 +71,11 @@ extern "C"
 
     }
 
-    void curtis_process(CurtisCore* curtis_core, float* buffer, uintptr_t block_size)
+    void curtis_process(CurtisCore* curtis_core, float** buffer, uintptr_t block_size)
     {
-        auto&& buf = Buffer(buffer, block_size);
-        reinterpret_cast<Curtis*>(curtis_core)->process(buf);
+        auto&& left = Buffer(buffer[0], block_size);
+        auto&& right = Buffer(buffer[0], block_size);
+
+        reinterpret_cast<Curtis*>(curtis_core)->process(left, right);
     }
 }

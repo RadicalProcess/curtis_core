@@ -1,7 +1,6 @@
 #pragma once
 
 #include "IFactory.h"
-#include "IDensity.h"
 
 namespace rp::curtis
 {
@@ -35,5 +34,9 @@ namespace rp::curtis
         ReadBufferPtr createReadBuffer(size_t maxBufferSize) const override;
 
         DensityPtr createDensity() const override;
+
+        InputMixPtr createInputMix() const override;
+
+        PannerPtr createPanner() const override;
     };
 }

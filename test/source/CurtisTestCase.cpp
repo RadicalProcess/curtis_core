@@ -49,7 +49,7 @@ namespace rp::curtis
         SegmentDetectorMock* segmentDetectorMockPtr_;
         GranulatorMock* granulatorMockPtr_;
 
-        NiceMock<BufferMock> bufferMock_;
+        NiceMock<BufferMock> bufferLeftMock_, bufferRightMock_;
     };
 
     TEST_F(UnitTest_Curtis, construction)
@@ -139,11 +139,11 @@ namespace rp::curtis
         {
             InSequence seq;
             EXPECT_CALL(*segmentDetectorMockPtr_, process(_));
-            EXPECT_CALL(*granulatorMockPtr_, process(_));
+            EXPECT_CALL(*granulatorMockPtr_, process(_, _));
         }
 
         auto&& curtis = Curtis(48000.0f, factoryMock_);
-        curtis.process(bufferMock_);
+        curtis.process(bufferLeftMock_, bufferRightMock_);
     }
 }
 

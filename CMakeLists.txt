@@ -21,6 +21,7 @@ add_library(CurtisCore
         source/Curtis.cpp
         source/CurtisAPI.cpp
         source/Panner.cpp
+        source/InputMix.cpp
         )
 
 add_library(rp::CurtisCore ALIAS CurtisCore)

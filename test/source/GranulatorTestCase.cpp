@@ -61,10 +61,10 @@ namespace rp::curtis
                     .WillByDefault(ReturnRef(counterRandomRangeMock_));
 
             dummyBuffer_.resize(1, 0.0f);
-            ON_CALL(bufferMock_, getWritePtr())
+            ON_CALL(leftBufferMock_, getWritePtr())
                     .WillByDefault(Return(dummyBuffer_.data()));
 
-            ON_CALL(bufferMock_, size())
+            ON_CALL(leftBufferMock_, size())
                     .WillByDefault(Return(1));
         }
 
@@ -79,7 +79,7 @@ namespace rp::curtis
     protected:
         NiceMock<SegmentBankMock> segmentBankMock_;
         NiceMock<FactoryMock> factoryMock_;
-        NiceMock<BufferMock> bufferMock_;
+        NiceMock<BufferMock> leftBufferMock_, rightBufferMock_;
         NiceMock<RandomRangeMock<float>> startRandomRangeMock_;
         NiceMock<RandomRangeMock<float>> endRandomRangeMock_;
         NiceMock<RandomRangeMock<size_t>> counterRandomRangeMock_;
@@ -145,13 +145,13 @@ namespace rp::curtis
         auto&& granulator = Granulator(segmentBankMock_, 0, factoryMock_);
 
         EXPECT_CALL(*densityMockPtr_, get()).WillOnce(Return(true));
-        EXPECT_CALL(bufferMock_, getWritePtr());
-        EXPECT_CALL(bufferMock_, size()).WillOnce(Return(1));
+        EXPECT_CALL(leftBufferMock_, getWritePtr());
+        EXPECT_CALL(leftBufferMock_, size()).WillOnce(Return(1));
         EXPECT_CALL(*readBufferMockPtr_, getSample()).WillOnce(Return(0.5f));
         EXPECT_CALL(*readBufferMockPtr_, getPhase()).WillOnce(Return(0.5f));
         EXPECT_CALL(*glissonMockPtr_, getSpeedAt(0.5f)).WillOnce(Return(1.0f));
         EXPECT_CALL(*readBufferMockPtr_, advancePlayHead(1.0f)).WillOnce(Return(false));
-        granulator.process(bufferMock_);
+        granulator.process(leftBufferMock_, rightBufferMock_);
     }
 
     TEST_F(UnitTest_Granulator, process_grain_muted)
@@ -159,13 +159,13 @@ namespace rp::curtis
         auto&& granulator = Granulator(segmentBankMock_, 0, factoryMock_);
 
         EXPECT_CALL(*densityMockPtr_, get()).WillOnce(Return(false));
-        EXPECT_CALL(bufferMock_, getWritePtr());
-        EXPECT_CALL(bufferMock_, size()).WillOnce(Return(1));
+        EXPECT_CALL(leftBufferMock_, getWritePtr());
+        EXPECT_CALL(leftBufferMock_, size()).WillOnce(Return(1));
         EXPECT_CALL(*readBufferMockPtr_, getSample()).Times(0);
         EXPECT_CALL(*readBufferMockPtr_, getPhase()).WillOnce(Return(0.5f));
         EXPECT_CALL(*glissonMockPtr_, getSpeedAt(0.5f)).WillOnce(Return(1.0f));
         EXPECT_CALL(*readBufferMockPtr_, advancePlayHead(1.0f)).WillOnce(Return(false));
-        granulator.process(bufferMock_);
+        granulator.process(leftBufferMock_,  rightBufferMock_);
     }
 
     TEST_F(UnitTest_Granulator, process_playhead_reaches_the_end)
@@ -179,10 +179,10 @@ namespace rp::curtis
         EXPECT_CALL(*glissonMockPtr_, update());
         EXPECT_CALL(*randomizerMockPtr_, getValue()).WillOnce(Return(0));
         EXPECT_CALL(segmentBankMock_, size()).WillOnce(Return(1));
-        EXPECT_CALL(segmentBankMock_, getCache(_)).WillOnce(ReturnRef(bufferMock_));
+        EXPECT_CALL(segmentBankMock_, getCache(_)).WillOnce(ReturnRef(leftBufferMock_));
         EXPECT_CALL(*readBufferMockPtr_, updateBuffer(_));
 
-        granulator.process(bufferMock_);
+        granulator.process(leftBufferMock_,  rightBufferMock_);
     }
 
     TEST_F(UnitTest_Granulator, process_playhead_reaches_the_end_count_reaches_end)
@@ -198,9 +198,9 @@ namespace rp::curtis
         EXPECT_CALL(*glissonMockPtr_, update());
         EXPECT_CALL(*randomizerMockPtr_, getValue()).WillOnce(Return(1));
         EXPECT_CALL(segmentBankMock_, size()).WillOnce(Return(1));
-        EXPECT_CALL(segmentBankMock_, getCache(1)).WillOnce(ReturnRef(bufferMock_));
+        EXPECT_CALL(segmentBankMock_, getCache(1)).WillOnce(ReturnRef(leftBufferMock_));
         EXPECT_CALL(*readBufferMockPtr_, updateBuffer(_));
 
-        granulator.process(bufferMock_);
+        granulator.process(leftBufferMock_, rightBufferMock_);
     }
 }
