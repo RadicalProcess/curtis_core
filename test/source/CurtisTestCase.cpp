@@ -9,6 +9,7 @@
 #include <curtis_core/CounterMock.h>
 #include <curtis_core/RandomRangeMock.h>
 #include <curtis_core/GlissonMock.h>
+#include <curtis_core/PannerMock.h>
 
 #include <curtis_core/Curtis.h>
 
@@ -69,6 +70,7 @@ namespace rp::curtis
 
         NiceMock<CounterMock> counterMock_;
         NiceMock<GlissonMock> glissonMock_;
+        NiceMock<PannerMock> pannerMock_;
     };
 
     TEST_F(UnitTest_Curtis, construction)
@@ -193,6 +195,46 @@ namespace rp::curtis
 
         auto&& curtis = Curtis(48000.0f, factoryMock_);
         curtis.setEndMaxSpeed(1.5f);
+    }
+
+    TEST_F(UnitTest_Curtis, setStartLeft)
+    {
+        EXPECT_CALL(*granulatorMockPtr_, getPanner())
+                .WillOnce(ReturnRef(pannerMock_));
+        EXPECT_CALL(pannerMock_, setStartLeft(-0.5f));
+
+        auto&& curtis = Curtis(48000.0f, factoryMock_);
+        curtis.setStartLeft(-0.5f);
+    }
+
+    TEST_F(UnitTest_Curtis, setStartRight)
+    {
+        EXPECT_CALL(*granulatorMockPtr_, getPanner())
+                .WillOnce(ReturnRef(pannerMock_));
+        EXPECT_CALL(pannerMock_, setStartRight(0.5f));
+
+        auto&& curtis = Curtis(48000.0f, factoryMock_);
+        curtis.setStartRight(0.5f);
+    }
+
+    TEST_F(UnitTest_Curtis, setEndLeft)
+    {
+        EXPECT_CALL(*granulatorMockPtr_, getPanner())
+                .WillOnce(ReturnRef(pannerMock_));
+        EXPECT_CALL(pannerMock_, setEndLeft(-0.5f));
+
+        auto&& curtis = Curtis(48000.0f, factoryMock_);
+        curtis.setEndLeft(-0.5f);
+    }
+
+    TEST_F(UnitTest_Curtis, setEndRight)
+    {
+        EXPECT_CALL(*granulatorMockPtr_, getPanner())
+                .WillOnce(ReturnRef(pannerMock_));
+        EXPECT_CALL(pannerMock_, setEndRight(0.5f));
+
+        auto&& curtis = Curtis(48000.0f, factoryMock_);
+        curtis.setEndRight(0.5f);
     }
 
     TEST_F(UnitTest_Curtis, process)

@@ -74,6 +74,26 @@ namespace rp::curtis
         granulator_->getGlisson().getEndRandomRange().setMax(speed);
     }
 
+    void Curtis::setStartLeft(float position)
+    {
+        granulator_->getPanner().setStartLeft(position);
+    }
+
+    void Curtis::setStartRight(float position)
+    {
+        granulator_->getPanner().setStartRight(position);
+    }
+
+    void Curtis::setEndLeft(float position)
+    {
+        granulator_->getPanner().setEndLeft(position);
+    }
+
+    void Curtis::setEndRight(float position)
+    {
+        granulator_->getPanner().setEndRight(position);
+    }
+
     void Curtis::process(IBuffer& left, IBuffer& right)
     {
         inputMix_->process(left, right);

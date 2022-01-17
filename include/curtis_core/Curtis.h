@@ -33,6 +33,11 @@ namespace rp::curtis
         void setEndMinSpeed(float speed);
         void setEndMaxSpeed(float speed);
 
+        void setStartLeft(float position);
+        void setStartRight(float position);
+        void setEndLeft(float position);
+        void setEndRight(float position);
+
         void process(IBuffer& left, IBuffer& right) override;
 
     private:
