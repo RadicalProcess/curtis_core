@@ -8,7 +8,10 @@
 #include "IRandomRange.h"
 #include "IRandomizer.h"
 #include "ICounter.h"
+#include "IPanner.h"
+
 #include "Factory.h"
+
 
 namespace rp::curtis
 {
@@ -37,7 +40,10 @@ namespace rp::curtis
 
         void setEndMaxSpeed(float speed) override;
 
+        IPannerParameter& getPanner() override;
+
         void process(IBuffer& left, IBuffer& right) override;
+
 
     private:
         const ISegmentBank& segmentBank_;
@@ -46,6 +52,7 @@ namespace rp::curtis
         RandomizerPtr randomizer_;
         GlissonPtr glisson_;
         DensityPtr density_;
+        PannerPtr panner_;
         size_t latestIndex_;
     };
 }

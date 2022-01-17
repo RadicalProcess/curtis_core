@@ -6,16 +6,22 @@
 #include "ISegmentDetector.h"
 #include "IStereoProcessor.h"
 #include "IGranulator.h"
+#include "IInputMix.h"
 #include "Factory.h"
 
 namespace rp::curtis
 {
     class Curtis : public ISegmentDetectorParameter,
                    public IGranulatorParameter,
+                   public IInputMixParameter,
                    public IStereoProcessor
     {
     public:
         Curtis(float sampleRate, const IFactory& factory = Factory());
+
+        ~Curtis() override= default;
+
+        void setMix(float mix) override;
 
         void setSegmentMinLength(float ms) override;
 

@@ -3,6 +3,7 @@
 #include <memory>
 
 #include "IStereoProcessor.h"
+#include "IPanner.h"
 
 namespace rp::curtis
 {
@@ -22,6 +23,7 @@ namespace rp::curtis
         virtual void setStartMaxSpeed(float speed) = 0;
         virtual void setEndMinSpeed(float speed) = 0;
         virtual void setEndMaxSpeed(float speed) = 0;
+
     };
 
     class IGranulator : public IGranulatorParameter
@@ -29,6 +31,8 @@ namespace rp::curtis
     {
     public:
         virtual ~IGranulator() = default;
+
+        virtual IPannerParameter& getPanner() = 0;
     };
 
     using GranulatorPtr = std::unique_ptr<IGranulator>;

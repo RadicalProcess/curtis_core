@@ -11,11 +11,25 @@ namespace rp::curtis
 
         ~Panner() = default;
 
-        void set(float position) override;
+        void setStartLeft(float position) override;
 
-        void process(IBuffer& inputLeft, IBuffer& right) override;
+        void setStartRight(float position) override;
+
+        void setEndLeft(float position) override;
+
+        void setEndRight(float position) override;
+
+        void update() override;
+
+        std::pair<float, float> getGainAt(float phase) const override;
 
     private:
-        float position_;
+        float startLeft_;
+        float startRight_;
+        float endLeft_;
+        float endRight_;
+
+        float start_;
+        float end_;
     };
 }

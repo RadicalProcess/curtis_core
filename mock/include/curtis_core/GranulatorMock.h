@@ -1,5 +1,7 @@
 #pragma once
 
+#include <gmock/gmock.h>
+
 #include <curtis_core/IGranulator.h>
 
 namespace rp::curtis {
@@ -15,6 +17,7 @@ namespace rp::curtis {
         MOCK_METHOD(void, setStartMaxSpeed, (float speed), (override));
         MOCK_METHOD(void, setEndMinSpeed, (float speed), (override));
         MOCK_METHOD(void, setEndMaxSpeed, (float speed), (override));
+        MOCK_METHOD(IPannerParameter&, getPanner, (), (override));
         MOCK_METHOD(void, process, (IBuffer& left, IBuffer& right), (override));
     };
 

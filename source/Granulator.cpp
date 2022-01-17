@@ -23,6 +23,7 @@ namespace rp::curtis
     , randomizer_(factory.createRandomizer())
     , glisson_(factory.createGlisson())
     , density_(factory.createDensity())
+    , panner_(factory.createPanner())
     , latestIndex_(0)
     {
     }
@@ -83,6 +84,7 @@ namespace rp::curtis
             const auto speed = glisson_->getSpeedAt(phase);
             if( readBuffer_->advancePlayHead(speed))
             {
+
                 if(counter_->count())
                 {
                     latestIndex_ = segmentBank_.getLatestCacheIndex();
@@ -93,5 +95,10 @@ namespace rp::curtis
                 readBuffer_->updateBuffer(segmentBank_.getCache(wrap(target, segmentBank_.size())));
             }
         }
+    }
+
+    IPannerParameter& Granulator::getPanner()
+    {
+        return *panner_;
     }
 }

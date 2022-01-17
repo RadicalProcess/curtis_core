@@ -1,48 +1,60 @@
 #include <gtest/gtest.h>
 
 #include <cmath>
+#include <sstream>
+#include <algorithm>
 
 #include <curtis_core/Panner.h>
-#include <curtis_core/Buffer.h>
 
 namespace rp::curtis
 {
-    TEST(UnitTest_Panner, process )
+    using namespace testing;
+
+    struct TestValue
     {
+        float startLeft;
+        float startRight;
+        float endLeft;
+        float endRight;
+        float phase;
+        float leftExpected;
+        float rightExpected;
+    };
+
+    class UnitTest_Panner :public TestWithParam<TestValue> {
+    };
+
+    TEST_P(UnitTest_Panner, ParameterizedTest) {
         auto&& panner = Panner();
-        auto&& buffer = Buffer(1);
-        auto&& rightBuffer = Buffer(1);
+        auto&& param = GetParam();
+        panner.setStartLeft(param.startLeft);
+        panner.setStartRight(param.startRight);
+        panner.setEndLeft(param.endLeft);
+        panner.setEndRight(param.endRight);
+        panner.update();
 
-        buffer.push(1.0f);
-        panner.process(buffer, rightBuffer);
-
-        EXPECT_EQ(std::cosf(0.5* static_cast<float>(M_PI_2)), buffer.getReadPtr()[0]);
-        EXPECT_EQ(std::cosf(0.5* static_cast<float>(M_PI_2)), rightBuffer.getReadPtr()[0]);
+        auto [left, right] = panner.getGainAt(param.phase);
+        EXPECT_FLOAT_EQ(param.leftExpected, left);
+        EXPECT_FLOAT_EQ(param.rightExpected, right);
     }
 
-    TEST(UnitTest_Panner, hard_left_process )
-    {
-        auto&& panner = Panner();
-        auto&& buffer = Buffer(1);
-        auto&& rightBuffer = Buffer(1);
-
-        buffer.push(1.0f);
-        panner.set(-1.0f);
-        panner.process(buffer, rightBuffer);
-
-        EXPECT_EQ(1.0f, buffer.getReadPtr()[0]);
-    }
-
-    TEST(UnitTest_Panner, hard_right_process )
-    {
-        auto&& panner = Panner();
-        auto&& buffer = Buffer(1);
-        auto&& rightBuffer = Buffer(1);
-
-        buffer.push(1.0f);
-        panner.set(1.0f);
-        panner.process(buffer, rightBuffer);
-
-        EXPECT_EQ(1.0f, rightBuffer.getReadPtr()[0]);
-    }
+    INSTANTIATE_TEST_SUITE_P(
+            UnitTest_Panner,
+            UnitTest_Panner,
+            Values(
+                    TestValue{0.f, 0.f, 0.f, 0.f, 0.f, std::cosf(static_cast<float>(M_PI_4)), std::cosf(static_cast<float>(M_PI_4))},
+                    TestValue{0.f, 0.f, 0.f, 0.f, 1.f, std::cosf(static_cast<float>(M_PI_4)), std::cosf(static_cast<float>(M_PI_4))},
+                    TestValue{-1.f, -1.f, -1.f, -1.f, 0.f, 1.f, std::cosf(static_cast<float>(M_PI_2))},
+                    TestValue{-1.f, -1.f, -1.f, -1.f, 1.f, 1.f, std::cosf(static_cast<float>(M_PI_2))},
+                    TestValue{1.f, 1.f, 1.f, 1.f, 0.f, std::cosf(static_cast<float>(M_PI_2)), 1.f},
+                    TestValue{1.f, 1.f, 1.f, 1.f, 1.f, std::cosf(static_cast<float>(M_PI_2)), 1.f}
+            ),
+            [](const TestParamInfo<TestValue>& info)->std::string{
+                auto param = info.param;
+                auto ss = std::stringstream();
+                ss << "stl" << param.startLeft << "_str" << param.startRight << "_edl" << param.endLeft << "_enr" << param.endRight << "_p" << param.phase;
+                auto str = ss.str();
+                std::replace( str.begin(), str.end(), '-', 'm');
+                return str;
+            });
 }

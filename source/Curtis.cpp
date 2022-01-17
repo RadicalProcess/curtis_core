@@ -19,6 +19,11 @@ namespace rp::curtis
         segmentDetector_->addListener(dynamic_cast<ISegmentDetector::Listener*>(segmentBank_.get()));
     }
 
+    void Curtis::setMix(float mix)
+    {
+        inputMix_->setMix(mix);
+    }
+
     void Curtis::setSegmentMinLength(float ms)
     {
         segmentDetector_->setSegmentMinLength(ms);
@@ -68,6 +73,7 @@ namespace rp::curtis
     {
         granulator_->setEndMaxSpeed(speed);
     }
+
 
     void Curtis::process(IBuffer& left, IBuffer& right)
     {

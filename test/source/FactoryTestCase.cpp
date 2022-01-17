@@ -10,6 +10,8 @@
 #include <curtis_core/Glisson.h>
 #include <curtis_core/Randomizer.h>
 #include <curtis_core/Counter.h>
+#include <curtis_core/Panner.h>
+#include <curtis_core/InputMix.h>
 
 namespace rp::curtis
 {
@@ -100,5 +102,23 @@ namespace rp::curtis
 
         ASSERT_THAT(counter, NotNull());
         EXPECT_THAT(counter.get(), WhenDynamicCastTo<Counter*>(NotNull()));
+    }
+
+    TEST(UnitTest_Factory, createPanner)
+    {
+        auto&& factory = Factory();
+        auto panner = factory.createPanner();
+
+        ASSERT_THAT(panner, NotNull());
+        EXPECT_THAT(panner.get(), WhenDynamicCastTo<Panner*>(NotNull()));
+    }
+
+    TEST(UnitTest_Factory, createInputMix)
+    {
+        auto&& factory = Factory();
+        auto inputMix = factory.createInputMix();
+
+        ASSERT_THAT(inputMix, NotNull());
+        EXPECT_THAT(inputMix.get(), WhenDynamicCastTo<InputMix*>(NotNull()));
     }
 }

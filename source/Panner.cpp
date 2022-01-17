@@ -3,22 +3,52 @@
 
 namespace rp::curtis
 {
-    Panner::Panner()
-    : position_(0.0f)
-    {}
-
-    void Panner::set(float position)
+    float rangedRandom(float min, float max)
     {
-        position_ = position;
+        return min + (rand() / ( static_cast<float>(RAND_MAX) / (max-min))) ;
     }
 
-    void Panner::process(IBuffer& inputLeft, IBuffer& right)
+    Panner::Panner()
+    : startLeft_(0.0f)
+    , startRight_(0.0f)
+    , endLeft_(0.0f)
+    , endRight_(0.0f)
+    , start_(0.0f)
+    , end_(0.0f)
+    {}
+
+    void Panner::setStartLeft(float position)
     {
-        const auto normalized = (position_ + 1.0f)  / 2.0f;
-        const auto leftGain = std::cosf(normalized * static_cast<float>(M_PI_2));
-        const auto rightGain =  std::cosf((1.0f-normalized) * static_cast<float>(M_PI_2));
-        right.copyFrom(inputLeft);
-        inputLeft.applyGain(leftGain);
-        right.applyGain(rightGain);
+        startLeft_ = position;
+    }
+
+    void Panner::setStartRight(float position)
+    {
+        startRight_ = position;
+    }
+
+    void Panner::setEndLeft(float position)
+    {
+        endLeft_ = position;
+    }
+
+    void Panner::setEndRight(float position)
+    {
+        endRight_ = position;
+    }
+
+    void Panner::update()
+    {
+        start_ = rangedRandom(startLeft_, startRight_);
+        end_ = rangedRandom(endLeft_, endRight_);
+    }
+
+    std::pair<float, float> Panner::getGainAt(float phase) const
+    {
+        const auto position = start_ + (end_ - start_) * phase;
+        const auto normalized = (position + 1.0f)  / 2.0f;
+        return std::make_pair<float, float>(
+                std::cosf(normalized * static_cast<float>(M_PI_2)),
+                std::cosf((1.0f-normalized) * static_cast<float>(M_PI_2)));
     }
 }

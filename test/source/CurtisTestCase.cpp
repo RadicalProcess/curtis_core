@@ -5,6 +5,7 @@
 #include <curtis_core/SegmentDetectorMock.h>
 #include <curtis_core/GranulatorMock.h>
 #include <curtis_core/BufferMock.h>
+#include <curtis_core/InputMixMock.h>
 
 #include <curtis_core/Curtis.h>
 
@@ -20,9 +21,14 @@ namespace rp::curtis
             segmentBankMock_ = std::make_unique<NiceMock<SegmentBankMock>>();
             segmentDetectorMock_ = std::make_unique<NiceMock<SegmentDetectorMock>>();
             granulatorMock_ = std::make_unique<NiceMock<GranulatorMock>>();
+            inputMixMock_ = std::make_unique<NiceMock<InputMixMock>>();
 
             segmentDetectorMockPtr_ = segmentDetectorMock_.get();
             granulatorMockPtr_ = granulatorMock_.get();
+            inputMixMockPtr_ = inputMixMock_.get();
+
+            ON_CALL(factoryMock_, createInputMix())
+                    .WillByDefault(Return(ByMove(std::move(inputMixMock_))));
 
             ON_CALL(factoryMock_, createSegmentBank(_, _))
                 .WillByDefault(Return(ByMove(std::move(segmentBankMock_))));
@@ -32,6 +38,8 @@ namespace rp::curtis
 
             ON_CALL(factoryMock_, createGranulator(_,_))
                     .WillByDefault(Return(ByMove(std::move(granulatorMock_))));
+
+
         }
 
         void TearDown() override
@@ -39,15 +47,18 @@ namespace rp::curtis
             segmentBankMock_ = nullptr;
             segmentDetectorMock_ = nullptr;
             granulatorMock_ = nullptr;
+            inputMixMock_ = nullptr;
         }
 
         NiceMock<FactoryMock> factoryMock_;
         std::unique_ptr<SegmentBankMock> segmentBankMock_;
         std::unique_ptr<SegmentDetectorMock> segmentDetectorMock_;
         std::unique_ptr<GranulatorMock> granulatorMock_;
+        std::unique_ptr<InputMixMock> inputMixMock_;
 
         SegmentDetectorMock* segmentDetectorMockPtr_;
         GranulatorMock* granulatorMockPtr_;
+        InputMixMock* inputMixMockPtr_;
 
         NiceMock<BufferMock> bufferLeftMock_, bufferRightMock_;
     };
@@ -138,6 +149,7 @@ namespace rp::curtis
     {
         {
             InSequence seq;
+            EXPECT_CALL(*inputMixMockPtr_, process(_, _));
             EXPECT_CALL(*segmentDetectorMockPtr_, process(_));
             EXPECT_CALL(*granulatorMockPtr_, process(_, _));
         }

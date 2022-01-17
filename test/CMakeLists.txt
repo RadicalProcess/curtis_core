@@ -13,6 +13,7 @@ add_executable(CurtisCoreTestHost
         source/CounterTestCase.cpp
         source/SegmentBankTestCase.cpp
         source/SegmentDetectorTestCase.cpp
+        source/InputMixTestCase.cpp
         )
 
 target_link_libraries(CurtisCoreTestHost

@@ -104,6 +104,8 @@ namespace rp::curtis
         EXPECT_CALL(factoryMock_, createRandomizer());
         EXPECT_CALL(factoryMock_, createCounter());
         EXPECT_CALL(factoryMock_, createReadBuffer(_));
+        EXPECT_CALL(factoryMock_, createDensity());
+        EXPECT_CALL(factoryMock_, createPanner());
 
         Granulator(segmentBankMock_, 0, factoryMock_);
     }

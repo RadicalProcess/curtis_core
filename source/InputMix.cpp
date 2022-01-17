@@ -4,12 +4,12 @@ namespace rp::curtis
 {
 
     InputMix::InputMix()
-            : mix_(-1.f)
+    : mix_(-1.f)
     {}
 
     void InputMix::setMix(float mix)
     {
-        mix_ = 0;
+        mix_ = mix;
     }
 
     void InputMix::process(IBuffer& leftBuffer, IBuffer& rightBuffer)
