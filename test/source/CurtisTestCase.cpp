@@ -6,6 +6,9 @@
 #include <curtis_core/GranulatorMock.h>
 #include <curtis_core/BufferMock.h>
 #include <curtis_core/InputMixMock.h>
+#include <curtis_core/CounterMock.h>
+#include <curtis_core/RandomRangeMock.h>
+#include <curtis_core/GlissonMock.h>
 
 #include <curtis_core/Curtis.h>
 
@@ -61,6 +64,11 @@ namespace rp::curtis
         InputMixMock* inputMixMockPtr_;
 
         NiceMock<BufferMock> bufferLeftMock_, bufferRightMock_;
+        NiceMock<RandomRangeMock<size_t>> randomRangeSizeTMock_;
+        NiceMock<RandomRangeMock<float>> randomRangeFloatMock_;
+
+        NiceMock<CounterMock> counterMock_;
+        NiceMock<GlissonMock> glissonMock_;
     };
 
     TEST_F(UnitTest_Curtis, construction)
@@ -73,6 +81,14 @@ namespace rp::curtis
         Curtis(48000.0f, factoryMock_);
     }
 
+    TEST_F(UnitTest_Curtis, setMix)
+    {
+        EXPECT_CALL(*inputMixMockPtr_, setMix(0.2f));
+
+        auto&& curtis = Curtis(48000.0f, factoryMock_);
+        curtis.setMix(0.2f);
+    }
+
     TEST_F(UnitTest_Curtis, setSegmentMinLength)
     {
         EXPECT_CALL(*segmentDetectorMockPtr_, setSegmentMinLength(50));
@@ -81,9 +97,21 @@ namespace rp::curtis
         curtis.setSegmentMinLength(50);
     }
 
+    TEST_F(UnitTest_Curtis, setDensity)
+    {
+        EXPECT_CALL(*granulatorMockPtr_, setDensity(50.0f));
+
+        auto&& curtis = Curtis(48000.0f, factoryMock_);
+        curtis.setDensity(50.0f);
+    }
+
     TEST_F(UnitTest_Curtis, setRepeatMin)
     {
-        EXPECT_CALL(*granulatorMockPtr_, setRepeatMin(5));
+        EXPECT_CALL(*granulatorMockPtr_, getCounter())
+            .WillOnce(ReturnRef(counterMock_));
+        EXPECT_CALL(counterMock_, getRandomRange())
+            .WillOnce(ReturnRef(randomRangeSizeTMock_));
+        EXPECT_CALL(randomRangeSizeTMock_, setMin(5));
 
         auto&& curtis = Curtis(48000.0f, factoryMock_);
         curtis.setRepeatMin(5);
@@ -91,7 +119,11 @@ namespace rp::curtis
 
     TEST_F(UnitTest_Curtis, setRepeatMax)
     {
-        EXPECT_CALL(*granulatorMockPtr_, setRepeatMax(5));
+        EXPECT_CALL(*granulatorMockPtr_, getCounter())
+                .WillOnce(ReturnRef(counterMock_));
+        EXPECT_CALL(counterMock_, getRandomRange())
+                .WillOnce(ReturnRef(randomRangeSizeTMock_));
+        EXPECT_CALL(randomRangeSizeTMock_, setMax(5));
 
         auto&& curtis = Curtis(48000.0f, factoryMock_);
         curtis.setRepeatMax(5);
@@ -107,7 +139,9 @@ namespace rp::curtis
 
     TEST_F(UnitTest_Curtis, setGlissonEnabled)
     {
-        EXPECT_CALL(*granulatorMockPtr_, setGlissonEnabled(true));
+        EXPECT_CALL(*granulatorMockPtr_, getGlisson())
+            .WillOnce(ReturnRef(glissonMock_));
+        EXPECT_CALL(glissonMock_, setGlissonEnabled(true));
 
         auto&& curtis = Curtis(48000.0f, factoryMock_);
         curtis.setGlissonEnabled(true);
@@ -115,7 +149,11 @@ namespace rp::curtis
 
     TEST_F(UnitTest_Curtis, setStartMinSpeed)
     {
-        EXPECT_CALL(*granulatorMockPtr_, setStartMinSpeed(1.5f));
+        EXPECT_CALL(*granulatorMockPtr_, getGlisson())
+                .WillOnce(ReturnRef(glissonMock_));
+        EXPECT_CALL(glissonMock_, getStartRandomRange())
+                .WillOnce(ReturnRef(randomRangeFloatMock_));
+        EXPECT_CALL(randomRangeFloatMock_, setMin(1.5f));
 
         auto&& curtis = Curtis(48000.0f, factoryMock_);
         curtis.setStartMinSpeed(1.5f);
@@ -123,7 +161,11 @@ namespace rp::curtis
 
     TEST_F(UnitTest_Curtis, setStartMaxSpeed)
     {
-        EXPECT_CALL(*granulatorMockPtr_, setStartMaxSpeed(1.5f));
+        EXPECT_CALL(*granulatorMockPtr_, getGlisson())
+                .WillOnce(ReturnRef(glissonMock_));
+        EXPECT_CALL(glissonMock_, getStartRandomRange())
+                .WillOnce(ReturnRef(randomRangeFloatMock_));
+        EXPECT_CALL(randomRangeFloatMock_, setMax(1.5f));
 
         auto&& curtis = Curtis(48000.0f, factoryMock_);
         curtis.setStartMaxSpeed(1.5f);
@@ -131,7 +173,11 @@ namespace rp::curtis
 
     TEST_F(UnitTest_Curtis, setEndMinSpeed)
     {
-        EXPECT_CALL(*granulatorMockPtr_, setEndMinSpeed(1.5f));
+        EXPECT_CALL(*granulatorMockPtr_, getGlisson())
+                .WillOnce(ReturnRef(glissonMock_));
+        EXPECT_CALL(glissonMock_, getEndRandomRange())
+                .WillOnce(ReturnRef(randomRangeFloatMock_));
+        EXPECT_CALL(randomRangeFloatMock_, setMin(1.5f));
 
         auto&& curtis = Curtis(48000.0f, factoryMock_);
         curtis.setEndMinSpeed(1.5f);
@@ -139,7 +185,11 @@ namespace rp::curtis
 
     TEST_F(UnitTest_Curtis, setEndMaxSpeed)
     {
-        EXPECT_CALL(*granulatorMockPtr_, setEndMaxSpeed(1.5f));
+        EXPECT_CALL(*granulatorMockPtr_, getGlisson())
+                .WillOnce(ReturnRef(glissonMock_));
+        EXPECT_CALL(glissonMock_, getEndRandomRange())
+                .WillOnce(ReturnRef(randomRangeFloatMock_));
+        EXPECT_CALL(randomRangeFloatMock_, setMax(1.5f));
 
         auto&& curtis = Curtis(48000.0f, factoryMock_);
         curtis.setEndMaxSpeed(1.5f);

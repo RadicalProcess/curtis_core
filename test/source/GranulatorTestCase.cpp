@@ -9,6 +9,7 @@
 #include <curtis_core/ReadBufferMock.h>
 #include <curtis_core/RandomizerMock.h>
 #include <curtis_core/DensityMock.h>
+#include <curtis_core/PannerMock.h>
 
 #include <curtis_core/Granulator.h>
 
@@ -51,6 +52,9 @@ namespace rp::curtis
             ON_CALL(factoryMock_, createDensity())
                     .WillByDefault((Return(ByMove(std::move(densityMock_)))));
 
+            ON_CALL(factoryMock_, createPanner())
+                    .WillByDefault((Return(ByMove(std::move(pannerMock_)))));
+
             ON_CALL(*glissonMockPtr_, getStartRandomRange())
                 .WillByDefault(ReturnRef(startRandomRangeMock_));
 
@@ -59,6 +63,7 @@ namespace rp::curtis
 
             ON_CALL(*counterMockPtr_, getRandomRange())
                     .WillByDefault(ReturnRef(counterRandomRangeMock_));
+
 
             dummyBuffer_.resize(1, 0.0f);
             ON_CALL(leftBufferMock_, getWritePtr())
@@ -74,6 +79,8 @@ namespace rp::curtis
             counterMock_ = nullptr;
             readBufferMock_ = nullptr;
             densityMock_ = nullptr;
+            counterMock_ = nullptr;
+            pannerMock_ = nullptr;
         }
 
     protected:
@@ -89,12 +96,14 @@ namespace rp::curtis
         std::unique_ptr<ReadBufferMock> readBufferMock_;
         std::unique_ptr<RandomizerMock> randomizerMock_;
         std::unique_ptr<DensityMock> densityMock_;
+        std::unique_ptr<PannerMock> pannerMock_;
 
         GlissonMock* glissonMockPtr_;
         CounterMock* counterMockPtr_;
         ReadBufferMock* readBufferMockPtr_;
         RandomizerMock* randomizerMockPtr_;
         DensityMock* densityMockPtr_;
+        PannerMock* pannerMockPtr_;
         std::vector<float> dummyBuffer_;
     };
 
@@ -110,36 +119,38 @@ namespace rp::curtis
         Granulator(segmentBankMock_, 0, factoryMock_);
     }
 
-    TEST_F(UnitTest_Granulator, setRepeatMin_Max)
+    TEST_F(UnitTest_Granulator, setDensity)
     {
-        auto&& granulator = Granulator(segmentBankMock_, 0, factoryMock_);
-        EXPECT_CALL(counterRandomRangeMock_, setMin(1));
-        EXPECT_CALL(counterRandomRangeMock_, setMax(5));
+        EXPECT_CALL(*densityMockPtr_, set(50));
 
-        granulator.setRepeatMin(1);
-        granulator.setRepeatMax(5);
+        auto&& granulator = Granulator(segmentBankMock_, 0, factoryMock_);
+        granulator.setDensity(50);
     }
 
-    TEST_F(UnitTest_Granulator, setStartMin_Max)
+    TEST_F(UnitTest_Granulator, setRandomRange)
     {
-        auto&& granulator = Granulator(segmentBankMock_, 0, factoryMock_);
-        EXPECT_CALL(*glissonMockPtr_, getStartRandomRange()).Times(2);
-        EXPECT_CALL(startRandomRangeMock_, setMin(0.5f));
-        EXPECT_CALL(startRandomRangeMock_, setMax(1.5f));
+        EXPECT_CALL(*randomizerMockPtr_, setRange(5));
 
-        granulator.setStartMinSpeed(0.5f);
-        granulator.setStartMaxSpeed(1.5f);
+        auto&& granulator = Granulator(segmentBankMock_, 0, factoryMock_);
+        granulator.setRandomRange(5);
     }
 
-    TEST_F(UnitTest_Granulator, setEndMin_Max)
+    TEST_F(UnitTest_Granulator, getCounter)
     {
         auto&& granulator = Granulator(segmentBankMock_, 0, factoryMock_);
-        EXPECT_CALL(*glissonMockPtr_, getEndRandomRange()).Times(2);
-        EXPECT_CALL(endRandomRangeMock_, setMin(0.5f));
-        EXPECT_CALL(endRandomRangeMock_, setMax(1.5f));
+        EXPECT_EQ(counterMockPtr_, &granulator.getCounter());
+    }
 
-        granulator.setEndMinSpeed(0.5f);
-        granulator.setEndMaxSpeed(1.5f);
+    TEST_F(UnitTest_Granulator, getGlisson)
+    {
+        auto&& granulator = Granulator(segmentBankMock_, 0, factoryMock_);
+        EXPECT_EQ(glissonMockPtr_, &granulator.getGlisson());
+    }
+
+    TEST_F(UnitTest_Granulator, getPanner)
+    {
+        auto&& granulator = Granulator(segmentBankMock_, 0, factoryMock_);
+        EXPECT_EQ(pannerMockPtr_, &granulator.getPanner());
     }
 
     TEST_F(UnitTest_Granulator, process)

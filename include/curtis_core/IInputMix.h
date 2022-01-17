@@ -5,18 +5,11 @@
 
 namespace rp::curtis
 {
-    class IInputMixParameter
+    class IInputMix : public IStereoProcessor
     {
     public:
-        virtual ~IInputMixParameter() = default;
-
         virtual void setMix(float mix) = 0;
-    };
 
-    class IInputMix : public IInputMixParameter,
-                      public IStereoProcessor
-    {
-    public:
         virtual ~IInputMix() = default;
     };
 

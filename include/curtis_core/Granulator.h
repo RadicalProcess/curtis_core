@@ -24,26 +24,15 @@ namespace rp::curtis
 
         void setDensity(int percentage) override;
 
-        void setRepeatMin(size_t count) override;
-
-        void setRepeatMax(size_t count) override;
-
         void setRandomRange(size_t range) override;
 
-        void setGlissonEnabled(bool enabled) override;
+        ICounter& getCounter() override;
 
-        void setStartMinSpeed(float speed) override;
+        IGlisson& getGlisson() override;
 
-        void setStartMaxSpeed(float speed) override;
-
-        void setEndMinSpeed(float speed) override;
-
-        void setEndMaxSpeed(float speed) override;
-
-        IPannerParameter& getPanner() override;
+        IPanner& getPanner() override;
 
         void process(IBuffer& left, IBuffer& right) override;
-
 
     private:
         const ISegmentBank& segmentBank_;

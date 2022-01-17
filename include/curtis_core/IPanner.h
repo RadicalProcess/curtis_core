@@ -6,10 +6,12 @@
 
 namespace rp::curtis
 {
-    class IPannerParameter
+    class IPanner
     {
     public:
-        virtual ~IPannerParameter() = default;
+        virtual ~IPanner() = default;
+
+        virtual void update() = 0;
 
         virtual void setStartLeft(float position) = 0;
 
@@ -18,15 +20,6 @@ namespace rp::curtis
         virtual void setEndLeft(float position) = 0;
 
         virtual void setEndRight(float position) = 0;
-    };
-
-
-    class IPanner : public IPannerParameter
-    {
-    public:
-        ~IPanner() override= default;
-
-        virtual void update() = 0;
 
         virtual std::pair<float, float> getGainAt(float phase) const = 0;
     };

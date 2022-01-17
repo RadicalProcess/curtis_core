@@ -7,16 +7,7 @@
 
 namespace rp::curtis
 {
-    class ISegmentDetectorParameter
-    {
-    public:
-        virtual ~ISegmentDetectorParameter() = default;
-
-        virtual void setSegmentMinLength(float ms) = 0;
-    };
-
-    class ISegmentDetector : public ISegmentDetectorParameter,
-                             public IProcessor
+    class ISegmentDetector : public IProcessor
     {
     public:
         class Listener
@@ -29,6 +20,8 @@ namespace rp::curtis
 
     public:
         virtual ~ISegmentDetector() = default;
+
+        virtual void setSegmentMinLength(float ms) = 0;
 
         virtual void addListener(Listener* listener) = 0;
 

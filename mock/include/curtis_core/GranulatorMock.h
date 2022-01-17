@@ -8,17 +8,13 @@ namespace rp::curtis {
 
     class GranulatorMock : public IGranulator {
     public:
+        ~GranulatorMock() = default;
         MOCK_METHOD(void, setDensity, (int percentage), (override));
-        MOCK_METHOD(void, setRepeatMin, (size_t count), (override));
-        MOCK_METHOD(void, setRepeatMax, (size_t count), (override));
         MOCK_METHOD(void, setRandomRange, (size_t range), (override));
-        MOCK_METHOD(void, setGlissonEnabled, (bool enabled), (override));
-        MOCK_METHOD(void, setStartMinSpeed, (float speed), (override));
-        MOCK_METHOD(void, setStartMaxSpeed, (float speed), (override));
-        MOCK_METHOD(void, setEndMinSpeed, (float speed), (override));
-        MOCK_METHOD(void, setEndMaxSpeed, (float speed), (override));
-        MOCK_METHOD(IPannerParameter&, getPanner, (), (override));
-        MOCK_METHOD(void, process, (IBuffer& left, IBuffer& right), (override));
+        MOCK_METHOD(ICounter&, getCounter, (), (override));
+        MOCK_METHOD(IGlisson&, getGlisson, (), (override));
+        MOCK_METHOD(IPanner&, getPanner, (), (override));
+        MOCK_METHOD(void, process, (IBuffer& leftBuffer, IBuffer& rightBuffer), (override));
     };
 
 }  // namespace rp::curtis

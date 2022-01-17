@@ -36,12 +36,12 @@ namespace rp::curtis
 
     void Curtis::setRepeatMin(size_t count)
     {
-        granulator_->setRepeatMin(count);
+        granulator_->getCounter().getRandomRange().setMin(count);
     }
 
     void Curtis::setRepeatMax(size_t count)
     {
-        granulator_->setRepeatMax(count);
+        granulator_->getCounter().getRandomRange().setMax(count);
     }
 
     void Curtis::setRandomRange(size_t range)
@@ -51,29 +51,28 @@ namespace rp::curtis
 
     void Curtis::setGlissonEnabled(bool enabled)
     {
-        granulator_->setGlissonEnabled(enabled);
+        granulator_->getGlisson().setGlissonEnabled(enabled);
     }
 
     void Curtis::setStartMinSpeed(float speed)
     {
-        granulator_->setStartMinSpeed(speed);
+        granulator_->getGlisson().getStartRandomRange().setMin(speed);
     }
 
     void Curtis::setStartMaxSpeed(float speed)
     {
-        granulator_->setStartMaxSpeed(speed);
+        granulator_->getGlisson().getStartRandomRange().setMax(speed);
     }
 
     void Curtis::setEndMinSpeed(float speed)
     {
-        granulator_->setEndMinSpeed(speed);
+        granulator_->getGlisson().getEndRandomRange().setMin(speed);
     }
 
     void Curtis::setEndMaxSpeed(float speed)
     {
-        granulator_->setEndMaxSpeed(speed);
+        granulator_->getGlisson().getEndRandomRange().setMax(speed);
     }
-
 
     void Curtis::process(IBuffer& left, IBuffer& right)
     {

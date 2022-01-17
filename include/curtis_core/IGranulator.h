@@ -4,35 +4,23 @@
 
 #include "IStereoProcessor.h"
 #include "IPanner.h"
+#include "IGlisson.h"
+#include "ICounter.h"
 
 namespace rp::curtis
 {
-    class IGranulatorParameter
-    {
-    public:
-        virtual ~IGranulatorParameter() = default;
-        virtual  void setDensity(int percentage) = 0;
-
-        virtual void setRepeatMin(size_t count) = 0;
-        virtual void setRepeatMax(size_t count) = 0;
-        virtual void setRandomRange(size_t range) = 0;
-
-        virtual void setGlissonEnabled(bool enabled) = 0;
-
-        virtual void setStartMinSpeed(float speed) = 0;
-        virtual void setStartMaxSpeed(float speed) = 0;
-        virtual void setEndMinSpeed(float speed) = 0;
-        virtual void setEndMaxSpeed(float speed) = 0;
-
-    };
-
-    class IGranulator : public IGranulatorParameter
-                      , public IStereoProcessor
+    class IGranulator : public IStereoProcessor
     {
     public:
         virtual ~IGranulator() = default;
 
-        virtual IPannerParameter& getPanner() = 0;
+        virtual  void setDensity(int percentage) = 0;
+
+        virtual void setRandomRange(size_t range) = 0;
+
+        virtual ICounter& getCounter() = 0;
+        virtual IGlisson& getGlisson() = 0;
+        virtual IPanner& getPanner() = 0;
     };
 
     using GranulatorPtr = std::unique_ptr<IGranulator>;

@@ -33,44 +33,24 @@ namespace rp::curtis
         density_->set(percentage);
     }
 
-    void Granulator::setRepeatMin(size_t count)
-    {
-        counter_->getRandomRange().setMin(count);
-    }
-
-    void Granulator::setRepeatMax(size_t count)
-    {
-        counter_->getRandomRange().setMax(count);
-    }
-
     void Granulator::setRandomRange(size_t range)
     {
         randomizer_->setRange(range);
     }
 
-    void Granulator::setGlissonEnabled(bool enabled)
+    ICounter& Granulator::getCounter()
     {
-        glisson_->setGlissonEnabled(enabled);
+        return *counter_;
     }
 
-    void Granulator::setStartMinSpeed(float speed)
+    IGlisson& Granulator::getGlisson()
     {
-        glisson_->getStartRandomRange().setMin(speed);
+        return *glisson_;
     }
 
-    void Granulator::setStartMaxSpeed(float speed)
+    IPanner& Granulator::getPanner()
     {
-        glisson_->getStartRandomRange().setMax(speed);
-    }
-
-    void Granulator::setEndMinSpeed(float speed)
-    {
-        glisson_->getEndRandomRange().setMin(speed);
-    }
-
-    void Granulator::setEndMaxSpeed(float speed)
-    {
-        glisson_->getEndRandomRange().setMax(speed);
+        return *panner_;
     }
 
     void Granulator::process(IBuffer& leftBuffer, IBuffer& rightBuffer)
@@ -97,8 +77,4 @@ namespace rp::curtis
         }
     }
 
-    IPannerParameter& Granulator::getPanner()
-    {
-        return *panner_;
-    }
 }

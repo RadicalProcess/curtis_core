@@ -11,31 +11,27 @@
 
 namespace rp::curtis
 {
-    class Curtis : public ISegmentDetectorParameter,
-                   public IGranulatorParameter,
-                   public IInputMixParameter,
-                   public IStereoProcessor
+    class Curtis : public IStereoProcessor
     {
     public:
         Curtis(float sampleRate, const IFactory& factory = Factory());
 
         ~Curtis() override= default;
 
-        void setMix(float mix) override;
+        void setMix(float mix);
+        void setSegmentMinLength(float ms);
 
-        void setSegmentMinLength(float ms) override;
+        void setDensity(int percentage);
 
-        void setDensity(int percentage) override;
+        void setRepeatMin(size_t count);
+        void setRepeatMax(size_t count);
+        void setRandomRange(size_t range);
 
-        void setRepeatMin(size_t count) override;
-        void setRepeatMax(size_t count) override;
-        void setRandomRange(size_t range) override;
-
-        void setGlissonEnabled(bool enabled) override;
-        void setStartMinSpeed(float speed) override;
-        void setStartMaxSpeed(float speed) override;
-        void setEndMinSpeed(float speed) override;
-        void setEndMaxSpeed(float speed) override;
+        void setGlissonEnabled(bool enabled);
+        void setStartMinSpeed(float speed);
+        void setStartMaxSpeed(float speed);
+        void setEndMinSpeed(float speed);
+        void setEndMaxSpeed(float speed);
 
         void process(IBuffer& left, IBuffer& right) override;
 
