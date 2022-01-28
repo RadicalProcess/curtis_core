@@ -18,11 +18,15 @@ void curtis_repeat_max(CurtisCore* curtis_core, uintptr_t count);
 void curtis_random_range(CurtisCore* curtis_core, uintptr_t range);
 void curtis_density(CurtisCore* curtis_core, float density);
 void curtis_glisson_enabled(CurtisCore* curtis_core, bool enabled);
-void curtis_start_min_speed(CurtisCore* curtis_core, float speed);
-void curtis_start_max_speed(CurtisCore* curtis_core, float speed);
-void curtis_end_min_speed(CurtisCore* curtis_core, float speed);
-void curtis_end_max_speed(CurtisCore* curtis_core, float speed);
-void curtis_diffusion(CurtisCore* curtis_core, float diffusion);
+void curtis_start_min_speed(CurtisCore* curtis_core, float semitone);
+void curtis_start_max_speed(CurtisCore* curtis_core, float semitone);
+void curtis_end_min_speed(CurtisCore* curtis_core, float semitone);
+void curtis_end_max_speed(CurtisCore* curtis_core, float semitone);
+void curtis_start_left(CurtisCore* curtis_core, float position);
+void curtis_start_right(CurtisCore* curtis_core, float position);
+void curtis_end_left(CurtisCore* curtis_core, float position);
+void curtis_end_right(CurtisCore* curtis_core, float position);
+
 void curtis_process(CurtisCore *curtis, float **buffer, uintptr_t block_size);
 
 #ifdef __cplusplus

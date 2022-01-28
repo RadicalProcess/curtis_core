@@ -13,7 +13,7 @@ namespace rp::curtis
 
         Buffer(float* buffer, size_t size);
 
-        ~Buffer();
+        ~Buffer() override;
 
         void copyFrom(const IBuffer& buffer) override;
 

@@ -66,9 +66,24 @@ extern "C"
         reinterpret_cast<Curtis*>(curtis_core)->setEndMaxSpeed(speed);
     }
 
-    void curtis_diffusion(CurtisCore* curtis_core, float diffusion)
+    void curtis_start_left(CurtisCore* curtis_core, float position)
     {
+        reinterpret_cast<Curtis*>(curtis_core)->setStartLeft(position);
+    }
 
+    void curtis_start_right(CurtisCore* curtis_core, float position)
+    {
+        reinterpret_cast<Curtis*>(curtis_core)->setStartRight(position);
+    }
+
+    void curtis_end_left(CurtisCore* curtis_core, float position)
+    {
+        reinterpret_cast<Curtis*>(curtis_core)->setEndLeft(position);
+    }
+
+    void curtis_end_right(CurtisCore* curtis_core, float position)
+    {
+        reinterpret_cast<Curtis*>(curtis_core)->setEndRight(position);
     }
 
     void curtis_process(CurtisCore* curtis_core, float** buffer, uintptr_t block_size)
@@ -79,3 +94,5 @@ extern "C"
         reinterpret_cast<Curtis*>(curtis_core)->process(left, right);
     }
 }
+
+
