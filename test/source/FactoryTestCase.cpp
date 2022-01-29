@@ -59,22 +59,13 @@ namespace rp::curtis
         EXPECT_THAT(buffer.get(), WhenDynamicCastTo<Buffer*>(NotNull()));
     }
 
-    TEST(UnitTest_Factory, createRandomRangeFloat)
+    TEST(UnitTest_Factory, createRandomRange)
     {
         auto&& factory = Factory();
-        auto randomRange = factory.createRandomRangeFloat(5.0f, 10.0f);
+        auto randomRange = factory.createRandomRange(5.0f, 10.0f);
 
         ASSERT_THAT(randomRange, NotNull());
-        EXPECT_THAT(randomRange.get(), WhenDynamicCastTo<RandomRangeFloat*>(NotNull()));
-    }
-
-    TEST(UnitTest_Factory, createRandomRangeSizeT)
-    {
-        auto&& factory = Factory();
-        auto randomRange = factory.createRandomRangeSizeT(5.0f, 10.0f);
-
-        ASSERT_THAT(randomRange, NotNull());
-        EXPECT_THAT(randomRange.get(), WhenDynamicCastTo<RandomRangeSizeT*>(NotNull()));
+        EXPECT_THAT(randomRange.get(), WhenDynamicCastTo<RandomRange*>(NotNull()));
     }
 
     TEST(UnitTest_Factory, createGlisson)

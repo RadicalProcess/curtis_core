@@ -6,7 +6,7 @@ namespace rp::curtis {
 
     class CounterMock : public ICounter {
     public:
-        MOCK_METHOD(IRandomRange<size_t>&, getRandomRange, (), (override));
+        MOCK_METHOD(void, setMaxCount, (size_t), (override));
         MOCK_METHOD(bool, count, (), (override));
     };
 

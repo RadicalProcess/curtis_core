@@ -19,8 +19,8 @@ namespace rp::curtis
             endRandomRangeMock_ = std::make_unique<RandomRangeMock<float>>();
             endRandomRangeMockPtr_ = endRandomRangeMock_.get();
 
-            ON_CALL(factoryMock_, createRandomRangeFloat(_, _))
-                .WillByDefault(Invoke([&](float min, float max){
+            ON_CALL(factoryMock_, createRandomRange(_, _))
+                .WillByDefault(Invoke([&](float a, float b){
                     if( count_++ == 0)
                         return std::move(startRandomRangeMock_);
                     else
@@ -40,7 +40,7 @@ namespace rp::curtis
 
     TEST_F(UnitTest_Glisson, construction)
     {
-        EXPECT_CALL(factoryMock_, createRandomRangeFloat(1.0f, 1.0f)).Times(2);
+        EXPECT_CALL(factoryMock_, createRandomRange(1.0f, 1.0f)).Times(2);
 
         auto&& unused = Glisson(factoryMock_);
     }

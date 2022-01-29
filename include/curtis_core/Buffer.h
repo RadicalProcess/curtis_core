@@ -17,6 +17,8 @@ namespace rp::curtis
 
         void copyFrom(const IBuffer& buffer) override;
 
+        void addFrom(const IBuffer& buffer) override;
+
         size_t size() const override;
 
         bool owned() const override;

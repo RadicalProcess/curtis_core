@@ -45,14 +45,9 @@ namespace rp::curtis
         return std::make_unique<Polarity>();
     }
 
-    RandomRangeFloatPtr Factory::createRandomRangeFloat(float min, float max) const
+    RandomRangePtr Factory::createRandomRange(float a, float b) const
     {
-        return std::make_unique<RandomRangeFloat>(min, max);
-    }
-
-    RandomRangeSizeTPtr Factory::createRandomRangeSizeT(size_t min, size_t max) const
-    {
-        return std::make_unique<RandomRangeSizeT>(min, max);
+        return std::make_unique<RandomRange>(a, b);
     }
 
     GlissonPtr Factory::createGlisson() const

@@ -1,63 +1,29 @@
 #include "RandomRange.h"
 #include <cstdlib>
+#include <cmath>
 
 namespace rp::curtis
 {
-    RandomRangeFloat::RandomRangeFloat(float min, float max)
-    : min_(min)
-    , max_(max)
-    , difference_(max_ - min_)
+    RandomRange::RandomRange(float a, float b)
+    : a_(a)
+    , b_(b)
     {
         srand(static_cast<unsigned>(time(nullptr)));
     }
 
-    void RandomRangeFloat::setMin(float value)
+    void RandomRange::setA(float value)
     {
-        if(value > max_)
-            value = min_;
-        min_ = value;
-        difference_ = max_ - min_;
+        a_ = value;
     }
 
-    void RandomRangeFloat::setMax(float value)
+    void RandomRange::setB(float value)
     {
-        if(value < min_)
-            value = max_;
-        max_ = value;
-        difference_ = max_ - min_;
+        b_ = value;
     }
 
-    float RandomRangeFloat::getValue() const
+    float RandomRange::getValue() const
     {
-        return min_ + difference_ * static_cast<float>(rand()) / static_cast<float>(RAND_MAX);
-    }
-
-    RandomRangeSizeT::RandomRangeSizeT(size_t min, size_t max)
-    : min_(min)
-    , max_(max)
-    , difference_(max_ - min_)
-    {}
-
-    void RandomRangeSizeT::setMin(size_t value)
-    {
-        if(value > max_)
-            value = max_;
-        min_ = value;
-        difference_ = max_ - min_;
-    }
-
-    void RandomRangeSizeT::setMax(size_t value)
-    {
-        if(value < min_)
-            value = min_;
-        max_ = value;
-        difference_ = max_ - min_;
-    }
-
-    size_t RandomRangeSizeT::getValue() const
-    {
-        if(difference_ == 0)
-            return min_;
-        return min_ + static_cast<size_t>(rand()) % difference_;
+        const auto difference =  std::fabs(b_ - a_);
+        return (a_ <= b_ ? a_ : b_) + difference * static_cast<float>(rand()) / static_cast<float>(RAND_MAX);
     }
 }

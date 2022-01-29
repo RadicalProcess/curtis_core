@@ -16,9 +16,9 @@ namespace rp::curtis
 
         virtual void setGlissonEnabled(bool enabled) = 0;
 
-        virtual IRandomRange<float>& getStartRandomRange() = 0;
+        virtual IRandomRange& getStartRandomRange() = 0;
 
-        virtual IRandomRange<float>& getEndRandomRange() = 0;
+        virtual IRandomRange& getEndRandomRange() = 0;
     };
 
     using GlissonPtr = std::unique_ptr<IGlisson>;

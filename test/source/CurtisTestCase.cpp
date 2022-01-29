@@ -65,8 +65,7 @@ namespace rp::curtis
         InputMixMock* inputMixMockPtr_;
 
         NiceMock<BufferMock> bufferLeftMock_, bufferRightMock_;
-        NiceMock<RandomRangeMock<size_t>> randomRangeSizeTMock_;
-        NiceMock<RandomRangeMock<float>> randomRangeFloatMock_;
+        NiceMock<RandomRangeMock<float>> randomRangeMock_;
 
         NiceMock<CounterMock> counterMock_;
         NiceMock<GlissonMock> glissonMock_;
@@ -80,14 +79,14 @@ namespace rp::curtis
         EXPECT_CALL(factoryMock_, createGranulator(_, _));
         EXPECT_CALL(*segmentDetectorMockPtr_, addListener(_));
 
-        Curtis(48000.0f, factoryMock_);
+        Curtis(48000.0f, 256, factoryMock_);
     }
 
     TEST_F(UnitTest_Curtis, setMix)
     {
         EXPECT_CALL(*inputMixMockPtr_, setMix(0.2f));
 
-        auto&& curtis = Curtis(48000.0f, factoryMock_);
+        auto&& curtis = Curtis(48000.0f, 256, factoryMock_);
         curtis.setMix(0.2f);
     }
 
@@ -95,7 +94,7 @@ namespace rp::curtis
     {
         EXPECT_CALL(*segmentDetectorMockPtr_, setSegmentMinLength(50));
 
-        auto&& curtis = Curtis(48000.0f, factoryMock_);
+        auto&& curtis = Curtis(48000.0f, 256, factoryMock_);
         curtis.setSegmentMinLength(50);
     }
 
@@ -103,7 +102,7 @@ namespace rp::curtis
     {
         EXPECT_CALL(*granulatorMockPtr_, setDensity(50.0f));
 
-        auto&& curtis = Curtis(48000.0f, factoryMock_);
+        auto&& curtis = Curtis(48000.0f, 256, factoryMock_);
         curtis.setDensity(50.0f);
     }
 
@@ -111,31 +110,17 @@ namespace rp::curtis
     {
         EXPECT_CALL(*granulatorMockPtr_, getCounter())
             .WillOnce(ReturnRef(counterMock_));
-        EXPECT_CALL(counterMock_, getRandomRange())
-            .WillOnce(ReturnRef(randomRangeSizeTMock_));
-        EXPECT_CALL(randomRangeSizeTMock_, setMin(5));
+        EXPECT_CALL(counterMock_, setMaxCount(5));
 
-        auto&& curtis = Curtis(48000.0f, factoryMock_);
-        curtis.setRepeatMin(5);
-    }
-
-    TEST_F(UnitTest_Curtis, setRepeatMax)
-    {
-        EXPECT_CALL(*granulatorMockPtr_, getCounter())
-                .WillOnce(ReturnRef(counterMock_));
-        EXPECT_CALL(counterMock_, getRandomRange())
-                .WillOnce(ReturnRef(randomRangeSizeTMock_));
-        EXPECT_CALL(randomRangeSizeTMock_, setMax(5));
-
-        auto&& curtis = Curtis(48000.0f, factoryMock_);
-        curtis.setRepeatMax(5);
+        auto&& curtis = Curtis(48000.0f, 256, factoryMock_);
+        curtis.setRepeat(5);
     }
 
     TEST_F(UnitTest_Curtis, setRandomRange)
     {
         EXPECT_CALL(*granulatorMockPtr_, setRandomRange(5));
 
-        auto&& curtis = Curtis(48000.0f, factoryMock_);
+        auto&& curtis = Curtis(48000.0f, 256, factoryMock_);
         curtis.setRandomRange(5);
     }
 
@@ -145,96 +130,96 @@ namespace rp::curtis
             .WillOnce(ReturnRef(glissonMock_));
         EXPECT_CALL(glissonMock_, setGlissonEnabled(true));
 
-        auto&& curtis = Curtis(48000.0f, factoryMock_);
+        auto&& curtis = Curtis(48000.0f, 256, factoryMock_);
         curtis.setGlissonEnabled(true);
     }
 
-    TEST_F(UnitTest_Curtis, setStartMinSpeed)
+    TEST_F(UnitTest_Curtis, setStartSpeedA)
     {
         EXPECT_CALL(*granulatorMockPtr_, getGlisson())
                 .WillOnce(ReturnRef(glissonMock_));
         EXPECT_CALL(glissonMock_, getStartRandomRange())
-                .WillOnce(ReturnRef(randomRangeFloatMock_));
-        EXPECT_CALL(randomRangeFloatMock_, setMin(1.5f));
+                .WillOnce(ReturnRef(randomRangeMock_));
+        EXPECT_CALL(randomRangeMock_, setA(1.5f));
 
-        auto&& curtis = Curtis(48000.0f, factoryMock_);
-        curtis.setStartMinSpeed(1.5f);
+        auto&& curtis = Curtis(48000.0f, 256, factoryMock_);
+        curtis.setStartSpeedA(1.5f);
     }
 
-    TEST_F(UnitTest_Curtis, setStartMaxSpeed)
+    TEST_F(UnitTest_Curtis, setStartSpeedB)
     {
         EXPECT_CALL(*granulatorMockPtr_, getGlisson())
                 .WillOnce(ReturnRef(glissonMock_));
         EXPECT_CALL(glissonMock_, getStartRandomRange())
-                .WillOnce(ReturnRef(randomRangeFloatMock_));
-        EXPECT_CALL(randomRangeFloatMock_, setMax(1.5f));
+                .WillOnce(ReturnRef(randomRangeMock_));
+        EXPECT_CALL(randomRangeMock_, setB(1.5f));
 
-        auto&& curtis = Curtis(48000.0f, factoryMock_);
-        curtis.setStartMaxSpeed(1.5f);
+        auto&& curtis = Curtis(48000.0f, 256, factoryMock_);
+        curtis.setStartSpeedB(1.5f);
     }
 
-    TEST_F(UnitTest_Curtis, setEndMinSpeed)
+    TEST_F(UnitTest_Curtis, setEndSpeedA)
     {
         EXPECT_CALL(*granulatorMockPtr_, getGlisson())
                 .WillOnce(ReturnRef(glissonMock_));
         EXPECT_CALL(glissonMock_, getEndRandomRange())
-                .WillOnce(ReturnRef(randomRangeFloatMock_));
-        EXPECT_CALL(randomRangeFloatMock_, setMin(1.5f));
+                .WillOnce(ReturnRef(randomRangeMock_));
+        EXPECT_CALL(randomRangeMock_, setA(1.5f));
 
-        auto&& curtis = Curtis(48000.0f, factoryMock_);
-        curtis.setEndMinSpeed(1.5f);
+        auto&& curtis = Curtis(48000.0f, 256, factoryMock_);
+        curtis.setEndSpeedA(1.5f);
     }
 
-    TEST_F(UnitTest_Curtis, setEndMaxSpeed)
+    TEST_F(UnitTest_Curtis, setEndSpeedB)
     {
         EXPECT_CALL(*granulatorMockPtr_, getGlisson())
                 .WillOnce(ReturnRef(glissonMock_));
         EXPECT_CALL(glissonMock_, getEndRandomRange())
-                .WillOnce(ReturnRef(randomRangeFloatMock_));
-        EXPECT_CALL(randomRangeFloatMock_, setMax(1.5f));
+                .WillOnce(ReturnRef(randomRangeMock_));
+        EXPECT_CALL(randomRangeMock_, setB(1.5f));
 
-        auto&& curtis = Curtis(48000.0f, factoryMock_);
-        curtis.setEndMaxSpeed(1.5f);
+        auto&& curtis = Curtis(48000.0f, 256, factoryMock_);
+        curtis.setEndSpeedB(1.5f);
     }
 
-    TEST_F(UnitTest_Curtis, setStartLeft)
+    TEST_F(UnitTest_Curtis, setStartPositionA)
     {
         EXPECT_CALL(*granulatorMockPtr_, getPanner())
                 .WillOnce(ReturnRef(pannerMock_));
-        EXPECT_CALL(pannerMock_, setStartLeft(-0.5f));
+        EXPECT_CALL(pannerMock_, setStartA(-0.5f));
 
-        auto&& curtis = Curtis(48000.0f, factoryMock_);
-        curtis.setStartLeft(-0.5f);
+        auto&& curtis = Curtis(48000.0f, 256, factoryMock_);
+        curtis.setStartPositionA(-0.5f);
     }
 
-    TEST_F(UnitTest_Curtis, setStartRight)
+    TEST_F(UnitTest_Curtis, setStartPositionB)
     {
         EXPECT_CALL(*granulatorMockPtr_, getPanner())
                 .WillOnce(ReturnRef(pannerMock_));
-        EXPECT_CALL(pannerMock_, setStartRight(0.5f));
+        EXPECT_CALL(pannerMock_, setStartB(0.5f));
 
-        auto&& curtis = Curtis(48000.0f, factoryMock_);
-        curtis.setStartRight(0.5f);
+        auto&& curtis = Curtis(48000.0f, 256, factoryMock_);
+        curtis.setStartPositionB(0.5f);
     }
 
-    TEST_F(UnitTest_Curtis, setEndLeft)
+    TEST_F(UnitTest_Curtis, setEndPositionA)
     {
         EXPECT_CALL(*granulatorMockPtr_, getPanner())
                 .WillOnce(ReturnRef(pannerMock_));
-        EXPECT_CALL(pannerMock_, setEndLeft(-0.5f));
+        EXPECT_CALL(pannerMock_, setEndA(-0.5f));
 
-        auto&& curtis = Curtis(48000.0f, factoryMock_);
-        curtis.setEndLeft(-0.5f);
+        auto&& curtis = Curtis(48000.0f, 256, factoryMock_);
+        curtis.setEndPositionA(-0.5f);
     }
 
-    TEST_F(UnitTest_Curtis, setEndRight)
+    TEST_F(UnitTest_Curtis, setEndPositionB)
     {
         EXPECT_CALL(*granulatorMockPtr_, getPanner())
                 .WillOnce(ReturnRef(pannerMock_));
-        EXPECT_CALL(pannerMock_, setEndRight(0.5f));
+        EXPECT_CALL(pannerMock_, setEndB(0.5f));
 
-        auto&& curtis = Curtis(48000.0f, factoryMock_);
-        curtis.setEndRight(0.5f);
+        auto&& curtis = Curtis(48000.0f, 256, factoryMock_);
+        curtis.setEndPositionB(0.5f);
     }
 
     TEST_F(UnitTest_Curtis, process)
@@ -246,7 +231,7 @@ namespace rp::curtis
             EXPECT_CALL(*granulatorMockPtr_, process(_, _));
         }
 
-        auto&& curtis = Curtis(48000.0f, factoryMock_);
+        auto&& curtis = Curtis(48000.0f, 256, factoryMock_);
         curtis.process(bufferLeftMock_, bufferRightMock_);
     }
 }

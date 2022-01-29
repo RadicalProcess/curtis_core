@@ -27,10 +27,10 @@ namespace rp::curtis
     TEST_P(UnitTest_Panner, ParameterizedTest) {
         auto&& panner = Panner();
         auto&& param = GetParam();
-        panner.setStartLeft(param.startLeft);
-        panner.setStartRight(param.startRight);
-        panner.setEndLeft(param.endLeft);
-        panner.setEndRight(param.endRight);
+        panner.setStartA(param.startLeft);
+        panner.setStartB(param.startRight);
+        panner.setEndA(param.endLeft);
+        panner.setEndB(param.endRight);
         panner.update();
 
         auto [left, right] = panner.getGainAt(param.phase);

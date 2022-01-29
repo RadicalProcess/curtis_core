@@ -13,13 +13,13 @@ namespace rp::curtis
 
         virtual void update() = 0;
 
-        virtual void setStartLeft(float position) = 0;
+        virtual void setStartA(float position) = 0;
 
-        virtual void setStartRight(float position) = 0;
+        virtual void setStartB(float position) = 0;
 
-        virtual void setEndLeft(float position) = 0;
+        virtual void setEndA(float position) = 0;
 
-        virtual void setEndRight(float position) = 0;
+        virtual void setEndB(float position) = 0;
 
         virtual std::pair<float, float> getGainAt(float phase) const = 0;
     };

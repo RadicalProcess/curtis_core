@@ -9,61 +9,30 @@ namespace rp::curtis
 {
     using namespace testing;
 
-    class UnitTest_Counter : public Test
+    TEST(UnitTest_Counter, construction)
     {
-    protected:
-        void SetUp() override
-        {
-            randomRangeMock_ = std::make_unique<NiceMock<RandomRangeMock<size_t>>>();
-            randomRangeMockPtr_ = randomRangeMock_.get();
+        auto&& counter = Counter();
 
-            ON_CALL(factoryMock_, createRandomRangeSizeT(_, _))
-                .WillByDefault(Return(ByMove(std::move(randomRangeMock_))));
-        }
-
-        NiceMock<FactoryMock> factoryMock_;
-        std::unique_ptr<RandomRangeMock<size_t>> randomRangeMock_;
-        RandomRangeMock<size_t>* randomRangeMockPtr_;
-    };
-
-    TEST_F(UnitTest_Counter, construction)
-    {
-        EXPECT_CALL(factoryMock_, createRandomRangeSizeT(_, _));
-        auto&& unused = Counter(factoryMock_);
-    }
-
-    TEST_F(UnitTest_Counter, getRandomRange)
-    {
-        EXPECT_CALL(factoryMock_, createRandomRangeSizeT(_, _));
-        auto&& counter = Counter(factoryMock_);
-        EXPECT_EQ(randomRangeMockPtr_, &counter.getRandomRange());
-    }
-
-    TEST_F(UnitTest_Counter, count)
-    {
-        auto&& counter = Counter(factoryMock_);
-
-        EXPECT_CALL(*randomRangeMockPtr_, getValue());
-        counter.count();
-    }
-
-    TEST_F(UnitTest_Counter, invocation)
-    {
-        auto&& counter = Counter(factoryMock_);
-
+        EXPECT_TRUE(counter.count());
         EXPECT_TRUE(counter.count());
     }
 
-    TEST_F(UnitTest_Counter, count_update_remaining)
+    TEST(UnitTest_Counter, setMaxCount)
     {
-        auto&& counter = Counter(factoryMock_);
-
-        EXPECT_CALL(*randomRangeMockPtr_, getValue())
-            . Times(1)
-            . WillOnce(Return(1));
-
-        counter.count();
-        counter.count();
+        auto&& counter = Counter();
+        counter.setMaxCount(1);
+        EXPECT_TRUE(counter.count());
+        EXPECT_FALSE(counter.count());
+        EXPECT_TRUE(counter.count());
     }
 
+    TEST(UnitTest_Counter, setMaxCount_two)
+    {
+        auto&& counter = Counter();
+        counter.setMaxCount(2);
+        EXPECT_TRUE(counter.count());
+        EXPECT_FALSE(counter.count());
+        EXPECT_FALSE(counter.count());
+        EXPECT_TRUE(counter.count());
+    }
 }

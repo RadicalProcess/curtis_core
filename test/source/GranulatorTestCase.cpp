@@ -61,9 +61,6 @@ namespace rp::curtis
             ON_CALL(*glissonMockPtr_, getEndRandomRange())
                     .WillByDefault(ReturnRef(endRandomRangeMock_));
 
-            ON_CALL(*counterMockPtr_, getRandomRange())
-                    .WillByDefault(ReturnRef(counterRandomRangeMock_));
-
 
             dummyBuffer_.resize(1, 0.0f);
             ON_CALL(leftBufferMock_, getWritePtr())

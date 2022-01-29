@@ -18,13 +18,13 @@ namespace rp::curtis
 
         void setGlissonEnabled(bool enabled) override;
 
-        IRandomRange<float>& getStartRandomRange() override;
+        IRandomRange& getStartRandomRange() override;
 
-        IRandomRange<float>& getEndRandomRange() override;
+        IRandomRange& getEndRandomRange() override;
 
     private:
-        RandomRangeFloatPtr startRandomRange_;
-        RandomRangeFloatPtr endRandomRange_;
+        RandomRangePtr startRandomRange_;
+        RandomRangePtr endRandomRange_;
         float startSpeed_;
         float endSpeed_;
         bool glisson_;

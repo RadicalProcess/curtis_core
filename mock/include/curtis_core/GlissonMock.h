@@ -9,7 +9,7 @@ namespace rp::curtis
         MOCK_METHOD(void, update, (), (override));
         MOCK_METHOD(float, getSpeedAt, (float phase), (override));
         MOCK_METHOD(void, setGlissonEnabled, (bool enabled), (override));
-        MOCK_METHOD(IRandomRange<float>&, getStartRandomRange, (), (override));
-        MOCK_METHOD(IRandomRange<float>&, getEndRandomRange, (), (override));
+        MOCK_METHOD(IRandomRange&, getStartRandomRange, (), (override));
+        MOCK_METHOD(IRandomRange&, getEndRandomRange, (), (override));
     };
 }

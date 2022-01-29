@@ -21,9 +21,7 @@ namespace rp::curtis
 
         PolarityPtr createPolarity() const override;
 
-        RandomRangeFloatPtr createRandomRangeFloat(float min, float max) const override;
-
-        RandomRangeSizeTPtr createRandomRangeSizeT(size_t min, size_t max) const override;
+        RandomRangePtr createRandomRange(float a, float b) const override;
 
         GlissonPtr createGlisson() const override;
 

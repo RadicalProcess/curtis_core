@@ -64,7 +64,6 @@ namespace rp::curtis
             const auto speed = glisson_->getSpeedAt(phase);
             if( readBuffer_->advancePlayHead(speed))
             {
-
                 if(counter_->count())
                 {
                     latestIndex_ = segmentBank_.getLatestCacheIndex();
@@ -76,5 +75,4 @@ namespace rp::curtis
             }
         }
     }
-
 }

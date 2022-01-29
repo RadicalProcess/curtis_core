@@ -3,8 +3,8 @@
 namespace rp::curtis
 {
     Glisson::Glisson(const IFactory& factory)
-    : startRandomRange_(factory.createRandomRangeFloat(1.0f, 1.0f))
-    , endRandomRange_(factory.createRandomRangeFloat(1.0f, 1.0f))
+    : startRandomRange_(factory.createRandomRange(1.0f, 1.0f))
+    , endRandomRange_(factory.createRandomRange(1.0f, 1.0f))
     , startSpeed_(1.0f)
     , endSpeed_(1.0f)
     , glisson_(true)
@@ -27,12 +27,12 @@ namespace rp::curtis
         glisson_ = enabled;
     }
 
-    IRandomRange<float>& Glisson::getStartRandomRange()
+    IRandomRange& Glisson::getStartRandomRange()
     {
         return *startRandomRange_;
     }
 
-    IRandomRange<float>& Glisson::getEndRandomRange()
+    IRandomRange& Glisson::getEndRandomRange()
     {
         return *endRandomRange_;
     }

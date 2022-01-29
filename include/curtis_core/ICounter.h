@@ -12,7 +12,7 @@ namespace rp::curtis
     public:
         virtual ~ICounter() = default;
 
-        virtual IRandomRange<size_t>& getRandomRange() = 0;
+        virtual void setMaxCount(size_t count) = 0;
 
         virtual bool count() = 0;
     };

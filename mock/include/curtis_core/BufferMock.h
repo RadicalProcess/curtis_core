@@ -9,6 +9,7 @@ namespace rp::curtis {
     public:
         MOCK_METHOD(size_t, size, (), (const, override));
         MOCK_METHOD(void, copyFrom, (const IBuffer& buffer), (override));
+        MOCK_METHOD(void, addFrom, (const IBuffer& buffer), (override));
         MOCK_METHOD(const float*, getReadPtr, (), (const, override));
         MOCK_METHOD(float*, getWritePtr, (), (override));
         MOCK_METHOD(bool, owned, (), (const, override));

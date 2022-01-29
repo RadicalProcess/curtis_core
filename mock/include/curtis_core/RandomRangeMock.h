@@ -7,11 +7,11 @@
 namespace rp::curtis {
 
     template <typename T>
-    class RandomRangeMock : public IRandomRange<T> {
+    class RandomRangeMock : public IRandomRange {
     public:
-        MOCK_METHOD(void, setMin, (T value), (override));
-        MOCK_METHOD(void, setMax, (T value), (override));
-        MOCK_METHOD(T, getValue, (), (const, override));
+        MOCK_METHOD(void, setA, (float value), (override));
+        MOCK_METHOD(void, setB, (float value), (override));
+        MOCK_METHOD(float, getValue, (), (const, override));
     };
 
 }  // namespace rp::curtis

@@ -11,6 +11,8 @@ namespace rp::curtis
 
         virtual void copyFrom(const IBuffer& buffer) = 0;
 
+        virtual void addFrom(const IBuffer& buffer) = 0;
+
         virtual size_t size() const = 0;
 
         virtual const float* getReadPtr() const = 0;
@@ -28,6 +30,7 @@ namespace rp::curtis
         virtual bool full() const = 0;
 
         virtual void applyGain(float gain) = 0;
+
     };
 
     using BufferPtr = std::unique_ptr<IBuffer>;

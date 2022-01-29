@@ -4,18 +4,17 @@
 
 namespace rp::curtis
 {
-    template<typename T>
     class IRandomRange
     {
     public:
         virtual ~IRandomRange() = default;
 
-        virtual void setMin(T value) = 0;
-        virtual void setMax(T value) = 0;
-        virtual T getValue() const = 0;
+        virtual void setA(float value) = 0;
+
+        virtual void setB(float value) = 0;
+
+        virtual float getValue() const = 0;
     };
 
-    using RandomRangeFloatPtr = std::unique_ptr<IRandomRange<float>>;
-    using RandomRangeSizeTPtr = std::unique_ptr<IRandomRange<size_t>>;
-
+    using RandomRangePtr = std::unique_ptr<IRandomRange>;
 }

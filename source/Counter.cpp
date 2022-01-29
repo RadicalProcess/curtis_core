@@ -3,20 +3,21 @@
 namespace rp::curtis
 {
     Counter::Counter(const IFactory& factory)
-    : repeatRandomRange_(factory.createRandomRangeSizeT(0, 0))
+    : maxCount_(0)
     , remaining_(0)
     {}
 
-    IRandomRange<size_t>& Counter::getRandomRange()
+    void Counter::setMaxCount(size_t count)
     {
-        return *repeatRandomRange_;
+        maxCount_ = count;
+
     }
 
     bool Counter::count()
     {
         if(remaining_ == 0)
         {
-            remaining_ = repeatRandomRange_->getValue();
+            remaining_ = maxCount_;
             return true;
         }
         remaining_--;

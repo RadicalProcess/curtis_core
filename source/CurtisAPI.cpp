@@ -6,9 +6,9 @@ using namespace rp::curtis;
 
 extern "C"
 {
-    CurtisCore* curtis_create(float sampleRate)
+    CurtisCore* curtis_create(float sampleRate, uintptr_t blockSize)
     {
-        return reinterpret_cast<CurtisCore*>(new Curtis(sampleRate));
+        return reinterpret_cast<CurtisCore*>(new Curtis(sampleRate, blockSize));
     }
 
     void curtis_destroy(CurtisCore* curtis_core)
@@ -21,14 +21,9 @@ extern "C"
         reinterpret_cast<Curtis*>(curtis_core)->setSegmentMinLength(ms);
     }
 
-    void curtis_repeat_min(CurtisCore* curtis_core, uintptr_t count)
+    void curtis_repeat(CurtisCore* curtis_core, uintptr_t count)
     {
-        reinterpret_cast<Curtis*>(curtis_core)->setRepeatMin(count);
-    }
-
-    void curtis_repeat_max(CurtisCore* curtis_core, uintptr_t count)
-    {
-        reinterpret_cast<Curtis*>(curtis_core)->setRepeatMax(count);
+        reinterpret_cast<Curtis*>(curtis_core)->setRepeat(count);
     }
 
     void curtis_random_range(CurtisCore* curtis_core, uintptr_t range)
@@ -48,42 +43,42 @@ extern "C"
 
     void curtis_start_min_speed(CurtisCore* curtis_core, float speed)
     {
-        reinterpret_cast<Curtis*>(curtis_core)->setStartMinSpeed(speed);
+        reinterpret_cast<Curtis*>(curtis_core)->setStartSpeedA(speed);
     }
 
     void curtis_start_max_speed(CurtisCore* curtis_core, float speed)
     {
-        reinterpret_cast<Curtis*>(curtis_core)->setStartMaxSpeed(speed);
+        reinterpret_cast<Curtis*>(curtis_core)->setStartSpeedB(speed);
     }
 
     void curtis_end_min_speed(CurtisCore* curtis_core, float speed)
     {
-        reinterpret_cast<Curtis*>(curtis_core)->setEndMinSpeed(speed);
+        reinterpret_cast<Curtis*>(curtis_core)->setEndSpeedA(speed);
     }
 
     void curtis_end_max_speed(CurtisCore* curtis_core, float speed)
     {
-        reinterpret_cast<Curtis*>(curtis_core)->setEndMaxSpeed(speed);
+        reinterpret_cast<Curtis*>(curtis_core)->setEndSpeedB(speed);
     }
 
     void curtis_start_left(CurtisCore* curtis_core, float position)
     {
-        reinterpret_cast<Curtis*>(curtis_core)->setStartLeft(position);
+        reinterpret_cast<Curtis*>(curtis_core)->setStartPositionA(position);
     }
 
     void curtis_start_right(CurtisCore* curtis_core, float position)
     {
-        reinterpret_cast<Curtis*>(curtis_core)->setStartRight(position);
+        reinterpret_cast<Curtis*>(curtis_core)->setStartPositionB(position);
     }
 
     void curtis_end_left(CurtisCore* curtis_core, float position)
     {
-        reinterpret_cast<Curtis*>(curtis_core)->setEndLeft(position);
+        reinterpret_cast<Curtis*>(curtis_core)->setEndPositionA(position);
     }
 
     void curtis_end_right(CurtisCore* curtis_core, float position)
     {
-        reinterpret_cast<Curtis*>(curtis_core)->setEndRight(position);
+        reinterpret_cast<Curtis*>(curtis_core)->setEndPositionB(position);
     }
 
     void curtis_process(CurtisCore* curtis_core, float** buffer, uintptr_t block_size)

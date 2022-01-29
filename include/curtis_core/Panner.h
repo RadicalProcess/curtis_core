@@ -11,13 +11,13 @@ namespace rp::curtis
 
         ~Panner() = default;
 
-        void setStartLeft(float position) override;
+        void setStartA(float position) override;
 
-        void setStartRight(float position) override;
+        void setStartB(float position) override;
 
-        void setEndLeft(float position) override;
+        void setEndA(float position) override;
 
-        void setEndRight(float position) override;
+        void setEndB(float position) override;
 
         void update() override;
 

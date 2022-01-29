@@ -13,8 +13,7 @@ namespace rp::curtis {
         MOCK_METHOD(BufferPtr, createBuffer, (size_t capacity, bool fill), (const, override));
         MOCK_METHOD(BufferPtr, createBuffer, (float* buffer, size_t size), (const, override));
         MOCK_METHOD(PolarityPtr, createPolarity, (), (const, override));
-        MOCK_METHOD(RandomRangeFloatPtr, createRandomRangeFloat, (float min, float max), (const, override));
-        MOCK_METHOD(RandomRangeSizeTPtr, createRandomRangeSizeT, (size_t min, size_t max), (const, override));
+        MOCK_METHOD(RandomRangePtr, createRandomRange, (float a, float b), (const, override));
         MOCK_METHOD(GlissonPtr, createGlisson, (), (const, override));
         MOCK_METHOD(RandomizerPtr, createRandomizer, (), (const, override));
         MOCK_METHOD(CounterPtr, createCounter, (), (const, override));

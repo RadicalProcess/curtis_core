@@ -34,9 +34,7 @@ namespace rp::curtis
 
         virtual PolarityPtr createPolarity() const = 0;
 
-        virtual RandomRangeFloatPtr createRandomRangeFloat(float min, float max) const = 0;
-
-        virtual RandomRangeSizeTPtr createRandomRangeSizeT(size_t min, size_t max) const = 0;
+        virtual RandomRangePtr createRandomRange(float a, float b) const = 0;
 
         virtual GlissonPtr createGlisson() const = 0;
 

@@ -36,10 +36,23 @@ namespace rp::curtis
     void Buffer::copyFrom(const IBuffer& buffer)
     {
         if(capacity_ < buffer.size())
-            throw std::out_of_range("not enough capacity");
+            throw std::out_of_range("Buffer: not enough capacity");
 
         memcpy(data_, buffer.getReadPtr(), buffer.size() * sizeof(float));
         size_ = buffer.size();
+    }
+
+    void Buffer::addFrom(const IBuffer& buffer)
+    {
+        if(size_ < buffer.size())
+            throw std::out_of_range("Buffer: different size");
+
+        auto* rPtr = buffer.getReadPtr();
+        auto* wPtr = data_;
+        auto size = buffer.size();
+
+        while(size--)
+            *wPtr++ += *rPtr++;
     }
 
     size_t Buffer::size() const
@@ -96,4 +109,6 @@ namespace rp::curtis
         while(i--)
             *ptr++ *= gain;
     }
+
+
 }

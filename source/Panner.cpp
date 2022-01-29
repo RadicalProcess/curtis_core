@@ -17,22 +17,22 @@ namespace rp::curtis
     , end_(0.0f)
     {}
 
-    void Panner::setStartLeft(float position)
+    void Panner::setStartA(float position)
     {
         startLeft_ = position;
     }
 
-    void Panner::setStartRight(float position)
+    void Panner::setStartB(float position)
     {
         startRight_ = position;
     }
 
-    void Panner::setEndLeft(float position)
+    void Panner::setEndA(float position)
     {
         endLeft_ = position;
     }
 
-    void Panner::setEndRight(float position)
+    void Panner::setEndB(float position)
     {
         endRight_ = position;
     }

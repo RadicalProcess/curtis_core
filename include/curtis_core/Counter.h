@@ -14,12 +14,12 @@ namespace rp::curtis
 
         ~Counter() override = default;
 
-        IRandomRange<size_t>& getRandomRange() override;
+        void setMaxCount(size_t count) override;
 
         bool count() override;
 
     private:
-        RandomRangeSizeTPtr repeatRandomRange_;
+        size_t maxCount_;
         size_t remaining_;
     };
 }
