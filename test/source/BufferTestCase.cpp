@@ -21,7 +21,7 @@ namespace rp::curtis
     TEST(UnitTest_Buffer, consrutcion_owned_fill)
     {
         auto&& buffer = Buffer(10, true);
-        EXPECT_EQ(1, buffer.size());
+        EXPECT_EQ(10, buffer.size());
         EXPECT_TRUE(buffer.owned());
 
         auto* ptr = buffer.getReadPtr();

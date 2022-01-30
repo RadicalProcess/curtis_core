@@ -25,6 +25,9 @@ namespace rp::curtis
             counterMock_ = std::make_unique<NiceMock<CounterMock>>();
             counterMockPtr_ = counterMock_.get();
 
+            pannerMock_ = std::make_unique<NiceMock<PannerMock>>();
+            pannerMockPtr_ = pannerMock_.get();
+
             glissonMock_ = std::make_unique<NiceMock<GlissonMock>>();
             glissonMockPtr_ = glissonMock_.get();
 
@@ -66,6 +69,9 @@ namespace rp::curtis
             ON_CALL(leftBufferMock_, getWritePtr())
                     .WillByDefault(Return(dummyBuffer_.data()));
 
+            ON_CALL(rightBufferMock_, getWritePtr())
+                    .WillByDefault(Return(dummyBuffer_.data()));
+
             ON_CALL(leftBufferMock_, size())
                     .WillByDefault(Return(1));
         }
@@ -86,7 +92,6 @@ namespace rp::curtis
         NiceMock<BufferMock> leftBufferMock_, rightBufferMock_;
         NiceMock<RandomRangeMock<float>> startRandomRangeMock_;
         NiceMock<RandomRangeMock<float>> endRandomRangeMock_;
-        NiceMock<RandomRangeMock<size_t>> counterRandomRangeMock_;
 
         std::unique_ptr<GlissonMock> glissonMock_;
         std::unique_ptr<CounterMock> counterMock_;
@@ -157,8 +162,11 @@ namespace rp::curtis
         EXPECT_CALL(*densityMockPtr_, get()).WillOnce(Return(true));
         EXPECT_CALL(leftBufferMock_, getWritePtr());
         EXPECT_CALL(leftBufferMock_, size()).WillOnce(Return(1));
+        EXPECT_CALL(rightBufferMock_, getWritePtr());
+
         EXPECT_CALL(*readBufferMockPtr_, getSample()).WillOnce(Return(0.5f));
         EXPECT_CALL(*readBufferMockPtr_, getPhase()).WillOnce(Return(0.5f));
+        EXPECT_CALL(*pannerMockPtr_, getGainAt(0.5f)).WillOnce(Return(std::tuple<float, float, float>(0.5f, 0.5f, 0.0)));
         EXPECT_CALL(*glissonMockPtr_, getSpeedAt(0.5f)).WillOnce(Return(1.0f));
         EXPECT_CALL(*readBufferMockPtr_, advancePlayHead(1.0f)).WillOnce(Return(false));
         granulator.process(leftBufferMock_, rightBufferMock_);

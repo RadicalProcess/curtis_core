@@ -11,7 +11,7 @@ namespace rp::curtis {
         MOCK_METHOD(void, setStartB, (float position), (override));
         MOCK_METHOD(void, setEndA, (float position), (override));
         MOCK_METHOD(void, setEndB, (float position), (override));
-        MOCK_METHOD((std::pair<float, float>), getGainAt, (float phase), (const, override));
+        MOCK_METHOD((std::tuple<float, float, float>), getGainAt, (float phase), (const, override));
     };
 
 }  // namespace rp::curtis

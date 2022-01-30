@@ -3,6 +3,7 @@
 #include <cmath>
 
 #include "IFactory.h"
+#include "VisualizationDataSet.h"
 
 namespace rp::curtis
 {
@@ -55,14 +56,27 @@ namespace rp::curtis
 
     void Granulator::process(IBuffer& leftBuffer, IBuffer& rightBuffer)
     {
-        auto* destPtr = leftBuffer.getWritePtr();
+        auto visualizationDataSet = VisualizationDataSet();
+        auto* leftPtr = leftBuffer.getWritePtr();
+        auto* rightPtr = rightBuffer.getWritePtr();
         auto sampleCount = leftBuffer.size();
         while(sampleCount--)
         {
-            *destPtr++ = density_->get() ? readBuffer_->getSample() : 0.0f;
+            const auto sample = density_->get() ? readBuffer_->getSample() : 0.0f;
             const auto phase = readBuffer_->getPhase();
+            const auto [leftGain, rightGain, position] = panner_->getGainAt(phase);
             const auto speed = glisson_->getSpeedAt(phase);
-            if( readBuffer_->advancePlayHead(speed))
+            const auto leftSample = sample * leftGain;
+            const auto rightSample = sample * rightGain;
+            *leftPtr++ = leftSample;
+            *rightPtr++ = rightSample;
+
+            visualizationDataSet.pitch = speed;
+            visualizationDataSet.pan = position;
+            visualizationDataSet.sampleL = leftSample;
+            visualizationDataSet.sampleR = rightSample;
+
+            if(readBuffer_->advancePlayHead(speed))
             {
                 if(counter_->count())
                 {

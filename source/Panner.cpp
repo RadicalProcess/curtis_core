@@ -43,12 +43,12 @@ namespace rp::curtis
         end_ = rangedRandom(endLeft_, endRight_);
     }
 
-    std::pair<float, float> Panner::getGainAt(float phase) const
+    std::tuple<float, float, float> Panner::getGainAt(float phase) const
     {
-        const auto position = start_ + (end_ - start_) * phase;
+        auto position = start_ + (end_ - start_) * phase;
         const auto normalized = (position + 1.0f)  / 2.0f;
-        return std::make_pair<float, float>(
-                std::cosf(normalized * static_cast<float>(M_PI_2)),
-                std::cosf((1.0f-normalized) * static_cast<float>(M_PI_2)));
+        return { std::cosf(normalized * static_cast<float>(M_PI_2)),
+                 std::cosf((1.0f-normalized) * static_cast<float>(M_PI_2)),
+                 position };
     }
 }

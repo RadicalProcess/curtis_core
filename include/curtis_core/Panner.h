@@ -21,7 +21,7 @@ namespace rp::curtis
 
         void update() override;
 
-        std::pair<float, float> getGainAt(float phase) const override;
+        std::tuple<float, float, float> getGainAt(float phase) const override;
 
     private:
         float startLeft_;

@@ -33,7 +33,7 @@ namespace rp::curtis
         panner.setEndB(param.endRight);
         panner.update();
 
-        auto [left, right] = panner.getGainAt(param.phase);
+        auto [left, right, position] = panner.getGainAt(param.phase);
         EXPECT_FLOAT_EQ(param.leftExpected, left);
         EXPECT_FLOAT_EQ(param.rightExpected, right);
     }
