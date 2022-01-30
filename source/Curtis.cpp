@@ -14,7 +14,7 @@ namespace rp::curtis
     : inputMix_(factory.createInputMix())
     , segmentBank_(factory.createSegmentBank(32, calcMaxBufferSize(sampleRate)))
     , segmentDetector_(factory.createSegmentDetector(sampleRate, calcMaxBufferSize(sampleRate)))
-    , granulator_(factory.createGranulator(*segmentBank_, calcMaxBufferSize(sampleRate)))
+    , granulator_(factory.createGranulator(*segmentBank_, calcMaxBufferSize(sampleRate), 512))
     {
         segmentDetector_->addListener(dynamic_cast<ISegmentDetector::Listener*>(segmentBank_.get()));
         for(auto i = 0; i < 2; ++i)
@@ -117,7 +117,5 @@ namespace rp::curtis
 
         left.addFrom(*dryBuffers_[0]);
         right.addFrom(*dryBuffers_[1]);
-
-
     }
 }

@@ -26,7 +26,7 @@ namespace rp::curtis
 
         virtual SegmentDetectorPtr createSegmentDetector(float sampleRate, size_t maxBufferSize) const = 0;
 
-        virtual GranulatorPtr createGranulator(const ISegmentBank& segmentBank, size_t maxBufferSize) const = 0;
+        virtual GranulatorPtr createGranulator(const ISegmentBank& segmentBank, size_t maxBufferSize, size_t cacheSize) const = 0;
 
         virtual BufferPtr createBuffer(size_t capacity, bool fill) const = 0;
 

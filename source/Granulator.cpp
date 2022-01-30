@@ -17,7 +17,8 @@ namespace rp::curtis
         }
     }
 
-    Granulator::Granulator(const ISegmentBank& segmentBank, size_t maxBufferSize, const IFactory& factory)
+    Granulator::Granulator(const ISegmentBank& segmentBank, size_t maxBufferSize, size_t cacheSize,
+                           const IFactory& factory)
     : segmentBank_(segmentBank)
     , readBuffer_(factory.createReadBuffer(maxBufferSize))
     , counter_(factory.createCounter())
@@ -26,7 +27,9 @@ namespace rp::curtis
     , density_(factory.createDensity())
     , panner_(factory.createPanner())
     , latestIndex_(0)
+    , cacheSize_(cacheSize)
     {
+        visualizationCache_.reserve(cacheSize);
     }
 
     void Granulator::setDensity(int percentage)
@@ -56,7 +59,6 @@ namespace rp::curtis
 
     void Granulator::process(IBuffer& leftBuffer, IBuffer& rightBuffer)
     {
-        auto visualizationDataSet = VisualizationDataSet();
         auto* leftPtr = leftBuffer.getWritePtr();
         auto* rightPtr = rightBuffer.getWritePtr();
         auto sampleCount = leftBuffer.size();
@@ -71,11 +73,6 @@ namespace rp::curtis
             *leftPtr++ = leftSample;
             *rightPtr++ = rightSample;
 
-            visualizationDataSet.pitch = speed;
-            visualizationDataSet.pan = position;
-            visualizationDataSet.sampleL = leftSample;
-            visualizationDataSet.sampleR = rightSample;
-
             if(readBuffer_->advancePlayHead(speed))
             {
                 if(counter_->count())
@@ -87,6 +84,24 @@ namespace rp::curtis
                 auto target = static_cast<int>(latestIndex_) - static_cast<int>(randomizer_->getValue());
                 readBuffer_->updateBuffer(segmentBank_.getCache(wrap(target, segmentBank_.size())));
             }
+
+            visualizationCache_.emplace_back(speed, position, leftSample, rightSample, phase == 0.0f);
+            if(visualizationCache_.size() >= cacheSize_)
+            {
+                for(auto* listener : listeners_)
+                    listener->onVisualizationDataCacheFilled(visualizationCache_);
+                visualizationCache_.clear();
+            }
         }
+    }
+
+    void Granulator::addListener(IVisualizationDataCache::Listener* listener)
+    {
+        listeners_.insert(listener);
+    }
+
+    void Granulator::removeListener(IVisualizationDataCache::Listener* listener)
+    {
+        listeners_.erase(listener);
     }
 }

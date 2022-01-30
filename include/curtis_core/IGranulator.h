@@ -3,6 +3,7 @@
 #include <memory>
 
 #include "IStereoProcessor.h"
+#include "IVisualizationDataCache.h"
 #include "IPanner.h"
 #include "IGlisson.h"
 #include "ICounter.h"
@@ -10,11 +11,12 @@
 namespace rp::curtis
 {
     class IGranulator : public IStereoProcessor
+                      , public IVisualizationDataCache
     {
     public:
         virtual ~IGranulator() = default;
 
-        virtual  void setDensity(int percentage) = 0;
+        virtual void setDensity(int percentage) = 0;
 
         virtual void setRandomRange(size_t range) = 0;
 

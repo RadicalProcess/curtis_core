@@ -13,7 +13,7 @@ namespace rp::curtis
 
         SegmentDetectorPtr createSegmentDetector(float sampleRate, size_t maxBufferSize) const override;
 
-        GranulatorPtr createGranulator(const ISegmentBank& segmentBank, size_t maxBufferSize) const override;
+        GranulatorPtr createGranulator(const ISegmentBank& segmentBank, size_t maxBufferSize, size_t cacheSize) const override;
 
         BufferPtr createBuffer(size_t capacity, bool fill = false) const override;
 

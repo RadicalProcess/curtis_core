@@ -36,7 +36,7 @@ namespace rp::curtis
     TEST(UnitTest_Factory, createGranulator)
     {
         auto&& segmentBank = SegmentBankMock();
-        auto&& granulator = Factory().createGranulator(segmentBank, 0);
+        auto&& granulator = Factory().createGranulator(segmentBank, 0, 512);
 
         ASSERT_THAT(granulator, NotNull());
         EXPECT_THAT(granulator.get(), WhenDynamicCastTo<Granulator*>(NotNull()));

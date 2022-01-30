@@ -25,9 +25,9 @@ namespace rp::curtis
         return std::make_unique<SegmentDetector>(sampleRate, maxBufferSize);
     }
 
-    GranulatorPtr Factory::createGranulator(const ISegmentBank& segmentBank, size_t maxBufferSize) const
+    GranulatorPtr Factory::createGranulator(const ISegmentBank& segmentBank, size_t maxBufferSize, size_t cacheSize) const
     {
-        return std::make_unique<Granulator>(segmentBank, maxBufferSize);
+        return std::make_unique<Granulator>(segmentBank, maxBufferSize, cacheSize);
     }
 
     BufferPtr Factory::createBuffer(float* buffer, size_t size) const

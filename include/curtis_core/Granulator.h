@@ -1,5 +1,6 @@
 #pragma once
 
+#include <set>
 #include <cstddef>
 
 #include "IGranulator.h"
@@ -18,7 +19,7 @@ namespace rp::curtis
     class Granulator : public IGranulator
     {
     public:
-        Granulator(const ISegmentBank& segmentBank, size_t maxBufferSize, const IFactory& factory = Factory());
+        Granulator(const ISegmentBank& segmentBank, size_t maxBufferSize, size_t cacheSize, const IFactory& factory = Factory());
 
         ~Granulator() override = default;
 
@@ -34,6 +35,10 @@ namespace rp::curtis
 
         void process(IBuffer& left, IBuffer& right) override;
 
+        void addListener(Listener* listener) override;
+
+        void removeListener(Listener* listener) override;
+
     private:
         const ISegmentBank& segmentBank_;
         ReadBufferPtr readBuffer_;
@@ -43,5 +48,8 @@ namespace rp::curtis
         DensityPtr density_;
         PannerPtr panner_;
         size_t latestIndex_;
+        size_t cacheSize_;
+        std::vector<VisualizationDataSet> visualizationCache_;
+        std::set<Listener*> listeners_;
     };
 }

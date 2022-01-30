@@ -15,6 +15,8 @@ namespace rp::curtis {
         MOCK_METHOD(IGlisson&, getGlisson, (), (override));
         MOCK_METHOD(IPanner&, getPanner, (), (override));
         MOCK_METHOD(void, process, (IBuffer& leftBuffer, IBuffer& rightBuffer), (override));
+        MOCK_METHOD(void, addListener, (Listener* listener), (override));
+        MOCK_METHOD(void, removeListener, (Listener* listener), (override));
     };
 
 }  // namespace rp::curtis

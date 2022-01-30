@@ -118,14 +118,14 @@ namespace rp::curtis
         EXPECT_CALL(factoryMock_, createDensity());
         EXPECT_CALL(factoryMock_, createPanner());
 
-        Granulator(segmentBankMock_, 0, factoryMock_);
+        Granulator(segmentBankMock_, 0, 0, factoryMock_);
     }
 
     TEST_F(UnitTest_Granulator, setDensity)
     {
         EXPECT_CALL(*densityMockPtr_, set(50));
 
-        auto&& granulator = Granulator(segmentBankMock_, 0, factoryMock_);
+        auto&& granulator = Granulator(segmentBankMock_, 0, 0, factoryMock_);
         granulator.setDensity(50);
     }
 
@@ -133,31 +133,31 @@ namespace rp::curtis
     {
         EXPECT_CALL(*randomizerMockPtr_, setRange(5));
 
-        auto&& granulator = Granulator(segmentBankMock_, 0, factoryMock_);
+        auto&& granulator = Granulator(segmentBankMock_, 0, 0, factoryMock_);
         granulator.setRandomRange(5);
     }
 
     TEST_F(UnitTest_Granulator, getCounter)
     {
-        auto&& granulator = Granulator(segmentBankMock_, 0, factoryMock_);
+        auto&& granulator = Granulator(segmentBankMock_, 0, 0, factoryMock_);
         EXPECT_EQ(counterMockPtr_, &granulator.getCounter());
     }
 
     TEST_F(UnitTest_Granulator, getGlisson)
     {
-        auto&& granulator = Granulator(segmentBankMock_, 0, factoryMock_);
+        auto&& granulator = Granulator(segmentBankMock_, 0, 0, factoryMock_);
         EXPECT_EQ(glissonMockPtr_, &granulator.getGlisson());
     }
 
     TEST_F(UnitTest_Granulator, getPanner)
     {
-        auto&& granulator = Granulator(segmentBankMock_, 0, factoryMock_);
+        auto&& granulator = Granulator(segmentBankMock_, 0, 0, factoryMock_);
         EXPECT_EQ(pannerMockPtr_, &granulator.getPanner());
     }
 
     TEST_F(UnitTest_Granulator, process)
     {
-        auto&& granulator = Granulator(segmentBankMock_, 0, factoryMock_);
+        auto&& granulator = Granulator(segmentBankMock_, 0, 0, factoryMock_);
 
         EXPECT_CALL(*densityMockPtr_, get()).WillOnce(Return(true));
         EXPECT_CALL(leftBufferMock_, getWritePtr());
@@ -174,7 +174,7 @@ namespace rp::curtis
 
     TEST_F(UnitTest_Granulator, process_grain_muted)
     {
-        auto&& granulator = Granulator(segmentBankMock_, 0, factoryMock_);
+        auto&& granulator = Granulator(segmentBankMock_, 0, 0, factoryMock_);
 
         EXPECT_CALL(*densityMockPtr_, get()).WillOnce(Return(false));
         EXPECT_CALL(leftBufferMock_, getWritePtr());
@@ -188,7 +188,7 @@ namespace rp::curtis
 
     TEST_F(UnitTest_Granulator, process_playhead_reaches_the_end)
     {
-        auto&& granulator = Granulator(segmentBankMock_, 0, factoryMock_);
+        auto&& granulator = Granulator(segmentBankMock_, 0, 0, factoryMock_);
 
         ON_CALL(*readBufferMockPtr_, getSample()).WillByDefault(Return(0.5f));
         ON_CALL(*readBufferMockPtr_, advancePlayHead(_)).WillByDefault(Return(true));
@@ -205,7 +205,7 @@ namespace rp::curtis
 
     TEST_F(UnitTest_Granulator, process_playhead_reaches_the_end_count_reaches_end)
     {
-        auto&& granulator = Granulator(segmentBankMock_, 0, factoryMock_);
+        auto&& granulator = Granulator(segmentBankMock_, 0, 0, factoryMock_);
 
         ON_CALL(*readBufferMockPtr_, getSample()).WillByDefault(Return(0.5f));
         ON_CALL(*readBufferMockPtr_, advancePlayHead(_)).WillByDefault(Return(true));
