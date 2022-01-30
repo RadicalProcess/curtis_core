@@ -7,7 +7,7 @@ namespace rp::curtis
 {
 
     Buffer::Buffer(size_t capacity, bool fill)
-    : size_(fill ? capacity / 10 : 0 ) // fill 1/10 of the buffer
+    : size_(fill ? capacity : 0 )
     , capacity_(capacity)
     , owned_(true)
     {
