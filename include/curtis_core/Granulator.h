@@ -19,7 +19,7 @@ namespace rp::curtis
     class Granulator : public IGranulator
     {
     public:
-        Granulator(const ISegmentBank& segmentBank, size_t maxBufferSize, size_t cacheSize, const IFactory& factory = Factory());
+        Granulator(const ISegmentBank& segmentBank, size_t maxBufferSize, size_t visualizationCacheSize, const IFactory& factory = Factory());
 
         ~Granulator() override = default;
 
@@ -48,7 +48,7 @@ namespace rp::curtis
         DensityPtr density_;
         PannerPtr panner_;
         size_t latestIndex_;
-        size_t cacheSize_;
+        const size_t visualizationCacheSize_;
         std::vector<VisualizationDataSet> visualizationCache_;
         std::set<Listener*> listeners_;
     };

@@ -10,11 +10,11 @@ namespace rp::curtis
         }
     }
 
-    Curtis::Curtis(float sampleRate, size_t blockSize, const IFactory& factory)
+    Curtis::Curtis(float sampleRate, size_t blockSize, size_t visualizationCacheSize, const IFactory& factory)
     : inputMix_(factory.createInputMix())
     , segmentBank_(factory.createSegmentBank(32, calcMaxBufferSize(sampleRate)))
     , segmentDetector_(factory.createSegmentDetector(sampleRate, calcMaxBufferSize(sampleRate)))
-    , granulator_(factory.createGranulator(*segmentBank_, calcMaxBufferSize(sampleRate), 512))
+    , granulator_(factory.createGranulator(*segmentBank_, calcMaxBufferSize(sampleRate), visualizationCacheSize))
     {
         segmentDetector_->addListener(dynamic_cast<ISegmentDetector::Listener*>(segmentBank_.get()));
         for(auto i = 0; i < 2; ++i)

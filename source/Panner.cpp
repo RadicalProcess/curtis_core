@@ -3,44 +3,45 @@
 
 namespace rp::curtis
 {
-    float rangedRandom(float min, float max)
+    float rangedRandom(float a, float b)
     {
-        return min + (rand() / ( static_cast<float>(RAND_MAX) / (max-min))) ;
+        const auto distance = std::fabs(b-a);
+        return std::fmin(a, b) + rand() / static_cast<float>(RAND_MAX) * distance;
     }
 
     Panner::Panner()
-    : startLeft_(0.0f)
-    , startRight_(0.0f)
-    , endLeft_(0.0f)
-    , endRight_(0.0f)
+    : startA_(0.0f)
+    , startB_(0.0f)
+    , endA_(0.0f)
+    , endB_(0.0f)
     , start_(0.0f)
     , end_(0.0f)
     {}
 
     void Panner::setStartA(float position)
     {
-        startLeft_ = position;
+        startA_ = position;
     }
 
     void Panner::setStartB(float position)
     {
-        startRight_ = position;
+        startB_ = position;
     }
 
     void Panner::setEndA(float position)
     {
-        endLeft_ = position;
+        endA_ = position;
     }
 
     void Panner::setEndB(float position)
     {
-        endRight_ = position;
+        endB_ = position;
     }
 
     void Panner::update()
     {
-        start_ = rangedRandom(startLeft_, startRight_);
-        end_ = rangedRandom(endLeft_, endRight_);
+        start_ = rangedRandom(startA_, startB_);
+        end_ = rangedRandom(endA_, endB_);
     }
 
     std::tuple<float, float, float> Panner::getGainAt(float phase) const

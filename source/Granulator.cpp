@@ -17,7 +17,7 @@ namespace rp::curtis
         }
     }
 
-    Granulator::Granulator(const ISegmentBank& segmentBank, size_t maxBufferSize, size_t cacheSize,
+    Granulator::Granulator(const ISegmentBank& segmentBank, size_t maxBufferSize, size_t visualizationCacheSize,
                            const IFactory& factory)
     : segmentBank_(segmentBank)
     , readBuffer_(factory.createReadBuffer(maxBufferSize))
@@ -27,9 +27,9 @@ namespace rp::curtis
     , density_(factory.createDensity())
     , panner_(factory.createPanner())
     , latestIndex_(0)
-    , cacheSize_(cacheSize)
+    , visualizationCacheSize_(visualizationCacheSize)
     {
-        visualizationCache_.reserve(cacheSize);
+        visualizationCache_.reserve(visualizationCacheSize);
     }
 
     void Granulator::setDensity(int percentage)
@@ -79,14 +79,16 @@ namespace rp::curtis
                 {
                     latestIndex_ = segmentBank_.getLatestCacheIndex();
                 }
+                panner_->update();
                 density_->roll();
                 glisson_->update();
                 auto target = static_cast<int>(latestIndex_) - static_cast<int>(randomizer_->getValue());
                 readBuffer_->updateBuffer(segmentBank_.getCache(wrap(target, segmentBank_.size())));
             }
 
-            visualizationCache_.emplace_back(VisualizationDataSet{speed, position, leftSample, rightSample, phase == 0.0f});
-            if(visualizationCache_.size() >= cacheSize_)
+            const auto pitch = log2f(speed) / 2.0f;
+            visualizationCache_.emplace_back(VisualizationDataSet{pitch, position, leftSample, rightSample, phase == 0.0f});
+            if(visualizationCache_.size() >= visualizationCacheSize_)
             {
                 for(auto* listener : listeners_)
                     listener->onVisualizationDataCacheFilled(visualizationCache_);

@@ -8,7 +8,7 @@ extern "C"
 {
     CurtisCore* curtis_create(float sampleRate, uintptr_t blockSize)
     {
-        return reinterpret_cast<CurtisCore*>(new Curtis(sampleRate, blockSize));
+        return reinterpret_cast<CurtisCore*>(new Curtis(sampleRate, blockSize, 512));
     }
 
     void curtis_destroy(CurtisCore* curtis_core)

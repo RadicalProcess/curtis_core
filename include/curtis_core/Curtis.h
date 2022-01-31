@@ -17,7 +17,7 @@ namespace rp::curtis
                  , public IVisualizationDataCache
     {
     public:
-        Curtis(float sampleRate, size_t blockSize, const IFactory& factory = Factory());
+        Curtis(float sampleRate, size_t blockSize, size_t visualizationCacheSize, const IFactory& factory = Factory());
 
         ~Curtis() override;
 

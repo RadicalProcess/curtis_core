@@ -24,10 +24,10 @@ namespace rp::curtis
         std::tuple<float, float, float> getGainAt(float phase) const override;
 
     private:
-        float startLeft_;
-        float startRight_;
-        float endLeft_;
-        float endRight_;
+        float startA_;
+        float startB_;
+        float endA_;
+        float endB_;
 
         float start_;
         float end_;
