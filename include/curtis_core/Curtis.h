@@ -1,5 +1,6 @@
 #pragma once
 #include <cstdlib>
+#include <set>
 
 #include "Buffer.h"
 #include "ISegmentBank.h"
@@ -12,11 +13,13 @@
 namespace rp::curtis
 {
     class Curtis : public IStereoProcessor
+                 , public IVisualizationDataCache::Listener
+                 , public IVisualizationDataCache
     {
     public:
         Curtis(float sampleRate, size_t blockSize, const IFactory& factory = Factory());
 
-        ~Curtis() override= default;
+        ~Curtis() override;
 
         void setMix(float mix);
         void setSegmentMinLength(float ms);
@@ -42,14 +45,22 @@ namespace rp::curtis
 
         void process(IBuffer& left, IBuffer& right) override;
 
+        void addListener(Listener* listener) override;
+
+        void removeListener(Listener* listener) override;
+
     private:
+        void onVisualizationDataCacheFilled(const std::vector<VisualizationDataSet>& cache) override;
+
         InputMixPtr inputMix_;
         SegmentBankPtr segmentBank_;
         SegmentDetectorPtr segmentDetector_;
         GranulatorPtr granulator_;
         std::vector<BufferPtr> dryBuffers_;
+        std::set<Listener*> listeners_;
 
         float dry_ {0.0f};
         float wet_ {1.0f};
+
     };
 }

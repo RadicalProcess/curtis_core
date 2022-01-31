@@ -4,8 +4,13 @@ namespace rp::curtis
 {
     struct VisualizationDataSet
     {
-        VisualizationDataSet(float pitch, float pan, float sampleL, float sampleR, bool segment)
-        : pitch(pitch), pan(pan), sampleL(sampleL), sampleR(sampleR), segment(segment){}
+        void scale(float ratio)
+        {
+            pitch *= ratio;
+            pan *= ratio;
+            sampleL *= ratio;
+            sampleR *= ratio;
+        }
 
         float pitch;
         float pan;

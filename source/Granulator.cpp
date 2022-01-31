@@ -85,7 +85,7 @@ namespace rp::curtis
                 readBuffer_->updateBuffer(segmentBank_.getCache(wrap(target, segmentBank_.size())));
             }
 
-            visualizationCache_.emplace_back(speed, position, leftSample, rightSample, phase == 0.0f);
+            visualizationCache_.emplace_back(VisualizationDataSet{speed, position, leftSample, rightSample, phase == 0.0f});
             if(visualizationCache_.size() >= cacheSize_)
             {
                 for(auto* listener : listeners_)

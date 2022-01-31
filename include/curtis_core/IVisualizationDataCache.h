@@ -12,7 +12,7 @@ namespace rp::curtis
         public:
             virtual ~Listener() = default;
 
-            virtual void onVisualizationDataCacheFilled(const std::vector<VisualizationDataSet> cache) = 0;
+            virtual void onVisualizationDataCacheFilled(const std::vector<VisualizationDataSet>& cache) = 0;
         };
 
     public:

@@ -14,6 +14,8 @@ namespace rp::curtis
                       , public IVisualizationDataCache
     {
     public:
+
+
         virtual ~IGranulator() = default;
 
         virtual void setDensity(int percentage) = 0;

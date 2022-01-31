@@ -19,6 +19,13 @@ namespace rp::curtis
         segmentDetector_->addListener(dynamic_cast<ISegmentDetector::Listener*>(segmentBank_.get()));
         for(auto i = 0; i < 2; ++i)
             dryBuffers_.emplace_back(std::make_unique<Buffer>(blockSize, true));
+
+        granulator_->addListener(this);
+    }
+
+    Curtis::~Curtis()
+    {
+        granulator_->removeListener(this);
     }
 
     void Curtis::setMix(float mix)
@@ -117,5 +124,21 @@ namespace rp::curtis
 
         left.addFrom(*dryBuffers_[0]);
         right.addFrom(*dryBuffers_[1]);
+    }
+
+    void Curtis::onVisualizationDataCacheFilled(const std::vector<VisualizationDataSet>& cache)
+    {
+        for(auto* listener : listeners_)
+            listener->onVisualizationDataCacheFilled(cache);
+    }
+
+    void Curtis::addListener(IVisualizationDataCache::Listener* listener)
+    {
+        listeners_.insert(listener);
+    }
+
+    void Curtis::removeListener(IVisualizationDataCache::Listener* listener)
+    {
+        listeners_.erase(listener);
     }
 }

@@ -1,6 +1,7 @@
 #pragma once
 
-#include "VisualizationData.h"
+#include <vector>
+#include "VisualizationDataSet.h"
 
 namespace rp::curtis
 {
@@ -9,7 +10,7 @@ namespace rp::curtis
     public:
         virtual ~IVisualizationDataProvider() = default;
 
-        virtual const VisualizationData& getVisualizationData() = 0;
+        virtual const std::vector<VisualizationDataSet>& getVisualizationDataSets() = 0;
     };
 }
 
