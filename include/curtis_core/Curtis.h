@@ -1,4 +1,5 @@
 #pragma once
+
 #include <cstdlib>
 #include <set>
 
@@ -45,9 +46,9 @@ namespace rp::curtis
 
         void process(IBuffer& left, IBuffer& right) override;
 
-        void addListener(Listener* listener) override;
+        void addListener(IVisualizationDataCache::Listener* listener) override;
 
-        void removeListener(Listener* listener) override;
+        void removeListener(IVisualizationDataCache::Listener* listener) override;
 
     private:
         void onVisualizationDataCacheFilled(const std::vector<VisualizationDataSet>& cache) override;
@@ -57,7 +58,7 @@ namespace rp::curtis
         SegmentDetectorPtr segmentDetector_;
         GranulatorPtr granulator_;
         std::vector<BufferPtr> dryBuffers_;
-        std::set<Listener*> listeners_;
+        std::set<IVisualizationDataCache::Listener*> listeners_;
 
         float dry_ {0.0f};
         float wet_ {1.0f};
