@@ -9,6 +9,8 @@
 namespace rp::curtis
 {
     using namespace testing;
+    const float halfPI { 1.57079632679 };
+    const float quarterPI = halfPI / 2.0f;
 
     struct TestValue
     {
@@ -42,12 +44,12 @@ namespace rp::curtis
             UnitTest_Panner,
             UnitTest_Panner,
             Values(
-                    TestValue{0.f, 0.f, 0.f, 0.f, 0.f, std::cosf(static_cast<float>(M_PI_4)), std::cosf(static_cast<float>(M_PI_4))},
-                    TestValue{0.f, 0.f, 0.f, 0.f, 1.f, std::cosf(static_cast<float>(M_PI_4)), std::cosf(static_cast<float>(M_PI_4))},
-                    TestValue{-1.f, -1.f, -1.f, -1.f, 0.f, 1.f, std::cosf(static_cast<float>(M_PI_2))},
-                    TestValue{-1.f, -1.f, -1.f, -1.f, 1.f, 1.f, std::cosf(static_cast<float>(M_PI_2))},
-                    TestValue{1.f, 1.f, 1.f, 1.f, 0.f, std::cosf(static_cast<float>(M_PI_2)), 1.f},
-                    TestValue{1.f, 1.f, 1.f, 1.f, 1.f, std::cosf(static_cast<float>(M_PI_2)), 1.f}
+                    TestValue{0.f, 0.f, 0.f, 0.f, 0.f, std::cosf(static_cast<float>(quarterPI)), std::cosf(static_cast<float>(quarterPI))},
+                    TestValue{0.f, 0.f, 0.f, 0.f, 1.f, std::cosf(static_cast<float>(quarterPI)), std::cosf(static_cast<float>(quarterPI))},
+                    TestValue{-1.f, -1.f, -1.f, -1.f, 0.f, 1.f, std::cosf(static_cast<float>(halfPI))},
+                    TestValue{-1.f, -1.f, -1.f, -1.f, 1.f, 1.f, std::cosf(static_cast<float>(halfPI))},
+                    TestValue{1.f, 1.f, 1.f, 1.f, 0.f, std::cosf(static_cast<float>(halfPI)), 1.f},
+                    TestValue{1.f, 1.f, 1.f, 1.f, 1.f, std::cosf(static_cast<float>(halfPI)), 1.f}
             ),
             [](const TestParamInfo<TestValue>& info)->std::string{
                 auto param = info.param;

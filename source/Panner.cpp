@@ -1,4 +1,5 @@
 #include "Panner.h"
+
 #include <cmath>
 
 namespace rp::curtis
@@ -48,8 +49,8 @@ namespace rp::curtis
     {
         auto position = start_ + (end_ - start_) * phase;
         const auto normalized = (position + 1.0f)  / 2.0f;
-        return { std::cosf(normalized * static_cast<float>(M_PI_2)),
-                 std::cosf((1.0f-normalized) * static_cast<float>(M_PI_2)),
+        return { std::cosf(normalized * static_cast<float>(halfPI)),
+                 std::cosf((1.0f-normalized) * static_cast<float>(halfPI)),
                  position };
     }
 }

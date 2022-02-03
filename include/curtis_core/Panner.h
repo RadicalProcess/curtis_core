@@ -31,5 +31,7 @@ namespace rp::curtis
 
         float start_;
         float end_;
+
+        const float halfPI { 1.57079632679 };
     };
 }

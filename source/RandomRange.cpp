@@ -8,7 +8,6 @@ namespace rp::curtis
     : a_(a)
     , b_(b)
     {
-        srand(static_cast<unsigned>(time(nullptr)));
     }
 
     void RandomRange::setA(float value)

@@ -1,5 +1,7 @@
 #pragma once
 
+#include <vector>
+
 #include "VisualizationDataSet.h"
 
 namespace rp::curtis
